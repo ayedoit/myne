@@ -20,5 +20,11 @@ Class User extends CI_Model
      return false;
    }
  }
+ 
+ public function is_logged_in(){
+	return (bool)$this->session->userdata('logged_in');
+ }
 }
+
+
 ?>
