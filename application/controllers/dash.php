@@ -10,10 +10,24 @@ class Dash extends CI_Controller {
     }
     
 	public function index() {  
+		$this->load->model('task');
+		$tasks = $this->task->getTasks();
+		
 	    $this->load->library('page');
-	    $html = $this->load->view('dash',"",true);
+	    $html = $this->load->view('title',array('title' => "Tasks"),true);
+	    $html .= $this->load->view('dash',array('tasks' => $tasks),true);
 	    $this->page->show($html);
     }
+    
+    public function mac() {
+		$this->load->model('tools');
+		$this->tools->getMacAddress("192.168.0.11");
+		
+	}
+	
+	public function view($view) {
+		$this->load->view($view,"");
+	}
         
     function logout()
 	{

@@ -1,4 +1,4 @@
-<div class="span9">
+<div class="span12">
     <?php
       echo $content;
     ?>

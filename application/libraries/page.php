@@ -14,9 +14,9 @@
       return $this->ci->load->view('footer','',true);
     }
     
-    public function getNavLeft() {
-      return $this->ci->load->view('nav_left','',true);
-    }
+    //~ public function getNavLeft() {
+      //~ return $this->ci->load->view('nav_left','',true);
+    //~ }
     public function getPanelContent($content) {
       return $this->ci->load->view('panel_content',array('content' => $content),true);                                                                                                                                                      
     }                                                                                                                                                                                                                                       
@@ -24,7 +24,7 @@
     public function getMain($content) {                                                                                                                                                                                                     
       return $this->ci->load->view('main',                                                                                                                                                                                                  
           array(                                                                                                                                                                                                                            
-            'nav_left' => $this->getNavLeft(),                                                                                                                                                                                              
+            //'nav_left' => $this->getNavLeft(),                                                                                                                                                                                              
             'panel_content' => $this->getPanelContent($content)                                                                                                                                                                             
           ),                                                                                                                                                                                                                                
           true);                                                                                                                                                                                                                            
