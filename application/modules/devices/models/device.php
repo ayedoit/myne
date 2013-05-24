@@ -42,6 +42,18 @@ Class device extends CI_Model {
 		return $devices;
 	}
 	
+	public function getDevicesByGateway($gateway) {
+		$this->load->database();
+		$query = $this->db->get_where('devices', array('gateway' => $gateway));
+		
+		$devices = array();
+		foreach ($query->result() as $row)
+		{
+			$devices[] = $row;
+		}
+		return $devices;
+	}
+	
 	public function getDevicesByVendor($vendor) {
 		$this->load->database();
 		$query = $this->db->get_where('devices', array('vendor' => $vendor));
@@ -270,6 +282,80 @@ Class device extends CI_Model {
 		
 		// Delete device
 		$this->db->delete('devices', array('name' => $name)); 
+	}
+	
+	public function toggle($type,$name,$status){
+	    $this->load->model('room');
+	    $this->load->model('gateways/gateway');
+		
+	    switch ($type) {
+			case 'device' : $devices = $this->getDevicesByName($name); break;
+			case 'room' : $room = $this->room->getRoomByName($name); $devices = $this->device->getDevicesByRoom($room->id); break;
+			case 'group' : $group = $this->getGroupByName($name); $devices = $this->device->getDevicesByGroup($group->id); break;
+			case 'type' : $type = $this->getTypeByName($name); $devices = $this->device->getDevicesByType($type->id); break;
+			case 'gateway' : $type = $this->gateway->getGatewayByName($name); $devices = $this->device->getDevicesByGateway($type->id); break;
+			default: return false;
+		}
+	    
+	    if (!empty($devices) && sizeof($devices) != 0) {
+	    
+			// Toggle each Device
+			foreach ($devices as $device) {	
+				// Get options
+				$options = $this->getOptionsByDeviceID($device->id);
+				
+				if (array_key_exists('toggle', $options)) {		
+					// Get Vendor
+					$vendor = $this->getVendorByID($device->vendor);
+					
+					// Create Message
+					// Therefore determine device vendor
+					switch ($vendor->name) {
+						case 'elro':$this->load->model('devices/elro'); $msg=$this->elro->msg($device,$status); break;
+						case 'intertechno':$this->load->model('devices/intertechno'); $msg=$this->intertechno->msg($device,$status); break;
+						case 'xbmc':$msg=''; break;
+						default: return 0;
+					}
+					
+					// If the device has a gateway, send the message via the gateway
+					if ($device->gateway != 0) {
+						// Get Gateway
+						$this->load->model('gateways/gateway');
+						$gateway = $this->gateway->getGatewayByID($device->gateway);
+												
+						// Get Gateway Type
+						$gateway_type = $this->gateway->getGatewayTypeByID($gateway->type);
+						
+						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+						$this->gateway_model->send($device, $msg, $gateway);		
+					}
+					// Otherwise, send directly to the device
+					else {
+						if ($vendor->name == 'xbmc') {
+							if ($status == 'off') {
+								// Create device URL
+								$this->load->model('xbmc'); 
+								$msg=$this->xbmc->msg($device,$status);
+								
+								$url = $device->user.":".$device->password."@".$device->address.":".$device->port."/jsonrpc";
+								
+								$this->load->model('devices/xbmc');
+								$this->xbmc->send($msg, $url);
+							}
+							elseif ($status == 'on') {
+								$this->load->model('wol');
+								$response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
+							}
+						}
+						else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+		
+		return true;
 	}
 }
 ?>

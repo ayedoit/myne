@@ -7,7 +7,6 @@ Class room extends CI_Model {
 	 */
 	 
 	public function getRooms() {
-		$this->load->database();
 		$query = $this->db->get('rooms');
 		
 		$rooms = array();

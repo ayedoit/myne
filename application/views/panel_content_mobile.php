@@ -1,4 +1,4 @@
-<div class="span12" data-role="content">
+<div class="span12">
     <?php
       echo $content;
     ?>

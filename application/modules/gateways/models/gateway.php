@@ -58,6 +58,16 @@ Class gateway extends CI_Model {
 		return $gateways;
 	}
 	
+	public function getGatewayByName($name) {
+		$query = $this->db->get_where('gateways', array('name' => $name));
+
+		foreach ($query->result() as $row)
+		{
+			$gateway = $row;
+		}
+		return $gateway;
+	}
+	
 	public function getGatewaysByID($ids) {
 		$this->load->database();
 		$this->db->select('*');

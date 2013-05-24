@@ -14,7 +14,12 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://myne.ayedo.net';
+// $config['base_url']	= 'http://myne';
+// $config['base_url']	= 'http://192.168.0.107';
+$root = "http://".$_SERVER['HTTP_HOST'];
+$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
+
+$config['base_url']    = "$root"; 
 
 /*
 |--------------------------------------------------------------------------

@@ -7,6 +7,7 @@
         <title>myne</title>
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/style.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="<?= base_url() ?>css/bootstrap-datetimepicker.min.css">
 <!--
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/bootstrap.DataTable.css">
 -->
@@ -16,6 +17,7 @@
         <script src="<?= base_url() ?>js/myne.js"></script>
         <script src="<?= base_url() ?>js/jquery.validate.js"></script>
         <script src="<?= base_url() ?>js/bootstrap.js"></script>
+        <script src="<?= base_url() ?>js/bootstrap-datetimepicker.min.js"></script>
 <!--
         <script src="<?= base_url() ?>js/jquery.dataTables.js"></script>
         <script src="<?= base_url() ?>js/jquery.dataTables.plugins.js"></script>
@@ -33,25 +35,46 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="<?= base_url() ?>">myne</a>
+          <a class="brand" href="<?= base_url('devices') ?>">myne</a>
           <div class="nav-collapse collapse">
 			<ul class="nav">
-				<li <?php $class = (current_url() == base_url()) ? "class='active'": ""; echo $class; ?>><a href="<?= base_url() ?>">Home</a></li>
 				<!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
 				<li class="dropdown <?php $class = (current_url() == base_url('devices')) ? 'active': ""; echo $class; ?>">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Geräte <b class="caret"></b></a>
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-list icon-white'></i> Geräte <b class="caret"></b></a>
 				  <ul class="dropdown-menu">
-					<li><a href="<?= base_url('devices') ?>">Alle Geräte</a></li>
-					<li><a href="<?= base_url('devices/groups') ?>">Gruppen</a></li>
+					<li><a href="<?= base_url('devices/groups') ?>"><i class='icon-th'></i> Alle Geräte</a></li>
 					<li class="divider"></li>
 					<li class="nav-header">Verwaltung</li>
-					<li><a href="<?= base_url('devices/add/new') ?>">Gerät anlegen</a></li>
+					<li><a href="<?= base_url('devices/add/new') ?>"><i class='icon-plus'></i> Gerät anlegen</a></li>
+					<li><a href="<?= base_url('tasks/add/new') ?>"><i class='icon-plus'></i> Task anlegen</a></li>
+				  </ul>
+				</li>
+				
+				<li class="dropdown <?php $class = (current_url() == base_url('gateways')) ? 'active': ""; echo $class; ?>">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-signal icon-white'></i> Gateways <b class="caret"></b></a>
+				  <ul class="dropdown-menu">
+					<li><a href="<?= base_url('gateways') ?>"><i class='icon-th'></i> Alle Gateways</a></li>
+					<li class="divider"></li>
+					<li class="nav-header">Verwaltung</li>
+					<li><a href="<?= base_url('gateways/add/new') ?>"><i class='icon-plus'></i> Gateway anlegen</a></li>
+				  </ul>
+				</li>
+				
+				<li class="dropdown <?php $class = (current_url() == base_url('rooms')) ? 'active': ""; echo $class; ?>">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-home icon-white'></i> Räume <b class="caret"></b></a>
+				  <ul class="dropdown-menu">
+					<li><a href="<?= base_url('rooms') ?>"><i class='icon-th'></i> Alle Räume</a></li>
+					<li class="divider"></li>
+					<li class="nav-header">Verwaltung</li>
+					<li><a href="<?= base_url('rooms/add/new') ?>"><i class='icon-plus'></i> Raum anlegen</a></li>
 				  </ul>
 				</li>
 			</ul>
+<!--
             <p class="navbar-text pull-right">
               <a href="#" class="navbar-link">Username</a>
             </p>
+-->
           </div><!--/.nav-collapse -->
         </div>
       </div>

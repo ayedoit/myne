@@ -4,7 +4,7 @@
 			<h1>
 			<?php
 				if (isset($icon)) {
-						echo "<img src='".base_url('img/type_icons/'.$icon->icon)."' />";
+						echo "<img width='48' height='48' src='".base_url('img/type_icons/'.$icon->icon)."' />";
 				}
 			?>
 			<?= $title ?></h1>

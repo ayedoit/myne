@@ -24,33 +24,64 @@ Class task extends CI_Model {
 		return $task;
 	}
 	
-	public function buildTaskLink($id) {
-		$query = $this->db->get_where('tasks', array('id' => $id));
+	public function getTaskByName($name) {
+		$this->load->database();
+		$query = $this->db->get_where('tasks', array('name' => $name));
 		
 		foreach ($query->result() as $row)
 		{
 			$task = $row;
-			
-			$this->load->model('devices/device');
-			
-			// Get option
-			$option = $this->device->getOptionByID($task->option);
-			
-			// Map target_type
-			$target_url = $this->map_target_type($task->target_type);
-			
-			$url = base_url($target_url."/".$option->name."/".$task->target_name."/".$task->msg);
 		}
-		return $url;
+		return $task;
 	}
 	
-	public function map_target_type($target_type) {
-		switch ($target_type) {
-			case "device" : $url_prefix='devices'; break;
-			case "group" : $url_prefix='devices'; break;
-			default : $url_prefix='devices';
+	public function getTasksByDevice($device_name,$device_type) {
+		$this->load->database();
+		$query = $this->db->get_where('tasks', array('target_name' => $device_name,'target_type' => $device_type));
+		
+		$tasks = array();
+		foreach ($query->result() as $row)
+		{
+			$tasks[] = $row;
 		}
-		return $url_prefix;
+		return $tasks;
+	}
+	
+	public function addTask($data) {
+		$this->db->insert('tasks', $data); 
+		return $this->db->insert_id();
+	}
+	
+	public function updateTask($name,$what,$new_value) {
+		$data = array(
+		   $what => $new_value
+		);
+
+		$this->db->where('name', $name);
+		$this->db->update('tasks', $data); 
+	}
+	
+	public function deleteTask($name) {
+		// Delete task data to delete events
+		$task = $this->getTaskByName($name);
+		
+		// What kind of event is the task bound to?
+		$this->load->model('event');
+		$event = $this->event->getEventByID($task->event);
+		
+		// Timer
+		if ($event->name == 'timer') {
+			$this->load->model('timer');
+			
+			// Get concrete timer to current task
+			$timer = $this->timer->getTimerByID($task->event_opt);
+			
+			// Delete timer
+			$this->timer->deleteTimer($timer->id);
+		}
+			
+		// Delete task
+		$this->db->delete('tasks', array('name' => $name)); 
 	}
 }
 ?>

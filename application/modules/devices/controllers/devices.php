@@ -3,28 +3,36 @@
         parent::__construct();
         
         // Check Login
-        $this->load->model('user');
-        if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+        if($this->tools->getSettingByName('login') == 'true') {
+			$this->load->model('user');
+			if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+		}
     }
 	
 	public function index(){
-		// Get all devices
-		$this->load->model('device');
-		$devices = $this->device->getDevices();
-			    
 		$this->load->library('page');
-		$html = $this->load->view('title',array('title' => "Alle Geräte"),true);
-		$html .= $this->load->view('devices',array('devices' => $devices),true);
-		$this->page->show($html);
+		
+		if ($this->agent->is_mobile()) {
+			$html = $this->load->view('groups_mobile',"",true);
+			$this->page->show($html);
+		}
+		else {
+			$html = $this->load->view('groups',"",true);
+			$this->page->show($html);
+		}
 	}
 	
 	public function groups(){
-		// Get all groups
-			    
 		$this->load->library('page');
-		$html = $this->load->view('title',array('title' => "Gerätegruppen"),true);
-		$html .= $this->load->view('groups',"",true);
-		$this->page->show($html);
+		
+		if ($this->agent->is_mobile()) {
+			$html = $this->load->view('groups_mobile',"",true);
+			$this->page->show($html);
+		}
+		else {
+			$html = $this->load->view('groups',"",true);
+			$this->page->show($html);
+		}
 	}
 	
 	public function show($device){
@@ -224,7 +232,7 @@
 						
 						// Add Group to DB
 						$this->load->model('device');
-						$room_id = $this->device->addGroup($group_data);
+						$group_id = $this->device->addGroup($group_data);
 						
 						// Add Group ID to Device Data
 						$device_data['group'] = $group_id;
@@ -333,7 +341,7 @@
 			elseif ($status == 'new') {
 				$this->load->library('page');
 				$html = $this->load->view('title',array('title' => "Neues Gerät anlegen"),true);
-				$html .= $this->load->view('add', array('status' => $status),true);
+				$html .= $this->load->view('devices/add', array('status' => $status),true);
 				$this->page->show($html);
 			}
 		}

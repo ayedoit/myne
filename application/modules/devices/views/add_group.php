@@ -6,14 +6,14 @@
 		$attributes = array(
 			'class' => 'control-label'
 		);
-		echo form_label('Hersteller-ID', 'vendor_name',$attributes);
+		echo form_label('Gruppen-ID', 'groups_name',$attributes);
 	?>
 	<div class="controls">
 	  <?php
 		$data = array(
-		  'name'        => 'vendor_name',
-		  'id'          => 'vendor_name',
-		  'placeholder' => 'Hersteller-ID'
+		  'name'        => 'groups_name',
+		  'id'          => 'groups_name',
+		  'placeholder' => 'Gruppen-ID'
 		);
 		echo form_input($data);
 	  ?>
@@ -26,14 +26,14 @@
 		$attributes = array(
 			'class' => 'control-label'
 		);
-		echo form_label('Hersteller Name', 'vendor_clear_name',$attributes);
+		echo form_label('Gruppen Name', 'groups_clear_name',$attributes);
 	?>
 	<div class="controls">
 	  <?php
 		$data = array(
-		  'name'        => 'vendor_clear_name',
-		  'id'          => 'vendor_clear_name',
-		  'placeholder' => 'Hersteller Name'
+		  'name'        => 'groups_clear_name',
+		  'id'          => 'groups_clear_name',
+		  'placeholder' => 'Gruppen Name'
 		);
 		echo form_input($data);
 	  ?>
@@ -46,14 +46,14 @@
 		$attributes = array(
 			'class' => 'control-label'
 		);
-		echo form_label('Hersteller Beschreibung', 'vendor_description',$attributes);
+		echo form_label('Gruppen Beschreibung', 'groups_description',$attributes);
 	?>
 	<div class="controls">
 	  <?php
 		$data = array(
-		  'name'        => 'vendor_description',
-		  'id'          => 'vendor_description',
-		  'placeholder' => 'Hersteller Beschreibung'
+		  'name'        => 'groups_description',
+		  'id'          => 'groups_description',
+		  'placeholder' => 'Gruppen Beschreibung'
 		);
 		echo form_input($data);
 	  ?>

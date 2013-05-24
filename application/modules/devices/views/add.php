@@ -211,9 +211,7 @@
 					$data = 'id="devices_gateway"';
 					echo form_dropdown('devices_gateway', $options,"1",$data);
 				  ?>
-<!--
 				  <a  rel="tooltip" title="Neues Gateway anlegen" id="add_gateway" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i></a>
--->
 				</div>
 			</div>
 			
@@ -404,7 +402,7 @@
 					$attributes = array(
 						'class' => 'control-label'
 					);
-					echo form_label('Tasks', 'options',$attributes);
+					echo form_label('Aktionen', 'options',$attributes);
 				?>
 				<div class="controls">
 				  <?php
@@ -486,7 +484,7 @@
 			<dd>Username für Zugriff auf Gerät (z.B. XBMC).</dd>
 			<dt>Geräte Passwort</dt>
 			<dd>Passwort für Zugriff auf Gerät (z.B. XBMC).</dd>
-			<dt>Tasks</dt>
+			<dt>Aktionen</dt>
 			<dd>Mögliche Aktionen für das Gerät.</dd>
 			
 		</dl>
@@ -497,7 +495,7 @@
 		$('#devices_type').change(function() {
 			var value = $('#devices_type').val();
 			var response = "";
-			
+
 			// If type == funksteckdose, hide all div's of class "type-specific" without class "funksteckdose"
 			if (value == "1") {
 				$('.type-specific').not('.funksteckdose').addClass('hide');
@@ -750,6 +748,14 @@
 			gateways_description: {
 			  required: true,
 			  maxlength: 200
+			},
+			gateways_address: {
+				required: true
+			},
+			gateways_port: {
+				number: true,
+				required: true,
+				maxlength: 5
 			},
 			rooms_name: {
 			  minlength: 3,

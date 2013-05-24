@@ -3,20 +3,69 @@
         parent::__construct();
         
         // Check Login
-        $this->load->model('user');
-        if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+        if($this->tools->getSettingByName('login') == 'true') {
+			$this->load->model('user');
+			if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+		}
     }
 	
-	public function index(){	    
-		$this->load->model('gateway');
-		$gateways = $this->gateway->getGateways();
-		
-		$this->load->library('page');
-		$html = $this->load->view('gateways',array('gateways' => $gateways),true);
-		$this->page->show($html);
-	}
+	public function index() {  
+	    $this->load->library('page');
+	    $html = $this->load->view('devices/devices_by_gateway',"",true);
+	    $this->page->show($html);
+    }
 	
 	public function view($view) {
 		$this->load->view($view,"");
+	}
+	
+	public function show($gateway){
+		// Get device
+		$this->load->model('gateway');
+		$gateway = $this->gateway->getGatewayByName($gateway);
+			    
+		$this->load->library('page');
+		$html = $this->load->view('title',array('icon' => $this->gateway->getGatewayTypeByID($gateway->type),'title' => $gateway->clear_name),true);
+		$html .= $this->load->view('gateway',array('gateway' => $gateway),true);
+		$this->page->show($html);
+	}
+	
+	public function add($status) {
+		if (empty($status) || trim($status) == '') {
+			redirect(base_url('gateways/add/new'), 'refresh');
+		}
+		else {
+			if ($status == 'validate') {
+				$this->load->model('gateway');
+				if (isset($_POST['form']) && $_POST['form']=='1') {
+					// Take form input and validate
+					$gateway_data = array(
+						'name' => $_POST['gateways_name'],
+						'clear_name' => $_POST['gateways_clear_name'],
+						'description' => $_POST['gateways_description'],
+						'type' => $_POST['gateways_type'],
+						'address' => $_POST['gateways_address'],
+						'port' => $_POST['gateways_port'],
+						'room' => $_POST['gateways_room']
+					);			
+
+					// Insert!
+					$gateway_id = $this->gateway->addGateway($gateway_data);
+					
+					// Done!
+					redirect(base_url('gateways/show/'.$gateway_data['name']), 'refresh');
+				}
+				else {
+					redirect(base_url('gateways/add/new'), 'refresh');
+				}
+			}
+			elseif ($status == 'new') {
+				$this->load->library('page');
+				$html = $this->load->view('title',array('title' => "Neues Gateway anlegen"),true);
+				$html .= $this->load->view('gateways/add', array('status' => $status),true);
+				$this->page->show($html);
+			}
+		}
+
 	}
 }

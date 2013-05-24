@@ -5,8 +5,10 @@ class API extends CI_Controller {
         parent::__construct();
         
         // Check Login
-        $this->load->model('user');
-        if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+        if($this->tools->getSettingByName('login') == 'true') {
+			$this->load->model('user');
+			if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+		}
     }
     
 	public function request($json="") {  

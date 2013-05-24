@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "dash";
+$route['default_controller'] = "devices";
 $route['404_override'] = '';
 
 
