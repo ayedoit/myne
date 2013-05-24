@@ -117,6 +117,7 @@
 		  'id'          => 'gateways_port',
 		  'placeholder' => 'Gateway Port'
 		);
+		
 		echo form_input($data);
 	  ?>
 	  <span class="validation_space"></span>
@@ -146,4 +147,3 @@
 	  ?>
 	</div>
 </div>
-<hr>
