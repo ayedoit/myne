@@ -1,7 +1,7 @@
 <div class="row-fluid">
 	<div class="span4">
 		<h3>Geräteinformationen</h3>
-		<table class="table table-striped">
+		<table class="table table-striped device_data">
 			<tr>
 				<?php
 				// Get Type-Data
@@ -37,8 +37,33 @@
 				$room = $this->room->getRoomByID($device->room);
 				?>
 				<td><b>Raum</b></td>
-				<td><a href="<?= base_url('rooms/show/'.$room->name) ?>" title="<?= $room->clear_name ?>"><?= $room->clear_name ?></a></td>
+				<td><a class="editable-select" id="<?= $device->name ?>-room" data-type="select" data-curr="<?= $room->id ?>" data-pk="room" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Raum"><?= $room->clear_name ?></a> <a href="<?= base_url('rooms/show/'.$room->name) ?>"><i class="icon-share-alt"></i></a></td>
 		    </tr>
+		    <script>
+				$(function(){
+					$('#<?= $device->name ?>-room').editable({
+						value: $(this).data('curr'),
+						source: function() {
+							var gateways = $(this).myne_api({
+							  method: "getRooms",
+							  params: {"model": "room", "opts":[""]}
+							});
+							response = jQuery.parseJSON(gateways.responseText);
+							
+							var data = [];
+							$.each(response.result, function (key,value) {
+								var values = {};
+								values['value'] = value.id;
+								values['text'] = value.clear_name;
+								
+								data.push(values);
+							});
+							
+							return data;
+						}
+					});
+				});
+			</script>
 		    
 			<?php
 			// Get Group
@@ -55,20 +80,54 @@
 			
 			<?php
 			// Get Gateway
-			if (isset($device->gateway) && trim($device->gateway) != '' && $device->gateway != 0) {
+			if (isset($device->gateway) && trim($device->gateway) != '' && $device->gateway != "9999") {
+				if ($device->gateway == 0) {
 				?>
-				<tr>
-					<td><b>Gateway</b></td>
-					<?php
-						$this->load->model('gateways/gateway');
-						$gateway = $this->gateway->getGatewayByID($device->gateway);
-					?>
-					<td><a href="<?= base_url('gateways/show/'.$gateway->name) ?>"><?= $gateway->clear_name ?></a></td>
-				</tr>
-		    <?php
+					<tr>
+						<td><b>Gateway</b></td>
+						<td><a class="editable-select" id="<?= $device->name ?>-gateway" data-type="select" data-curr="0" data-pk="gateway" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Gateway">Gateway wählen</a></td>
+					</tr>
+				<?php
+				}
+				else {
+				?>
+					<tr>
+						<td><b>Gateway</b></td>
+						<?php
+							$this->load->model('gateways/gateway');
+							$gateway = $this->gateway->getGatewayByID($device->gateway);
+						?>
+						<td><a class="editable-select" id="<?= $device->name ?>-gateway" data-type="select" data-curr="<?= $gateway->id ?>" data-pk="gateway" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Gateway"><?= $gateway->clear_name ?></a> <a href="<?= base_url('gateways/show/'.$gateway->name) ?>"><i class="icon-share-alt"></i></a></td>
+					</tr>
+				<?php
+				}
 			}
 			?>
-		    
+		    <script>
+				$(function(){
+					$('#<?= $device->name ?>-gateway').editable({
+						value: $(this).data('curr'),
+						source: function() {
+							var gateways = $(this).myne_api({
+							  method: "getGateways",
+							  params: {"model": "gateways/gateway", "opts":[""]}
+							});
+							response = jQuery.parseJSON(gateways.responseText);
+							
+							var data = [];
+							$.each(response.result, function (key,value) {
+								var values = {};
+								values['value'] = value.id;
+								values['text'] = value.clear_name;
+								
+								data.push(values);
+							});
+							
+							return data;
+						}
+					});
+				});
+			</script>
 		    
 		    <?php
 			// Get Master DIP
@@ -76,7 +135,7 @@
 				?>
 				<tr>
 					<td><b>Master DIP</b></td>
-					<td><?= $device->masterdip ?></td>
+					<td><a class="editable" id="<?= $device->name ?>-masterdip" data-type="text" data-pk="masterdip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Master DIP"><?= $device->masterdip ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -88,7 +147,7 @@
 				?>
 				<tr>
 					<td><b>Slave DIP</b></td>
-					<td><?= $device->slavedip ?></td>
+					<td><a class="editable" id="<?= $device->name ?>-slavedip" data-type="text" data-pk="slavedip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Slave DIP"><?= $device->slavedip ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -100,7 +159,7 @@
 				?>
 				<tr>
 					<td><b>Adresse</b></td>
-					<td><?= $device->address ?></td>
+					<td><a class="editable" id="<?= $device->name ?>-address" data-type="text" data-pk="address" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Adresse"><?= $device->address ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -112,7 +171,7 @@
 				?>
 				<tr>
 					<td><b>Port</b></td>
-					<td><?= $device->port ?></td>
+					<td><a class="editable" id="<?= $device->name ?>-port" data-type="text" data-pk="port" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Port"><?= $device->port ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -124,7 +183,7 @@
 				?>
 				<tr>
 					<td><b>User</b></td>
-					<td><?= $device->user ?></td>
+					<td><a class="editable" id="<?= $device->name ?>-user" data-type="text" data-pk="user" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="User"><?= $device->user ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -136,7 +195,7 @@
 				?>
 				<tr>
 					<td><b>Passwort</b></td>
-					<td><?= $device->password ?></td>
+					<td><a class="editable" id="<?= $device->name ?>-password" data-type="text" data-pk="password" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Password"><?= $device->password ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -184,7 +243,7 @@
 									<?php
 									echo '</div>';
 									
-									echo ' <i class="icon-time"></i> <span id="timer-'.$event->id.'" style="cursor: pointer;" data-what="time" data-content="'.$event->time.'" data-id="'.$event->id.'" class="timer_update_time label label-primary">'.$event->time.'</span>';
+									echo ' <i class="icon-time"></i> <span id="'.$event->id.'" style="cursor: pointer;" data-type="text" data-pk="time"  data-url="'.base_url().'tasks/update/timer/'.$event->id.'" data-original-title="Zeit" class="label label-primary editable">'.$event->time.'</span>';
 								echo "</td>";
 								echo "<td>";
 									echo '<div class="btn-group">';
@@ -254,40 +313,6 @@
 							  params: {"model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"1"}}
 							});
 						}
-					});
-					
-					$('.timer_update_time').on('click',function() {
-						$('.timer_update_time').popover({
-							'title':"Zeit ändern",
-							'trigger':'manual',
-							'html':'true',
-							'placement':'right',
-							'content':'<form class="form-inline"><input type="text" class="input-small" name="timer_time" /> <button type="button" value="'+$(this).data('content')+'" data-id="'+$(this).data('id')+'" class="btn btn-primary timer_submit" type="submit">OK</button> <button type="button" class="btn timer_cancel" type="reset">Cancel</button></form>'
-						});
-						
-						$(this).popover('toggle');
-						
-						$('.timer_submit').click(function() {
-							var timer_id = $(this).data('id');
-							var new_time = $(this).prevAll('.input-small').val();
-							
-							if (new_time.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/)) {
-								$(this).myne_api({
-								  method: "updateTimer",
-								  params: {"model": "timer", "opts":{"id":timer_id,"what":"time","new_value":new_time}}
-								});
-								
-								$('#timer-'+timer_id).text(new_time);
-								$('.timer_update_time').popover('hide');
-							}
-							else {
-								alert("Falsches Format. HH:MM");
-							}
-						});
-						
-						$('.timer_cancel').click(function() {
-							$('.timer_update_time').popover('hide');
-						});
 					});
 					
 					$('.toggle_task_action').click(function() {

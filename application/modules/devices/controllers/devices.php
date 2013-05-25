@@ -22,6 +22,14 @@
 		}
 	}
 	
+	public function update($type,$name){
+		if ($type == 'device') {
+			$this->load->model('devices/device');
+			$update = $this->device->updateDevice($name,$_POST['pk'],$_POST['value']);
+		}
+		return true;
+	}
+	
 	public function groups(){
 		$this->load->library('page');
 		
@@ -360,8 +368,8 @@
 			if ($status == 'confirm') {
 				$this->load->library('page');
 				$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
-				$html .= $this->load->view('confirm_delete',array('device' => $device),true);
-				$html .= $this->load->view('device_delete', array('device' => $device),true);
+				$html .= $this->load->view('devices/confirm_delete',array('device' => $device),true);
+				$html .= $this->load->view('devices/device_delete', array('device' => $device),true);
 				$this->page->show($html);
 			}
 			elseif($status == 'execute') {

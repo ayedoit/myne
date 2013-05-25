@@ -19,6 +19,12 @@
 		$this->load->view($view,"");
 	}
 	
+	public function update($name){
+		$this->load->model('gateways/gateway');
+		$this->gateway->updateGateway($name,$_POST['pk'],$_POST['value']);
+		return true;
+	}
+	
 	public function show($gateway){
 		// Get device
 		$this->load->model('gateway');
@@ -64,6 +70,36 @@
 				$html = $this->load->view('title',array('title' => "Neues Gateway anlegen"),true);
 				$html .= $this->load->view('gateways/add', array('status' => $status),true);
 				$this->page->show($html);
+			}
+		}
+
+	}
+	
+	public function delete($name,$status) {
+		
+		$this->load->model('gateways/gateway');
+		$gateway = $this->gateway->getGatewayByName($name);
+		
+		if (empty($status) || trim($status) == '') {
+			redirect(base_url('gateways/show/'.$gateway->name), 'refresh');
+		}
+		else {
+			if ($status == 'confirm') {
+				$this->load->library('page');
+				$html = $this->load->view('title',array('icon' => $this->gateway->getGatewayTypeByID($gateway->type),'title' => $gateway->clear_name),true);
+				$html .= $this->load->view('gateways/confirm_delete',array('gateway' => $gateway),true);
+				$html .= $this->load->view('gateways/gateway_delete', array('gateway' => $gateway),true);
+				$this->page->show($html);
+			}
+			elseif($status == 'execute') {
+				 $referer = $this->agent->referrer();
+				 if ($referer == base_url('gateways/delete/'.$name.'/confirm')) {
+					 $this->gateway->deleteGateway($gateway);
+					 redirect(base_url('gateways/'), 'refresh');
+				 }
+			}
+			else {
+				redirect(base_url('gateways/'), 'refresh');
 			}
 		}
 

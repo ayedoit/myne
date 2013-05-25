@@ -2,16 +2,18 @@ jQuery.fn.myne_api = function(options) {
 	options["jsonrpc"] = "2.0";
 	options["id"] = "1";
 	
-	$.ajax({
+	var response = $.ajax({
 		url: "/api/request",
 		type: "post",
 		data: options,
 		dataType: "json",
 		async: false,
 		success: function(data) {
-			response = data;
+			return data;
 		} 
 	});
+	
+	return response;
 	
 };
 $(document).ready(function() {
@@ -28,5 +30,15 @@ $(document).ready(function() {
 		  params: {"model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"off"}}
 		});
 	});
+	
+	//~ // Device Edit
+	//~ $('.device_data tr').hover(
+		//~ function() {
+			//~ $(this).find('.edit_device').toggleClass('hide');
+		//~ }
+	//~ );
+	
+	$('.editable').editable();
 });
+
 

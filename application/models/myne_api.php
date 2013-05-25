@@ -29,7 +29,9 @@
 		$response = call_user_func_array(array($model,$method), $opts);
 		
 		// Format json reply
-		return $this->response($v,$response,$error="",$id);
+		
+		header('Content-Type: application/json');
+		echo $this->response($v,$response,$error="",$id);
 	}
 	
 	public function notify($version,$method,$params="") {

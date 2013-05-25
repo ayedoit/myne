@@ -4724,7 +4724,7 @@ input[type="submit"].btn.btn-mini {
   top: auto;
   bottom: -6px;
   border-top: 6px solid #ffffff;
-  border-bottom: 0;
+  border-bottom: 0;.navbar .nav > li > a:focus, .navbar .nav > li > a:hover
 }
 
 .navbar .nav li.dropdown > a:hover .caret,

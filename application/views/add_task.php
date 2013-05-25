@@ -55,6 +55,13 @@
 								case 'group': $this->load->model('devices/device');$items = $this->device->getGroups(); break;
 								default: $this->load->model('devices/device');$items = $this->device->getDevices(); break;
 							}
+							
+							if (isset($device_name) && trim($device_name) != '') {
+								$selected = $device_name;
+							}
+							else {
+								$selected = "1";
+							}
 						}
 						else {
 							$this->load->model('devices/device');
@@ -66,7 +73,7 @@
 							$options[$item->name] = $item->clear_name;
 						}
 						$data = 'id="tasks_target_name"';
-						echo form_dropdown('tasks_target_name', $options,"1",$data); 
+						echo form_dropdown('tasks_target_name', $options,$selected,$data); 
 					?>
 				  <span class="validation_space"></span>
 				</div>

@@ -5,7 +5,6 @@
 	$device_type = $this->device->getTypeByID($device->type);
 
 		echo "<ul class='inline'>";
-		echo "<li><a class='btn btn-warning' href='".base_url('devices/edit/'.$device->name)."/on' title='Ändern'><i class='icon-pencil icon-white'></i> Ändern</a></li>";
 		echo "<li><a class='btn btn-danger' href='".base_url('devices/delete/'.$device->name.'/confirm')."' title='Löschen'><i class='icon-remove-circle icon-white'></i> Löschen</a></li>";
 		echo "<li><a class='btn btn-primary	' href='".base_url('tasks/add/new/'.$device_type->name.'/'.$device->name)."' title='Neuer Task'><i class='icon-plus icon-white'></i> Task</a></li>";
 		

@@ -116,9 +116,39 @@ Class gateway extends CI_Model {
 		return $types;
 	}
 	
+	public function updateGateway($name,$what,$new_value) {
+		$data = array(
+		   $what => $new_value
+		);
+
+		$this->db->where('name', $name);
+		$this->db->update('gateways', $data); 
+	}
+	
 	public function addGateway($data) {
 		$this->db->insert('gateways', $data); 
 		return $this->db->insert_id();
+	}
+	
+	public function deleteGateway($gateway) {
+		// Find devices with this gateway as gateway
+		$this->load->model('devices/device');
+		$devices = $this->device->getDevicesByGateway($gateway->id);
+		
+		if (sizeof($devices) != 0) {
+			foreach ($devices as $device) {
+				$data = array(
+					'gateway' => 0
+				);
+				
+				// Set new gateway to "0"
+				$this->db->where('id',$device->id);
+				$this->db->update('devices',$data);
+			}
+		}
+		
+		// Delete Gateway
+		$this->db->delete('gateways', array('name' => $gateway->name)); 
 	}
 }
 ?>

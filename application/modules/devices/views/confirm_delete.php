@@ -93,6 +93,42 @@
 		    <?php
 			}
 			?>
+			
+			<?php
+			// Get Port
+			if (isset($device->port) && trim($device->port) != '') {
+				?>
+				<tr>
+					<td><b>Port</b></td>
+					<td><?= $device->port ?></td>
+				</tr>
+		    <?php
+			}
+			?>
+			
+			<?php
+			// Get User
+			if (isset($device->user) && trim($device->user) != '') {
+				?>
+				<tr>
+					<td><b>User</b></td>
+					<td><?= $device->user ?></td>
+				</tr>
+		    <?php
+			}
+			?>
+			
+			<?php
+			// Get Password
+			if (isset($device->password) && trim($device->password) != '') {
+				?>
+				<tr>
+					<td><b>Passwort</b></td>
+					<td><?= $device->password ?></td>
+				</tr>
+		    <?php
+			}
+			?>
 		</table>
 	</div>
 </div>

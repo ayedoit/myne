@@ -21,6 +21,14 @@ class Tasks extends CI_Controller {
 	    $this->page->show($html);
     }
     
+    public function update($type,$id){
+		if ($type == 'timer') {
+			$this->load->model('timer');
+			$update = $this->timer->updateTimer($id,$_POST['pk'],$_POST['value']);
+		}
+		return true;
+	}
+    
     public function run() {
 		$this->load->model('task');
 		$tasks = $this->task->getTasks();

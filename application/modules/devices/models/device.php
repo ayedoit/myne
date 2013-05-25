@@ -284,6 +284,15 @@ Class device extends CI_Model {
 		$this->db->delete('devices', array('name' => $name)); 
 	}
 	
+	public function updateDevice($name,$what,$new_value) {
+		$data = array(
+		   $what => $new_value
+		);
+
+		$this->db->where('name', $name);
+		$this->db->update('devices', $data); 
+	}
+	
 	public function toggle($type,$name,$status){
 	    $this->load->model('room');
 	    $this->load->model('gateways/gateway');
