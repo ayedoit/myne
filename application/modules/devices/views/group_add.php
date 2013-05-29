@@ -80,7 +80,7 @@
 			"Diese ID existiert bereits. Die ID muss eindeutig sein."
 		);
 		
-		$('#add_room').validate(
+		$('#add_group').validate(
 		{
 		rules: {
 			groups_name: {
@@ -88,7 +88,7 @@
 			  maxlength: 200,
 			  required: true,
 			  regex: /^[a-z\d_-]+$/,
-			  unique: "rooms"
+			  unique: "device_groups"
 			},
 			groups_clear_name: {
 			  required: true,
