@@ -11,10 +11,19 @@ class API extends CI_Controller {
 		}
     }
     
-	public function request($json="") {  
+	public function request($json="") {
+		if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+			// Check for correct request type
+			// If not JSON, die
+			show_error('Error. Wrong request type!');
+			die;
+		} 
+		
 	    $this->load->model('myne_api');
 	    
 	    $response = $this->myne_api->request($_POST);
+	    
+	    // Return response
 	    echo $response;
     }
     
