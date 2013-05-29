@@ -60,17 +60,9 @@ class Rooms extends CI_Controller {
 				$this->page->show($html);
 			}
 		}
-
 	}
 	
 	public function view($view) {
 		$this->load->view($view,"");
-	}
-        
-    function logout()
-	{
-	  $this->session->unset_userdata('logged_in');
-	  session_destroy();
-	  redirect('dash', 'refresh');
 	}
 }
