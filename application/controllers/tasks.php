@@ -23,10 +23,14 @@ class Tasks extends CI_Controller {
     
     public function update($type,$id){
 		if ($type == 'timer') {
-			$this->load->model('timer');
-			$update = $this->timer->updateTimer($id,$_POST['pk'],$_POST['value']);
+			this->load->model('timer');
+				try {
+					$update = $this->timer->updateTimer($id,$_POST['pk'],$_POST['value']);
+					return true;
+				} catch (Exception $e) {
+					show_error($e->getMessage(), 500);
+				}			
 		}
-		return true;
 	}
     
     public function run() {
@@ -60,12 +64,12 @@ class Tasks extends CI_Controller {
 						// Get action
 						$this->load->model('devices/device');
 						$option = $this->device->getOptionByID($task->action);
-						
+
 						if ($option->name == 'toggle') {
 							$this->device->toggle($task->target_type,$task->target_name,$task->action_opt);
-						}
-					}
-				}
+						} # Action is toggle?
+					} # Is the time right?
+				} # DOW set?
 			}
 		}
 		

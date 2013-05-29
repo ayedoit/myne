@@ -37,7 +37,12 @@ Class timer extends CI_Model {
 		);
 
 		$this->db->where('id', $id);
-		$this->db->update('timer', $data); 
+		try {
+			$this->db->update('timer', $data); 
+			return true;
+		}  catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		}
 	}
 	
 	public function deleteTimer($id) {

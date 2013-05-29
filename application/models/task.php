@@ -58,7 +58,12 @@ Class task extends CI_Model {
 		);
 
 		$this->db->where('name', $name);
-		$this->db->update('tasks', $data); 
+		try {
+			$this->db->update('tasks', $data);
+			return true;
+		}  catch (Exception $e) {
+			throw new Exception($e->getMessage());
+		} 
 	}
 	
 	public function deleteTask($name) {

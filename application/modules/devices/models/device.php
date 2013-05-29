@@ -318,6 +318,7 @@ Class device extends CI_Model {
 				// Get options
 				$options = $this->getOptionsByDeviceID($device->id);
 				
+				// If device has option "toggle", toggle it
 				if (array_key_exists('toggle', $options)) {		
 					// Get Vendor
 					$vendor = $this->getVendorByID($device->vendor);
@@ -363,7 +364,7 @@ Class device extends CI_Model {
 						} catch (Exception $e) {
 							show_error($e->getMessage());
 						}	
-					}
+					} # Device needs gateway for communication
 					// Otherwise, send directly to the device
 					else {
 						if ($vendor->name == 'xbmc') {
@@ -376,23 +377,23 @@ Class device extends CI_Model {
 								
 								$this->load->model('devices/xbmc');
 								$this->xbmc->send($msg, $url);
-							}
+							} # Status "off"
 							elseif ($status == 'on') {
 								$this->load->model('wol');
 								$response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
-							}
-						}
+							} # Status "on"
+						} # Device vendor is xbmc
 						else {
 							continue;
-						}
-					}
-				}
-			}
-		}
+						} # Device vendor is not xbmc
+					} # Device needs no gateway for communication
+				} # Has option "toggle"
+			} # foreach
+		} # Device array contains devices
 		else {
 			throw new Exception('Kein Gerät zum Schalten angegeben.');
 			die;
-		}
+		} # Device array contains no devices
 		return true;
 	}
 }
