@@ -180,11 +180,23 @@
 					$groups = $this->device->getGroups();
 					
 					$options = "";
-					foreach ($groups as $group) {
-						$options[$group->id] = $group->clear_name;
+					
+					if (sizeof($groups) == 0) {
+						$data = array(
+						  'name'        => 'devices_group[]',
+						  'id'          => 'devices_group',
+						  'value' => 'Keine Gruppen vorhanden',
+						  'disabled' => 'disabled'
+						);
+						echo form_input($data);
 					}
-					$data = 'id="devices_group"';
-					echo form_multiselect('devices_group[]', $options,"0",$data);
+					else {
+						foreach ($groups as $group) {
+							$options[$group->id] = $group->clear_name;
+						}
+						$data = 'id="devices_group"';
+						echo form_multiselect('devices_group[]', $options,"0",$data);
+					}
 				  ?>
 				  <a  rel="tooltip" title="Neue Gruppe anlegen" id="add_group" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i></a>
 				</div>
@@ -607,7 +619,7 @@
 		$('#add_group').live("click",function(){
 				$(this).html('<i class="icon-minus icon-white"></i>').removeClass('btn-success').addClass('btn-danger').attr("id","add_group_cancel");
 				$('#group_space').load('<?= base_url('devices/view/add_group'); ?>');
-				$('#devices_group').attr("disabled", "disabled").val("0");
+				$('#devices_group').attr("disabled", "disabled").val("");
 				$('input[name="add_group"]').val("1");
 				
 		});
