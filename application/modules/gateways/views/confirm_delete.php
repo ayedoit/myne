@@ -17,13 +17,18 @@
 			</tr>
 		    
 		    <tr>
-				<?php
-				// Get Room
-				$this->load->model('room');
-				$room = $this->room->getRoomByID($gateway->room);
-				?>
 				<td><b>Raum</b></td>
-				<td><a href="<?= base_url('rooms/show/'.$room->name) ?>" title="<?= $room->clear_name ?>"><?= $room->clear_name ?></a></td>
+				<?php
+					if ($gateway->room != "0") {
+						// Get Room
+						$this->load->model('room');
+						$room = $this->room->getRoomByID($gateway->room);
+						echo '<td><a href="'.base_url("rooms/show/".$room->name).'" title="'.$room->clear_name.'">'.$room->clear_name.'</a></td>';
+					}
+					else {
+						echo '<td>Kein Raum</td>';
+					}
+				?>
 		    </tr>    
 		    
 		    <?php

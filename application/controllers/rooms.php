@@ -62,6 +62,36 @@ class Rooms extends CI_Controller {
 		}
 	}
 	
+	public function delete($name,$status) {
+		
+		$this->load->model('room');
+		$room = $this->room->getRoomByName($name);
+		
+		if (empty($status) || trim($status) == '') {
+			redirect(base_url('rooms/show/'.$room->name), 'refresh');
+		}
+		else {
+			if ($status == 'confirm') {
+				$this->load->library('page');
+				$html = $this->load->view('title',array('title' => $room->clear_name),true);
+				$html .= $this->load->view('confirm_room_delete',array('room' => $room),true);
+				$html .= $this->load->view('room_delete', array('room' => $room),true);
+				$this->page->show($html);
+			}
+			elseif($status == 'execute') {
+				 $referer = $this->agent->referrer();
+				 if ($referer == base_url('rooms/delete/'.$name.'/confirm')) {
+					 $this->room->deleteRoom($room);
+					 redirect(base_url('rooms/'), 'refresh');
+				 }
+			}
+			else {
+				redirect(base_url('rooms/'), 'refresh');
+			}
+		}
+
+	}
+	
 	public function view($view) {
 		$this->load->view($view,"");
 	}

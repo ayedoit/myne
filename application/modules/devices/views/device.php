@@ -4,6 +4,13 @@
 		<table class="table table-striped device_data">
 			<tr>
 				<?php
+				// Get description
+				?>
+				<td><b>Beschreibung</b></td>
+				<td><?= $device->description ?></td>
+			</tr>
+			<tr>
+				<?php
 				// Get Type-Data
 				$this->load->model('device');
 				$type = $this->device->getTypeByID($device->type);
@@ -30,15 +37,31 @@
 				<td><?= $model->clear_name ?></td>
 		    </tr>
 		    
-		    <tr>
-				<?php
-				// Get Room
-				$this->load->model('room');
-				$room = $this->room->getRoomByID($device->room);
+		    <?php
+			// Get Room
+			if (isset($device->room) && trim($device->room) != '' && $device->room != "9999") {
+				if ($device->room == 0) {
 				?>
-				<td><b>Raum</b></td>
-				<td><a class="editable-select" id="<?= $device->name ?>-room" data-type="select" data-curr="<?= $room->id ?>" data-pk="room" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Raum"><?= $room->clear_name ?></a> <a href="<?= base_url('rooms/show/'.$room->name) ?>"><i class="icon-share-alt"></i></a></td>
-		    </tr>
+					<tr>
+						<td><b>Raum</b></td>
+						<td><a class="editable-select" id="<?= $device->name ?>-room" data-type="select" data-curr="0" data-pk="room" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Raum">Raum wählen</a></td>
+					</tr>
+				<?php
+				}
+				else {
+				?>
+					<tr>
+						<td><b>Raum</b></td>
+						<?php
+							$this->load->model('room');
+							$room = $this->room->getRoomByID($device->room);
+						?>
+						<td><a class="editable-select" id="<?= $device->name ?>-room" data-type="select" data-curr="<?= $room->id ?>" data-pk="room" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Raum"><?= $room->clear_name ?></a> <a href="<?= base_url('rooms/show/'.$room->name) ?>"><i class="icon-share-alt"></i></a></td>
+					</tr>
+				<?php
+				}
+			}
+			?>
 		    <script>
 				$(function(){
 					$('#<?= $device->name ?>-room').editable({
@@ -63,8 +86,8 @@
 						}
 					});
 				});
-			</script>
-		    
+			</script> 
+		    		    
 		    <tr>
 				<td><b>Gruppe</b></td>
 				<td>

@@ -66,6 +66,43 @@ Class room extends CI_Model {
 		return $room;
 	}
 	
+	public function deleteRoom($room) {
+		// Find devices with this room as room
+		$this->load->model('devices/device');
+		$devices = $this->device->getDevicesByRoom($room->id);
+		
+		if (sizeof($devices) != 0) {
+			foreach ($devices as $device) {
+				$data = array(
+					'room' => 0
+				);
+				
+				// Set new gateway to "0"
+				$this->db->where('id',$device->id);
+				$this->db->update('devices',$data);
+			}
+		}
+		
+		// Find gateways with this room as room
+		$this->load->model('gateways/gateway');
+		$gateways = $this->gateway->getGatewaysByRoom($room->id);
+		
+		if (sizeof($gateways) != 0) {
+			foreach ($gateways as $gateways) {
+				$data = array(
+					'room' => 0
+				);
+				
+				// Set new gateway to "0"
+				$this->db->where('id',$gateways->id);
+				$this->db->update('gateways',$data);
+			}
+		}
+		
+		// Delete Room
+		$this->db->delete('rooms', array('name' => $room->name)); 
+	}
+	
 	public function addRoom($data) {
 		$this->db->insert('rooms', $data); 
 		return $this->db->insert_id();

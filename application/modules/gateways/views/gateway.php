@@ -11,41 +11,32 @@
 				<td><b>Typ</b></td>
 				<td><a class="editable-select" id="<?= $gateway->name ?>-type" data-type="select" data-curr="<?= $type->id ?>" data-pk="type" data-url="<?php echo base_url(); ?>gateways/update/<?= $gateway->name ?>" data-original-title="Typ"><?= $type->clear_name ?></a>
 			</tr>
-			<script>
-				$(function(){
-					$('#<?= $gateway->name ?>-type').editable({
-						value: $(this).data('curr'),
-						source: function() {
-							var gateways = $(this).myne_api({
-							  method: "getGatewayTypes",
-							  params: {"model": "gateways/gateway", "opts":[""]}
-							});
-							response = jQuery.parseJSON(gateways.responseText);
-							
-							var data = [];
-							$.each(response.result, function (key,value) {
-								var values = {};
-								values['value'] = value.id;
-								values['text'] = value.clear_name;
-								
-								data.push(values);
-							});
-							
-							return data;
-						}
-					});
-				});
-			</script>
-		    <tr>
-				<?php
-				// Get Room
-				$this->load->model('room');
-				$room = $this->room->getRoomByID($gateway->room);
+			<?php
+			// Get Room
+			if (isset($gateway->room) && trim($gateway->room) != '' && $gateway->room != "9999") {
+				if ($gateway->room == 0) {
 				?>
-				<td><b>Raum</b></td>
-				<td><a class="editable-select" id="<?= $gateway->name ?>-room" data-type="select" data-curr="<?= $room->id ?>" data-pk="room" data-url="<?php echo base_url(); ?>gateways/update/<?= $gateway->name ?>" data-original-title="Raum"><?= $room->clear_name ?></a> <a href="<?= base_url('rooms/show/'.$room->name) ?>"><i class="icon-share-alt"></i></a></td>
-		    </tr>
-		     <script>
+					<tr>
+						<td><b>Raum</b></td>
+						<td><a class="editable-select" id="<?= $gateway->name ?>-room" data-type="select" data-curr="0" data-pk="room" data-url="<?php echo base_url(); ?>gateways/update/<?= $gateway->name ?>" data-original-title="Raum">Raum wählen</a></td>
+					</tr>
+				<?php
+				}
+				else {
+				?>
+					<tr>
+						<td><b>Raum</b></td>
+						<?php
+							$this->load->model('room');
+							$room = $this->room->getRoomByID($gateway->room);
+						?>
+						<td><a class="editable-select" id="<?= $gateway->name ?>-room" data-type="select" data-curr="<?= $room->id ?>" data-pk="room" data-url="<?php echo base_url(); ?>gateways/update/<?= $gateway->name ?>" data-original-title="Raum"><?= $room->clear_name ?></a> <a href="<?= base_url('rooms/show/'.$room->name) ?>"><i class="icon-share-alt"></i></a></td>
+					</tr>
+				<?php
+				}
+			}
+			?>
+		    <script>
 				$(function(){
 					$('#<?= $gateway->name ?>-room').editable({
 						value: $(this).data('curr'),
@@ -69,8 +60,8 @@
 						}
 					});
 				});
-			</script>
-		    
+			</script>   
+		    		    
 			<?php
 			//~ // Get Group
 			//~ if (isset($device->group) && trim($device->group) != '' && $device->group != 0) {
@@ -126,3 +117,52 @@
 	echo "</ul>";
 	?>
 </div>
+<script>
+	$(function(){
+		$('#<?= $gateway->name ?>-room').editable({
+			value: $(this).data('curr'),
+			source: function() {
+				var gateways = $(this).myne_api({
+				  method: "getRooms",
+				  params: {"model": "room", "opts":[""]}
+				});
+				response = jQuery.parseJSON(gateways.responseText);
+				
+				var data = [];
+				$.each(response.result, function (key,value) {
+					var values = {};
+					values['value'] = value.id;
+					values['text'] = value.clear_name;
+					
+					data.push(values);
+				});
+				
+				return data;
+			}
+		});
+	});
+
+	$(function(){
+		$('#<?= $gateway->name ?>-type').editable({
+			value: $(this).data('curr'),
+			source: function() {
+				var gateways = $(this).myne_api({
+				  method: "getGatewayTypes",
+				  params: {"model": "gateways/gateway", "opts":[""]}
+				});
+				response = jQuery.parseJSON(gateways.responseText);
+				
+				var data = [];
+				$.each(response.result, function (key,value) {
+					var values = {};
+					values['value'] = value.id;
+					values['text'] = value.clear_name;
+					
+					data.push(values);
+				});
+				
+				return data;
+			}
+		});
+	});
+</script>

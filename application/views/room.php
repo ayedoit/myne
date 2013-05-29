@@ -34,3 +34,10 @@
 		?>
 	</div>
 </div>
+<div class="row-fluid">
+	<?php
+	echo "<ul class='inline'>";
+		echo "<li><a class='btn btn-danger' href='".base_url('rooms/delete/'.$room->name.'/confirm')."' title='Löschen'><i class='icon-remove-circle icon-white'></i> Löschen</a></li>";
+	echo "</ul>";
+	?>
+</div>

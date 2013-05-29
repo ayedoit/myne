@@ -41,7 +41,14 @@
 				$room = $this->room->getRoomByID($device->room);
 				?>
 				<td><b>Raum</b></td>
-				<td><a href="<?= base_url('rooms/show/'.$room->name) ?>" title="<?= $room->clear_name ?>"><?= $room->clear_name ?></a></td>
+				<?php
+					if ($device->room != "0") {
+						echo '<td><a href="'.base_url("rooms/show/".$room->name).'" title="'.$room->clear_name.'">'.$room->clear_name.'</a></td>';
+					}
+					else {
+						echo '<td>Kein Raum</td>';
+					}
+				?>
 		    </tr>
 		    
 			<?php

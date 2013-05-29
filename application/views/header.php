@@ -59,6 +59,16 @@
 				  <ul class="dropdown-menu">
 					<li><a href="<?= base_url('gateways') ?>"><i class='icon-th'></i> Alle Gateways</a></li>
 					<li class="divider"></li>
+					<?php
+						$this->load->model('gateways/gateway');
+						$gateways = $this->gateway->getGateways();
+						if (sizeof($gateways) != 0) {
+							foreach ($gateways as $gateway) {
+								echo '<li><a href="'.base_url("gateways/show/".$gateway->name).'">'.$gateway->clear_name.'</a></li>';
+							}
+						}
+					?>
+					<li class="divider"></li>
 					<li class="nav-header">Verwaltung</li>
 					<li><a href="<?= base_url('gateways/add/new') ?>"><i class='icon-plus'></i> Gateway anlegen</a></li>
 				  </ul>
@@ -90,7 +100,7 @@
 					<li><a href="<?= base_url('devices/groups') ?>"><i class='icon-th'></i> Alle Gruppen</a></li>
 					<li class="divider"></li>
 					<?php
-						$this->load->model('device');
+						$this->load->model('devices/device');
 						$groups = $this->device->getGroups();
 						if (sizeof($groups) != 0) {
 							foreach ($groups as $group) {

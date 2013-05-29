@@ -30,6 +30,30 @@ Class device extends CI_Model {
 		return $devices;
 	}
 	
+	public function getDevicesWithoutRoom() {
+		$this->load->database();
+		$query = $this->db->get_where('devices', array('room' => "0"));
+		
+		$devices = array();
+		foreach ($query->result() as $row)
+		{
+			$devices[] = $row;
+		}
+		return $devices;
+	}
+	
+	public function getDevicesWithoutGateway() {
+		$this->load->database();
+		$query = $this->db->get_where('devices', array('gateway' => "0"));
+		
+		$devices = array();
+		foreach ($query->result() as $row)
+		{
+			$devices[] = $row;
+		}
+		return $devices;
+	}
+	
 	public function getDevicesByGroup($group) {		
 		$this->db->select('*');
 		$this->db->from('devices');
@@ -340,7 +364,18 @@ Class device extends CI_Model {
 	}
 	
 	public function deleteGroup($name) {
-		// Delete device
+		// Find group members
+		$group = $this->getGroupByName($name);
+		$devices = $this->getDevicesByGroup($group->id);
+		
+		// Remove members
+		if (sizeof($devices != 0)) {
+			foreach($devices as $device) {
+				$this->removeGroupMember($group->id,$device->id);
+			}
+		}
+		
+		// Delete group
 		$this->db->delete('device_groups', array('name' => $name)); 
 	}
 	
