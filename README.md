@@ -1,3 +1,5 @@
+![myne](https://raw.github.com/ayedoit/myne/master/img/myne_logo.png)
+
 myne
 ====
 
