@@ -1,15 +1,6 @@
 <?php
   Class myne_api extends CI_Model {
-	 
-	public function response($jsonrpc,$result,$error,$id) {
-		$arr = array(
-			"jsonrpc" => $jsonrpc,
-			"result" => $result,
-			"id" => $id
-		);
-		return json_encode($arr);
-	}
-	  
+	   
     public function request($json) {
 		// Get values
 		$v = $json["jsonrpc"];
@@ -24,14 +15,38 @@
 			"data" => ""
 		);
 		
+		header('Content-Type: application/json');
+		
 		// Call function
 		$model = $this->load->model($model);
-		$response = call_user_func_array(array($model,$method), $opts);
 		
-		// Format json reply
 		
-		header('Content-Type: application/json');
-		echo $this->response($v,$response,$error="",$id);
+		
+		try {
+			$result = call_user_func_array(array($model,$method), $opts);
+			
+			$return = array(
+				"jsonrpc" => $v,
+				"result" => $result,
+				"id" => $id
+			);
+			
+			return json_encode($return);
+		} catch (Exception $e) {
+			
+			$error = array(
+				"code" => "-32602",
+				"message" => $e->getMessage()
+			);
+			
+			$return = array(
+				"jsonrpc" => $v,
+				"error" => $error,
+				"id" => $id
+			);
+			
+			return json_encode($return);
+		}
 	}
 	
 	public function notify($version,$method,$params="") {
