@@ -126,7 +126,7 @@ Class gateway extends CI_Model {
 			$this->db->update('gateways', $data);
 			return true;
 		}  catch (Exception $e) {
-			throw new Exception($e->getMassage());
+			throw new Exception($e->getMessage());
 		}
 	}
 	

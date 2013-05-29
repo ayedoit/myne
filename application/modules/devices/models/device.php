@@ -294,7 +294,7 @@ Class device extends CI_Model {
 			$this->db->update('devices', $data);
 			return true;
 		}  catch (Exception $e) {
-			throw new Exception($e->getMassage());
+			throw new Exception($e->getMessage());
 		} 
 	}
 	
@@ -358,7 +358,11 @@ Class device extends CI_Model {
 						$gateway_type = $this->gateway->getGatewayTypeByID($gateway->type);
 						
 						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
-						$this->gateway_model->send($device, $msg, $gateway);		
+						try {
+							$this->gateway_model->send($device, $msg, $gateway);
+						} catch (Exception $e) {
+							show_error($e->getMessage());
+						}	
 					}
 					// Otherwise, send directly to the device
 					else {
