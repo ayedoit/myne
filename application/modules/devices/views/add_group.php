@@ -60,4 +60,3 @@
 	  <span class="validation_space"></span>
 	</div>
 </div>
-<hr>

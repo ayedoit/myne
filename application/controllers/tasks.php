@@ -23,13 +23,13 @@ class Tasks extends CI_Controller {
     
     public function update($type,$id){
 		if ($type == 'timer') {
-			this->load->model('timer');
-				try {
-					$update = $this->timer->updateTimer($id,$_POST['pk'],$_POST['value']);
-					return true;
-				} catch (Exception $e) {
-					show_error($e->getMessage(), 500);
-				}			
+			$this->load->model('timer');
+			try {
+				$update = $this->timer->updateTimer($id,$_POST['pk'],$_POST['value']);
+				return true;
+			} catch (Exception $e) {
+				show_error($e->getMessage(), 500);
+			}			
 		}
 	}
     

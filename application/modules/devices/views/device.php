@@ -65,18 +65,60 @@
 				});
 			</script>
 		    
-			<?php
-			// Get Group
-			if (isset($device->group) && trim($device->group) != '' && $device->group != 0) {
-				$group = $this->device->getGroupByID($device->group);
-				?>
-				<tr>
-					<td><b>Gruppe</b></td>
-					<td><a href="<?= base_url('devices/groups/'.$group->name) ?>" title="<?= $group->clear_name ?>"><?= $group->clear_name ?></a></td>
-				</tr>
-		    <?php
-			}
-			?>
+		    <tr>
+				<td><b>Gruppe</b></td>
+				<td>
+					<li class="dropdown group_dropdown">
+					<?php
+						$this->load->model('device');
+						$device_groups = $this->device->getGroupsByDevice($device->id);
+						$group_count = sizeof($device_groups);
+						
+						$groups = $this->device->getGroups();
+					?>
+					<a class="dropdown-toggle" data-toggle="dropdown"><span class="group_count"><?= $group_count ?></span> Gruppe(n) <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<?php
+								foreach ($groups as $group) {
+									// Check if device already has this group
+									if ($this->device->deviceHasGroup($group->id,$device->id)) {
+										echo '<li><a id="group-'.$group->id.'" data-device="'.$device->id.'" data-id="'.$group->id.'" class="remove_group"><i class="indicator icon-ok"></i> '.$group->clear_name.'</a></li>';
+									}
+									else {
+										echo '<li><a id="group-'.$group->id.'" data-device="'.$device->id.'" data-id="'.$group->id.'" class="add_group"><i class="indicator"></i> '.$group->clear_name.'</a></li>';
+									}
+								}
+							?>
+							<li class="divider"></li>
+							<li class="nav-header">Verwaltung</li>
+							<li><a href="<?= base_url('devices/addgroup/new') ?>"><i class='icon-plus'></i> Gruppe anlegen</a></li>
+						</ul>
+					</li>
+				</td>
+			</tr>
+			<script>
+				$(document).ready(function() {
+					$('.remove_group').click(function() {
+						$(this).myne_api({
+						  method: "removeGroupMember",
+						  params: {"model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
+						});
+						$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+						var value = parseInt($('.group_count').text());
+						$('.group_count').text(value-1);
+					});
+					
+					$('.add_group').click(function() {
+						$(this).myne_api({
+						  method: "addGroupMember",
+						  params: {"model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
+						});
+						$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+						var value = parseInt($('.group_count').text());
+						$('.group_count').text(value+1);
+					});
+				});
+			</script>
 			
 			<?php
 			// Get Gateway

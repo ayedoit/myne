@@ -78,6 +78,11 @@ label.error {
 	cursor: pointer;
 }
 
+.group_dropdown {
+	cursor: pointer;
+	list-style: none;
+}
+
 /* Nav */
 .nav a.logo {
 	padding: 0 10px !important;

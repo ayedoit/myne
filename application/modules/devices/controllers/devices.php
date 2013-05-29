@@ -13,11 +13,11 @@
 		$this->load->library('page');
 		
 		if ($this->agent->is_mobile()) {
-			$html = $this->load->view('groups_mobile',"",true);
+			$html = $this->load->view('grouped_mobile',"",true);
 			$this->page->show($html);
 		}
 		else {
-			$html = $this->load->view('groups',"",true);
+			$html = $this->load->view('grouped',"",true);
 			$this->page->show($html);
 		}
 	}
@@ -50,6 +50,13 @@
 		}
 	}
 	
+	public function groups(){
+		$this->load->library('page');
+
+		$html = $this->load->view('groups',"",true);
+		$this->page->show($html);
+	}
+	
 	public function show($device){
 		// Get device
 		$this->load->model('device');
@@ -59,6 +66,17 @@
 		$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
 		$html .= $this->load->view('device',array('device' => $device),true);
 		$html .= $this->load->view('device_options', array('device' => $device),true);
+		$this->page->show($html);
+	}
+	
+	public function showgroup($group){
+		// Get device
+		$this->load->model('device');
+		$group = $this->device->getGroupByName($group);
+			    
+		$this->load->library('page');
+		$html = $this->load->view('title',array('title' => $group->clear_name),true);
+		$html = $this->load->view('group',array('group' => $group),true);
 		$this->page->show($html);
 	}
 	
@@ -236,27 +254,6 @@
 						$device_data['room'] = $_POST['devices_room'];
 					}
 					
-					// Group
-					if (isset($_POST['add_group']) && $_POST['add_group'] == '1') {
-						// Add Room
-						$group_data = array(
-							'name' => $_POST['groups_name'],
-							'clear_name' => $_POST['groups_clear_name'],
-							'description' => $_POST['groups_description']
-						);
-						
-						// Add Group to DB
-						$this->load->model('device');
-						$group_id = $this->device->addGroup($group_data);
-						
-						// Add Group ID to Device Data
-						$device_data['group'] = $group_id;
-					}
-					else {
-						// Use data from form
-						$device_data['group'] = $_POST['devices_group'];
-					}
-					
 					// Gateway
 					if (isset($_POST['add_gateway']) && $_POST['add_gateway'] == '1') {
 						// Add Gateway
@@ -341,6 +338,33 @@
 					// Insert!
 					$device_id = $this->device->addDevice($device_data);
 					
+					// Group
+					if (isset($_POST['add_group']) && $_POST['add_group'] == '1') {
+						// Add Group
+						$group_data = array(
+							'name' => $_POST['groups_name'],
+							'clear_name' => $_POST['groups_clear_name'],
+							'description' => $_POST['groups_description']
+						);
+						
+						// Add Group to DB
+						$group_id = $this->device->addGroup($group_data);
+						
+						// Add Device ID & Group ID to mapping table
+						$this->device->addGroupMember($group_id, $device_id);
+					}
+					else {
+						if (!empty($_POST['devices_group']) && sizeof($_POST['devices_group']) != 0) {
+							foreach ($_POST['devices_group'] as $key => $group_id) {
+								$member_data = array(
+									"group_id" => $group_id,
+									"device_id" => $device_id
+								);
+								$this->device->addGroupMember($group_id, $device_id);
+							}
+						}
+					}
+					
 					// Tasks / Options
 					foreach($_POST['options'] as $option) {
 						$this->device->addDeviceOptionPair($device_id,$option);
@@ -363,34 +387,95 @@
 
 	}
 	
-	public function delete($name,$status) {
-		
-		$this->load->model('device');
-		$device = $this->device->getDeviceByName($name);
-		
+	public function addgroup($status) {
 		if (empty($status) || trim($status) == '') {
-			redirect(base_url('devices/show/'.$device->name), 'refresh');
+			redirect(base_url('devices/addgroup/new'), 'refresh');
 		}
 		else {
-			if ($status == 'confirm') {
+			if ($status == 'validate') {
+				$this->load->model('device');
+				if (isset($_POST['form']) && $_POST['form']=='1') {
+					// Take form input and validate
+					$group_data = array(
+						'name' => $_POST['groups_name'],
+						'clear_name' => $_POST['groups_clear_name'],
+						'description' => $_POST['groups_description']
+					);	
+
+					// Insert!
+					$device_id = $this->device->addGroup($group_data);
+						
+					// Done!
+					redirect(base_url('devices/showgroup/'.$group_data['name']), 'refresh');
+				}
+				else {
+					redirect(base_url('devices/addgroup/new'), 'refresh');
+				}
+			}
+			elseif ($status == 'new') {
 				$this->load->library('page');
-				$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
-				$html .= $this->load->view('devices/confirm_delete',array('device' => $device),true);
-				$html .= $this->load->view('devices/device_delete', array('device' => $device),true);
+				$html = $this->load->view('title',array('title' => "Neue Gruppe anlegen"),true);
+				$html .= $this->load->view('devices/group_add', array('status' => $status),true);
 				$this->page->show($html);
-			}
-			elseif($status == 'execute') {
-				 $referer = $this->agent->referrer();
-				 if ($referer == base_url('devices/delete/'.$name.'/confirm')) {
-					 $this->device->deleteDevice($name);
-					 redirect(base_url('devices/'), 'refresh');
-				 }
-			}
-			else {
-				redirect(base_url('devices/'), 'refresh');
 			}
 		}
 
+	}
+	
+	public function delete($type,$name,$status) {
+		$this->load->model('device');
+		if ($type == 'device') {
+			$device = $this->device->getDeviceByName($name);
+		
+			if (empty($status) || trim($status) == '') {
+				redirect(base_url('devices/show/'.$device->name), 'refresh');
+			}
+			else {
+				if ($status == 'confirm') {
+					$this->load->library('page');
+					$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
+					$html .= $this->load->view('devices/confirm_delete',array('device' => $device),true);
+					$html .= $this->load->view('devices/device_delete', array('device' => $device),true);
+					$this->page->show($html);
+				}
+				elseif($status == 'execute') {
+					 $referer = $this->agent->referrer();
+					 if ($referer == base_url('devices/delete/device/'.$name.'/confirm')) {
+						 $this->device->deleteDevice($name);
+						 redirect(base_url('devices/'), 'refresh');
+					 }
+				}
+				else {
+					redirect(base_url('devices/'), 'refresh');
+				}
+			}
+		}
+		elseif ($type == 'group') {
+			$group = $this->device->getGroupByName($name);
+		
+			if (empty($status) || trim($status) == '') {
+				redirect(base_url('devices/showgroup/'.$group->name), 'refresh');
+			}
+			else {
+				if ($status == 'confirm') {
+					$this->load->library('page');
+					$html = $this->load->view('title',array('title' => $group->clear_name),true);
+					$html .= $this->load->view('devices/confirm_group_delete',array('group' => $group),true);
+					$html .= $this->load->view('devices/group_delete', array('group' => $group),true);
+					$this->page->show($html);
+				}
+				elseif($status == 'execute') {
+					 $referer = $this->agent->referrer();
+					 if ($referer == base_url('devices/delete/group/'.$name.'/confirm')) {
+						 $this->device->deleteGroup($name);
+						 redirect(base_url('devices/groups'), 'refresh');
+					 }
+				}
+				else {
+					redirect(base_url('devices/groups'), 'refresh');
+				}
+			}
+		}
 	}
 	
 	public function view($view) {

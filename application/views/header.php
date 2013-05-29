@@ -69,18 +69,38 @@
 				  <ul class="dropdown-menu">
 					<li><a href="<?= base_url('rooms') ?>"><i class='icon-th'></i> Alle Räume</a></li>
 					<li class="divider"></li>
+					<?php
+						$this->load->model('room');
+						$rooms = $this->room->getRooms();
+						if (sizeof($rooms) != 0) {
+							foreach ($rooms as $room) {
+								echo '<li><a href="'.base_url("rooms/show/".$room->name).'">'.$room->clear_name.'</a></li>';
+							}
+						}
+					?>
+					<li class="divider"></li>
 					<li class="nav-header">Verwaltung</li>
 					<li><a href="<?= base_url('rooms/add/new') ?>"><i class='icon-plus'></i> Raum anlegen</a></li>
 				  </ul>
 				</li>
 				
 				<li class="dropdown <?php $class = (current_url() == base_url('devices/groups')) ? 'active': ""; echo $class; ?>">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-th-large icon-white'></i> Räume <b class="caret"></b></a>
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-th-large icon-white'></i> Gruppen <b class="caret"></b></a>
 				  <ul class="dropdown-menu">
 					<li><a href="<?= base_url('devices/groups') ?>"><i class='icon-th'></i> Alle Gruppen</a></li>
 					<li class="divider"></li>
+					<?php
+						$this->load->model('device');
+						$groups = $this->device->getGroups();
+						if (sizeof($groups) != 0) {
+							foreach ($groups as $group) {
+								echo '<li><a href="'.base_url("devices/showgroup/".$group->name).'">'.$group->clear_name.'</a></li>';
+							}
+						}
+					?>
+					<li class="divider"></li>
 					<li class="nav-header">Verwaltung</li>
-					<li><a href="<?= base_url('devices/groups/add/new') ?>"><i class='icon-plus'></i> Gruppe anlegen</a></li>
+					<li><a href="<?= base_url('devices/addgroup/new') ?>"><i class='icon-plus'></i> Gruppe anlegen</a></li>
 				  </ul>
 				</li>
 			</ul>

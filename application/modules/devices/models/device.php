@@ -30,9 +30,12 @@ Class device extends CI_Model {
 		return $devices;
 	}
 	
-	public function getDevicesByGroup($group) {
-		$this->load->database();
-		$query = $this->db->get_where('devices', array('group' => $group));
+	public function getDevicesByGroup($group) {		
+		$this->db->select('*');
+		$this->db->from('devices');
+		$this->db->join('device_group_members', 'device_group_members.device_id = devices.id AND device_group_members.group_id = "'.$group.'"');
+		
+		$query = $this->db->get();
 		
 		$devices = array();
 		foreach ($query->result() as $row)
@@ -40,6 +43,21 @@ Class device extends CI_Model {
 			$devices[] = $row;
 		}
 		return $devices;
+	}
+	
+	public function getGroupsByDevice($device) {		
+		$this->db->select('*');
+		$this->db->from('device_groups');
+		$this->db->join('device_group_members', 'device_group_members.group_id = device_groups.id AND device_group_members.device_id = "'.$device.'"');
+		
+		$query = $this->db->get();
+		
+		$groups = array();
+		foreach ($query->result() as $row)
+		{
+			$groups[] = $row;
+		}
+		return $groups;
 	}
 	
 	public function getDevicesByGateway($gateway) {
@@ -266,8 +284,31 @@ Class device extends CI_Model {
 	}
 	
 	public function addGroup($data) {
-		$this->db->insert('groups', $data); 
+		$this->db->insert('device_groups', $data); 
 		return $this->db->insert_id();
+	}
+	
+	public function addGroupMember($group_id,$device_id) {
+		$data = array(
+			'group_id' => $group_id,
+			'device_id' => $device_id
+		);
+		$this->db->insert('device_group_members', $data); 
+	}
+	
+	public function removeGroupMember($group_id,$device_id) {
+		$this->db->delete('device_group_members', array('group_id' => $group_id,'device_id' => $device_id)); 
+	}
+	
+	public function deviceHasGroup($group_id,$device_id) {
+		$query = $this->db->get_where('device_group_members', array('group_id' => $group_id,'device_id' => $device_id));
+		
+		if ($query->num_rows() >= 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public function addDevice($data) {
@@ -296,6 +337,11 @@ Class device extends CI_Model {
 		}  catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		} 
+	}
+	
+	public function deleteGroup($name) {
+		// Delete device
+		$this->db->delete('device_groups', array('name' => $name)); 
 	}
 	
 	public function toggle($type,$name,$status){

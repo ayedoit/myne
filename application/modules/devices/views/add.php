@@ -179,12 +179,12 @@
 					$this->load->model('device');
 					$groups = $this->device->getGroups();
 					
-					$options = array("0" => "Keine Gruppe");
+					$options = "";
 					foreach ($groups as $group) {
 						$options[$group->id] = $group->clear_name;
 					}
 					$data = 'id="devices_group"';
-					echo form_dropdown('devices_group', $options,"0",$data);
+					echo form_multiselect('devices_group[]', $options,"0",$data);
 				  ?>
 				  <a  rel="tooltip" title="Neue Gruppe anlegen" id="add_group" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i></a>
 				</div>
@@ -709,7 +709,7 @@
 			  maxlength: 200,
 			  required: true,
 			  regex: /^[a-z\d_-]+$/,
-			  unique: "groups"
+			  unique: "device_groups"
 			},
 			groups_clear_name: {
 			  required: true,

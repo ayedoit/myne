@@ -18,7 +18,7 @@
 					
 					$submit = array(
 						"class" => "btn btn-primary btn-medium",
-						"name" => "roomss_submit",
+						"name" => "rooms_submit",
 						"value" => "Anlegen"
 					);
 					echo form_submit($submit);	
