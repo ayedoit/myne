@@ -15,13 +15,11 @@
 			"data" => ""
 		);
 		
+		// Set header
 		header('Content-Type: application/json');
 		
 		// Call function
 		$model = $this->load->model($model);
-		
-		
-		
 		try {
 			$result = call_user_func_array(array($model,$method), $opts);
 			

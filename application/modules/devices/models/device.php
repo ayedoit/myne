@@ -363,7 +363,10 @@ Class device extends CI_Model {
 				}
 			}
 		}
-		
+		else {
+			throw new Exception('Kein Gerät zum Schalten angegeben.');
+			die;
+		}
 		return true;
 	}
 }
