@@ -320,10 +320,27 @@ Class device extends CI_Model {
 					// Create Message
 					// Therefore determine device vendor
 					switch ($vendor->name) {
-						case 'elro':$this->load->model('devices/elro'); $msg=$this->elro->msg($device,$status); break;
-						case 'intertechno':$this->load->model('devices/intertechno'); $msg=$this->intertechno->msg($device,$status); break;
-						case 'xbmc':$msg=''; break;
-						default: return 0;
+						case 'elro':
+							$this->load->model('devices/elro'); 
+							try {
+								$msg = $this->elro->msg($device,$status); 
+							} catch (Exception $e) {
+								show_error($e->getMessage());
+							}
+							break;
+						case 'intertechno':
+							$this->load->model('devices/intertechno'); 
+							try {
+								$msg = $this->intertechno->msg($device,$status); 
+							} catch (Exception $e) {
+								show_error($e->getMessage());
+							}
+							break;
+						case 'xbmc':
+							$msg=''; 
+							break;
+						default: 
+							return 0;
 					}
 					
 					// If the device has a gateway, send the message via the gateway

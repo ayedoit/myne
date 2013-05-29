@@ -16,12 +16,12 @@ Class elro extends CI_Model {
 	*/
 	public function msg($device, $action) {
 		if(empty($device->masterdip)) {
-			echo "ERROR: masterdip ist ungültig für device id ".$device->id;
-			return;
+			throw new Exception('Kein Master DIP für '.$device->clear_name.' gesetzt.');
+			die;
 		}
 		if(empty($device->slavedip)) {
-			echo "ERROR: slavedip ist ungültig für device id ".$device->id;
-			return;
+			throw new Exception('Kein Slave DIP für '.$device->clear_name.' gesetzt.');
+			die;
 		}
 		$sA=0;
 		$sG=0;
