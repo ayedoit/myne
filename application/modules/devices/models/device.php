@@ -290,7 +290,12 @@ Class device extends CI_Model {
 		);
 
 		$this->db->where('name', $name);
-		$this->db->update('devices', $data); 
+		try {
+			$this->db->update('devices', $data);
+			return true;
+		}  catch (Exception $e) {
+			throw new Exception($e->getMassage());
+		} 
 	}
 	
 	public function toggle($type,$name,$status){

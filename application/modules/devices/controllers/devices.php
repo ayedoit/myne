@@ -25,9 +25,16 @@
 	public function update($type,$name){
 		if ($type == 'device') {
 			$this->load->model('devices/device');
-			$update = $this->device->updateDevice($name,$_POST['pk'],$_POST['value']);
+			try {
+				$update = $this->device->updateDevice($name,$_POST['pk'],$_POST['value']);
+				return true;
+			} catch (Exception $e) {
+				show_error($e->getMessage(), 500);
+			}
 		}
-		return true;
+		elseif ($type == 'group') {
+			
+		}		
 	}
 	
 	public function grouped(){

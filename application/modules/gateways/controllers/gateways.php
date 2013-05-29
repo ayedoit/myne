@@ -21,8 +21,12 @@
 	
 	public function update($name){
 		$this->load->model('gateways/gateway');
-		$this->gateway->updateGateway($name,$_POST['pk'],$_POST['value']);
-		return true;
+		try {
+			$this->gateway->updateGateway($name,$_POST['pk'],$_POST['value']);
+			return true;
+		} catch (Exception $e) {
+			show_error($e->getMessage(), 500);
+		}
 	}
 	
 	public function show($gateway){
