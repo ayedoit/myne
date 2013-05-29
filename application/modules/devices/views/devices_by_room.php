@@ -25,8 +25,8 @@
 									$options = $this->device->getOptionsByDeviceID($device->id);
 
 									if (array_key_exists('toggle',$options)) {
-									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-small btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
-									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-small btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
+									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
+									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
 									}
 								echo "</div>";
 							echo "</li>";
@@ -71,8 +71,8 @@
 											$options = $this->device->getOptionsByDeviceID($device->id);
 
 											if (array_key_exists('toggle',$options)) {
-											  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-small btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
-											  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-small btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
+											  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
+											  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
 											}
 										echo "</div>";
 									echo "</li>";
@@ -108,8 +108,8 @@
 									$options = $this->device->getOptionsByDeviceID($device->id);
 
 									if (array_key_exists('toggle',$options)) {
-									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-small btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
-									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-small btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
+									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
+									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
 									}
 								echo "</div>";
 							echo "</li>";
