@@ -30,15 +30,15 @@
 		return true;
 	}
 	
-	public function groups(){
+	public function grouped(){
 		$this->load->library('page');
 		
 		if ($this->agent->is_mobile()) {
-			$html = $this->load->view('groups_mobile',"",true);
+			$html = $this->load->view('grouped_mobile',"",true);
 			$this->page->show($html);
 		}
 		else {
-			$html = $this->load->view('groups',"",true);
+			$html = $this->load->view('grouped',"",true);
 			$this->page->show($html);
 		}
 	}

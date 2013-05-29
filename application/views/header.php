@@ -43,10 +43,10 @@
 			<ul class="nav">
 				<li><a class="brand logo" href="<?= base_url('devices') ?>"><img src="<?= base_url('img/myne_logo_h40.png'); ?>" alt="myne" /></a></li>
 				<!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
-				<li class="dropdown <?php $class = (current_url() == base_url('devices/groups')) ? 'active': ""; echo $class; ?>">
+				<li class="dropdown <?php $class = (current_url() == base_url('devices/grouped')) ? 'active': ""; echo $class; ?>">
 				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-list icon-white'></i> Geräte <b class="caret"></b></a>
 				  <ul class="dropdown-menu">
-					<li><a href="<?= base_url('devices/groups') ?>"><i class='icon-th'></i> Alle Geräte</a></li>
+					<li><a href="<?= base_url('devices/grouped') ?>"><i class='icon-th'></i> Alle Geräte</a></li>
 					<li class="divider"></li>
 					<li class="nav-header">Verwaltung</li>
 					<li><a href="<?= base_url('devices/add/new') ?>"><i class='icon-plus'></i> Gerät anlegen</a></li>
@@ -71,6 +71,16 @@
 					<li class="divider"></li>
 					<li class="nav-header">Verwaltung</li>
 					<li><a href="<?= base_url('rooms/add/new') ?>"><i class='icon-plus'></i> Raum anlegen</a></li>
+				  </ul>
+				</li>
+				
+				<li class="dropdown <?php $class = (current_url() == base_url('devices/groups')) ? 'active': ""; echo $class; ?>">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class='icon-th-large icon-white'></i> Räume <b class="caret"></b></a>
+				  <ul class="dropdown-menu">
+					<li><a href="<?= base_url('devices/groups') ?>"><i class='icon-th'></i> Alle Gruppen</a></li>
+					<li class="divider"></li>
+					<li class="nav-header">Verwaltung</li>
+					<li><a href="<?= base_url('devices/groups/add/new') ?>"><i class='icon-plus'></i> Gruppe anlegen</a></li>
 				  </ul>
 				</li>
 			</ul>
