@@ -46,9 +46,5 @@
 			return json_encode($return);
 		}
 	}
-	
-	public function notify($version,$method,$params="") {
-		
-	}
   }
 ?>
