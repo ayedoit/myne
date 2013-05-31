@@ -7,6 +7,9 @@ Class tools extends CI_Model {
 	 */
 	 
 	public function idIsUnique($id,$id_type) {
+		
+		log_message('debug', 'Checking if identifier "'.$id.'" of type "'.$id_type.'" is unique');
+		
 		$query = $this->db->get_where($id_type,array('name' => $id));
 		
 		if ($query->num_rows != 0) {
@@ -18,6 +21,8 @@ Class tools extends CI_Model {
 	public function getSettings() {
 		$query = $this->db->get('settings');
 		
+		log_message('debug', 'Polling settings from database');
+		
 		$settings = array();
 		foreach ($query->result() as $row)
 		{
@@ -28,6 +33,8 @@ Class tools extends CI_Model {
 	
 	public function getSettingByName($name) {
 		$query = $this->db->get_where('settings', array('name' => $name));
+		
+		log_message('debug', 'Polling setting "'.$name.'" from database');
 		
 		foreach ($query->result() as $row)
 		{

@@ -7,8 +7,9 @@ Class vendor extends CI_Model {
 	 */
 	 
 	public function getVendors() {
-		$this->load->database();
 		$query = $this->db->get('vendors');
+		
+		log_message('debug', 'Polling vendors from database');
 		
 		$vendors = array();
 		foreach ($query->result() as $row)
@@ -19,8 +20,9 @@ Class vendor extends CI_Model {
 	}
 	 
 	public function getVendorByID($id) {
-		$this->load->database();
 		$query = $this->db->get_where('vendors', array('id' => $id));
+		
+		log_message('debug', 'Polling vendor with ID "'.$id.'" from database');
 		
 		foreach ($query->result() as $row)
 		{
@@ -35,6 +37,8 @@ Class vendor extends CI_Model {
 		$this->db->join('vendor_types','vendor_types.vendor_id = vendors.id AND vendor_types.type_id = '.$type);
 		$query = $this->db->get();
 		
+		log_message('debug', 'Polling vendors of type "'.$type.'" from database');
+		
 		$vendors = array();
 		foreach ($query->result() as $row)
 		{
@@ -45,6 +49,9 @@ Class vendor extends CI_Model {
 	
 	public function addVendor($data) {
 		$this->db->insert('vendors', $data); 
+		
+		log_message('debug', 'Adding vendor with name "'.$data['clear_name'].'" to database');
+		
 		return $this->db->insert_id();
 	}
 }

@@ -14,6 +14,7 @@ Class event extends CI_Model {
 		{
 			$events[] = $row;
 		}
+		log_message('debug', 'Polling events from database');
 		return $events;
 	}
 	 
@@ -24,6 +25,7 @@ Class event extends CI_Model {
 		{
 			$event = $row;
 		}
+		log_message('debug', 'Polling event "'.$name.'" from database');
 		return $event;
 	}
 	public function getEventByID($id) {
@@ -33,11 +35,13 @@ Class event extends CI_Model {
 		{
 			$event = $row;
 		}
+		log_message('debug', 'Polling event with id "'.$id.'" from database');
 		return $event;
 	}
 	
 	public function addEvent($data) {
 		$this->db->insert('events', $data); 
+		log_message('debug', 'Add event to Database');
 		return $this->db->insert_id();
 	}
 }

@@ -9,6 +9,8 @@ Class room extends CI_Model {
 	public function getRooms() {
 		$query = $this->db->get('rooms');
 		
+		log_message('debug', 'Polling rooms from database');
+		
 		$rooms = array();
 		foreach ($query->result() as $row)
 		{
@@ -23,6 +25,8 @@ Class room extends CI_Model {
 		$this->db->from('rooms');
 		$this->db->like('name',$name);
 		$query = $this->db->get();
+		
+		log_message('debug', 'Polling rooms with name like "'.$name.'" from database');
 		
 		$rooms = array();
 		foreach ($query->result() as $row)
@@ -39,6 +43,9 @@ Class room extends CI_Model {
 		{
 			$room = $row;
 		}
+		
+		log_message('debug', 'Polling room with ID "'.$id.'" from database');
+		
 		return $room;
 	}
 	
@@ -49,6 +56,9 @@ Class room extends CI_Model {
 		{
 			$room = $row;
 		}
+		
+		log_message('debug', 'Polling room with name "'.$name.'" from database');
+		
 		return $room;
 	}
 	
@@ -63,13 +73,21 @@ Class room extends CI_Model {
 		{
 			$room = $row;
 		}
+		
+		log_message('debug', 'Polling latest room from database');
+		
 		return $room;
 	}
 	
 	public function deleteRoom($room) {
+		
+		log_message('debug', 'Deleting room with ID "'.$room->id.'" from database');
+		
 		// Find devices with this room as room
 		$this->load->model('devices/device');
 		$devices = $this->device->getDevicesByRoom($room->id);
+		
+		log_message('debug', 'Polling devices in room with ID "'.$room->id.'"');
 		
 		if (sizeof($devices) != 0) {
 			foreach ($devices as $device) {
@@ -82,6 +100,8 @@ Class room extends CI_Model {
 				$this->db->update('devices',$data);
 			}
 		}
+		
+		log_message('debug', 'Searching gateways in room with ID "'.$room->id.'"');
 		
 		// Find gateways with this room as room
 		$this->load->model('gateways/gateway');
@@ -105,6 +125,9 @@ Class room extends CI_Model {
 	
 	public function addRoom($data) {
 		$this->db->insert('rooms', $data); 
+		
+		log_message('debug', 'Adding room to database');
+		
 		return $this->db->insert_id();
 	}
 }

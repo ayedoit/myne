@@ -3,6 +3,9 @@ Class User extends CI_Model
 {
  public function login($username, $password)
  {
+	
+	log_message('debug', 'Logging in user "'.$username.'" with password "'.$password.'"'); 
+	
    $this -> db -> select('id, username, password');
    $this -> db -> from('users');
    $this -> db -> where('username', $username);

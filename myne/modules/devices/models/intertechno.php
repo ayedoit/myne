@@ -2,10 +2,12 @@
 Class intertechno extends CI_Model {
 	public function msg($device, $action) {
 		if(empty($device->masterdip)) {
+			log_message('debug', 'Master DIP for device "'.$device->clear_name.'" not set');
 			throw new Exception('Kein Master DIP für '.$device->clear_name.' gesetzt.');
 			die;
 		}
 		if(empty($device->slavedip)) {
+			log_message('debug', 'Slave DIP for device "'.$device->clear_name.'" not set');
 			throw new Exception('Kein Slave DIP für '.$device->clear_name.' gesetzt.');
 			die;
 		}

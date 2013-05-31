@@ -27,8 +27,6 @@ Class xbmc extends CI_Model {
 		);                                                                                                                   
 		 
 		$response = curl_exec($ch);
-		
-		var_dump($response);
 	}
 }
 ?>

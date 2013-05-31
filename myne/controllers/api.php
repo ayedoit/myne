@@ -15,6 +15,7 @@ class API extends CI_Controller {
 		if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
 			// Check for correct request type
 			// If not JSON, die
+			log_message('error', 'API Error: Wrong request type');
 			show_error('Error. Wrong request type! JSON Only!');
 			die;
 		} 

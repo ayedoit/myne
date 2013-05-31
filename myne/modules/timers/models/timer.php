@@ -9,6 +9,8 @@ Class timer extends CI_Model {
 	public function getTimer() {
 		$query = $this->db->get('timer');
 		
+		log_message('debug', 'Polling timers from database');
+		
 		$timer = array();
 		foreach ($query->result() as $row)
 		{
@@ -19,6 +21,9 @@ Class timer extends CI_Model {
 	 
 	public function getTimerByID($id) {
 		$query = $this->db->get_where('timer', array('id' => $id));
+		
+		log_message('debug', 'Polling timer with ID "'.$id.'" from database');
+		
 		foreach ($query->result() as $row)
 		{
 			$timer = $row;
@@ -28,6 +33,9 @@ Class timer extends CI_Model {
 	
 	public function addTimer($data) {
 		$this->db->insert('timer', $data); 
+		
+		log_message('debug', 'Adding timer to database');
+		
 		return $this->db->insert_id();
 	}
 	
@@ -35,18 +43,21 @@ Class timer extends CI_Model {
 		$data = array(
 		   $what => $new_value
 		);
-
+		
 		$this->db->where('id', $id);
 		try {
 			$this->db->update('timer', $data); 
+			log_message('debug', 'Updating timer with ID "'.$id.'", setting "'.$what.'" to "'.$new_value.'" in database');
 			return true;
 		}  catch (Exception $e) {
+			log_message('debug', 'Updating timer with ID "'.$id.'", setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
 			throw new Exception($e->getMessage());
 		}
 	}
 	
 	public function deleteTimer($id) {
 		// Delete timer
+		log_message('debug', 'Removing timer with ID "'.$id.'" from database');
 		$this->db->delete('timer', array('id' => $id)); 
 	}
 }

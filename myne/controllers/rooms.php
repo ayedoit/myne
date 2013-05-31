@@ -30,6 +30,7 @@ class Rooms extends CI_Controller {
 	
 	public function add($status) {
 		if (empty($status) || trim($status) == '') {
+			log_message('debug', 'Add Room: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('rooms/add/new'), 'refresh');
 		}
 		else {
@@ -41,8 +42,7 @@ class Rooms extends CI_Controller {
 						'name' => $_POST['rooms_name'],
 						'clear_name' => $_POST['rooms_clear_name'],
 						'description' => $_POST['rooms_description']
-					);
-					
+					);				
 					// Insert!
 					$task_id = $this->room->addRoom($room_data);
 					
@@ -50,6 +50,7 @@ class Rooms extends CI_Controller {
 					redirect(base_url('rooms/show/'.$room_data['name']), 'refresh');
 				}
 				else {
+					log_message('debug', 'Add Room: Validation requested but no data submitted');
 					redirect(base_url('rooms/add/new'), 'refresh');
 				}
 			}
@@ -63,12 +64,12 @@ class Rooms extends CI_Controller {
 	}
 	
 	public function delete($name,$status) {
-		
 		$this->load->model('room');
 		$room = $this->room->getRoomByName($name);
 		
 		if (empty($status) || trim($status) == '') {
 			redirect(base_url('rooms/show/'.$room->name), 'refresh');
+			log_message('debug', 'Delete Room: No status given (should be "confirm" or "execute" after successful confirmation)');
 		}
 		else {
 			if ($status == 'confirm') {
@@ -87,6 +88,7 @@ class Rooms extends CI_Controller {
 			}
 			else {
 				redirect(base_url('rooms/'), 'refresh');
+				log_message('debug', 'Delete Room: Wrong status given (should be "confirm" or "execute" after successful confirmation)');
 			}
 		}
 

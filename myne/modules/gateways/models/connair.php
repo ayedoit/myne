@@ -11,6 +11,7 @@ Class connair extends CI_Model {
 		if(!($sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP))) {
 			$errorcode = socket_last_error();
 			$errormsg = socket_strerror($errorcode);
+			log_message('debug', 'Could not create socket: ['.$errorcode.']: '.$errormsg);
 			throw new Exception("Could not create socket: [".$errorcode."]: ".$errormsg);
 			die;
 		}
@@ -28,6 +29,7 @@ Class connair extends CI_Model {
 				$errorcode = socket_last_error();
 				if($errorcode>0) {
 					$errormsg = socket_strerror($errorcode);
+					log_message('debug', "Could not send data: [".$errorcode."]: ".$errormsg);
 					throw new Exception("Could not send data: [".$errorcode."]: ".$errormsg);
 					die;
 				}

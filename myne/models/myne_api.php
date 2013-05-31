@@ -2,6 +2,9 @@
   Class myne_api extends CI_Model {
 	   
     public function request($json) {
+		// IP the request comes from
+		$remote_ip = $_SERVER['REMOTE_ADDR'];  
+		
 		// Get values
 		$v = $json["jsonrpc"];
 		$method = $json["method"];
@@ -18,6 +21,11 @@
 		// Set header
 		header('Content-Type: application/json');
 		
+		log_message('debug', 'API Call from '.$remote_ip);
+		log_message('debug', 'Method: '.$method);
+		log_message('debug', 'Model: '.$model);
+		log_message('debug', 'Opts: '.implode(",", $opts));
+		
 		// Call function
 		$model = $this->load->model($model);
 		try {
@@ -28,6 +36,9 @@
 				"result" => $result,
 				"id" => $id
 			);
+			
+			log_message('debug', 'Request: Success');
+			log_message('debug', 'Response: '.$result);
 			
 			return json_encode($return);
 		} catch (Exception $e) {
@@ -42,6 +53,9 @@
 				"error" => $error,
 				"id" => $id
 			);
+			
+			log_message('debug', 'Request: Error');
+			log_message('debug', 'Error: '.$error['message']);
 			
 			return json_encode($return);
 		}

@@ -7,8 +7,9 @@ Class type extends CI_Model {
 	 */
 	 
 	public function getTypes() {
-		$this->load->database();
 		$query = $this->db->get('device_types');
+		
+		log_message('debug', 'Polling device types from database');
 		
 		$types = array();
 		foreach ($query->result() as $row)
@@ -19,8 +20,9 @@ Class type extends CI_Model {
 	}
 	 
 	public function getTypeByID($id) {
-		$this->load->database();
 		$query = $this->db->get_where('device_types', array('id' => $id));
+		
+		log_message('debug', 'Polling device type with ID "'.$id.'" from database');
 		
 		foreach ($query->result() as $row)
 		{
