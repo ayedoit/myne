@@ -23,6 +23,7 @@
 	}
 	
 	public function update($type,$name){
+		log_message('debug', '[Devices/Update]: Update via POST requested');
 		if ($type == 'device') {
 			$this->load->model('devices/device');
 			try {
@@ -80,102 +81,105 @@
 		$this->page->show($html);
 	}
 	
-	public function toggle($type,$name,$status){
-	    $this->load->model('device');
-	    $this->load->model('room');
-    
-	    switch ($type) {
-			case 'device' : $devices = $this->device->getDevicesByName($name); break;
-			case 'room' : $room = $this->room->getRoomByName($name); $devices = $this->device->getDevicesByRoom($room->id); break;
-			case 'group' : $group = $this->device->getGroupByName($name); $devices = $this->device->getDevicesByGroup($group->id); break;
-			case 'type' : $type = $this->device->getTypeByName($name); $devices = $this->device->getDevicesByType($type->id); break;
-			default: return false;
-		}
-	    
-	    if (!empty($devices) && sizeof($devices) != 0) {
-	    
-			// Toggle each Device
-			foreach ($devices as $device) {	
-				// Get options
-				$options = $this->device->getOptionsByDeviceID($device->id);
-				
-				if (array_key_exists('toggle', $options)) {		
-					// Get Vendor
-					$vendor = $this->device->getVendorByID($device->vendor);
-					
-					// Create Message
-					// Therefore determine device vendor
-					switch ($vendor->name) {
-						case 'elro':$this->load->model('elro'); $msg=$this->elro->msg($device,$status); break;
-						case 'intertechno':$this->load->model('intertechno'); $msg=$this->intertechno->msg($device,$status); break;
-						case 'xbmc':$msg=''; break;
-						default: return 0;
-					}
-					
-					// If the device has a gateway, send the message via the gateway
-					if ($device->gateway != 0) {
-						// Get Gateway
-						$this->load->model('gateways/gateway');
-						$gateway = $this->gateway->getGatewayByID($device->gateway);
-												
-						// Get Gateway Type
-						$gateway_type = $this->gateway->getGatewayTypeByID($gateway->type);
-						
-						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
-						$this->gateway_model->send($device, $msg, $gateway);		
-					}
-					// Otherwise, send directly to the device
-					else {
-						if ($vendor->name == 'xbmc') {
-							if ($status == 'off') {
-								// Create device URL
-								$this->load->model('xbmc'); 
-								$msg=$this->xbmc->msg($device,$status);
-								
-								$url = $device->user.":".$device->password."@".$device->address.":".$device->port."/jsonrpc";
-								
-								$this->load->model('devices/xbmc');
-								$this->xbmc->send($msg, $url);
-							}
-							elseif ($status == 'on') {
-								$this->load->model('wol');
-								$response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
-							}
-						}
-						else {
-							continue;
-						}
-					}
-				}
-			}
-		}
-		
-		if ($this->agent->is_referral())
-		{
-			redirect($this->agent->referrer(), 'refresh');
-		}
-		else {
-			redirect(base_url(), 'refresh');
-		}
+	// Marked for removal
+	//~ public function toggle($type,$name,$status){
+	    //~ $this->load->model('device');
+	    //~ $this->load->model('room');
+    //~ 
+	    //~ switch ($type) {
+			//~ case 'device' : $devices = $this->device->getDevicesByName($name); break;
+			//~ case 'room' : $room = $this->room->getRoomByName($name); $devices = $this->device->getDevicesByRoom($room->id); break;
+			//~ case 'group' : $group = $this->device->getGroupByName($name); $devices = $this->device->getDevicesByGroup($group->id); break;
+			//~ case 'type' : $type = $this->device->getTypeByName($name); $devices = $this->device->getDevicesByType($type->id); break;
+			//~ default: return false;
+		//~ }
+	    //~ 
+	    //~ if (!empty($devices) && sizeof($devices) != 0) {
+	    //~ 
+			//~ // Toggle each Device
+			//~ foreach ($devices as $device) {	
+				//~ // Get options
+				//~ $options = $this->device->getOptionsByDeviceID($device->id);
+				//~ 
+				//~ if (array_key_exists('toggle', $options)) {		
+					//~ // Get Vendor
+					//~ $vendor = $this->device->getVendorByID($device->vendor);
+					//~ 
+					//~ // Create Message
+					//~ // Therefore determine device vendor
+					//~ switch ($vendor->name) {
+						//~ case 'elro':$this->load->model('elro'); $msg=$this->elro->msg($device,$status); break;
+						//~ case 'intertechno':$this->load->model('intertechno'); $msg=$this->intertechno->msg($device,$status); break;
+						//~ case 'xbmc':$msg=''; break;
+						//~ default: return 0;
+					//~ }
+					//~ 
+					//~ // If the device has a gateway, send the message via the gateway
+					//~ if ($device->gateway != 0) {
+						//~ // Get Gateway
+						//~ $this->load->model('gateways/gateway');
+						//~ $gateway = $this->gateway->getGatewayByID($device->gateway);
+												//~ 
+						//~ // Get Gateway Type
+						//~ $gateway_type = $this->gateway->getGatewayTypeByID($gateway->type);
+						//~ 
+						//~ $this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+						//~ $this->gateway_model->send($device, $msg, $gateway);		
+					//~ }
+					//~ // Otherwise, send directly to the device
+					//~ else {
+						//~ if ($vendor->name == 'xbmc') {
+							//~ if ($status == 'off') {
+								//~ // Create device URL
+								//~ $this->load->model('xbmc'); 
+								//~ $msg=$this->xbmc->msg($device,$status);
+								//~ 
+								//~ $url = $device->user.":".$device->password."@".$device->address.":".$device->port."/jsonrpc";
+								//~ 
+								//~ $this->load->model('devices/xbmc');
+								//~ $this->xbmc->send($msg, $url);
+							//~ }
+							//~ elseif ($status == 'on') {
+								//~ $this->load->model('wol');
+								//~ $response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
+							//~ }
+						//~ }
+						//~ else {
+							//~ continue;
+						//~ }
+					//~ }
+				//~ }
+			//~ }
+		//~ }
+		//~ 
+		//~ if ($this->agent->is_referral())
+		//~ {
+			//~ redirect($this->agent->referrer(), 'refresh');
+		//~ }
+		//~ else {
+			//~ redirect(base_url(), 'refresh');
+		//~ }
 	}
 	
-	public function type($type){
-	    $this->load->model('device');
-	    
-	    // Get type ID
-	    $device_type = $this->device->getTypeByName($type);
-	    
-	    $devices = $this->device->getDevicesByType($device_type->id);
-	    
-	    echo "<pre>".print_r($devices,true)."</pre>";
-		die;
-	    $this->load->library('page');
-	    $html = $this->load->view('connair',"",true);
-	    $this->page->show($html);
-	}
+	// Marked for removal
+	//~ public function type($type){
+	    //~ $this->load->model('device');
+	    //~ 
+	    //~ // Get type ID
+	    //~ $device_type = $this->device->getTypeByName($type);
+	    //~ 
+	    //~ $devices = $this->device->getDevicesByType($device_type->id);
+	    //~ 
+	    //~ echo "<pre>".print_r($devices,true)."</pre>";
+		//~ die;
+	    //~ $this->load->library('page');
+	    //~ $html = $this->load->view('connair',"",true);
+	    //~ $this->page->show($html);
+	//~ }
 	
 	public function add($status) {
 		if (empty($status) || trim($status) == '') {
+			log_message('debug', '[Devices/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('devices/add/new'), 'refresh');
 		}
 		else {
@@ -374,6 +378,7 @@
 					redirect(base_url('devices/show/'.$device_data['name']), 'refresh');
 				}
 				else {
+					log_message('debug', '[Devices/Add]: Validation requested but no data submitted');
 					redirect(base_url('devices/add/new'), 'refresh');
 				}
 			}
@@ -389,6 +394,7 @@
 	
 	public function addgroup($status) {
 		if (empty($status) || trim($status) == '') {
+			log_message('debug', '[Devices/Addgroup]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('devices/addgroup/new'), 'refresh');
 		}
 		else {
@@ -409,6 +415,7 @@
 					redirect(base_url('devices/showgroup/'.$group_data['name']), 'refresh');
 				}
 				else {
+					log_message('debug', '[Devices/Addgroup]: Validation requested but no data submitted');
 					redirect(base_url('devices/addgroup/new'), 'refresh');
 				}
 			}
@@ -428,6 +435,7 @@
 			$device = $this->device->getDeviceByName($name);
 		
 			if (empty($status) || trim($status) == '') {
+				log_message('debug', '[Devices/Delete]: No status given (should be "confirm" or "execute" after successful confirmation)');
 				redirect(base_url('devices/show/'.$device->name), 'refresh');
 			}
 			else {
@@ -446,6 +454,7 @@
 					 }
 				}
 				else {
+					log_message('debug', '[Devices/Delete]: Wrong status given (should be "confirm" or "execute" after successful confirmation)');
 					redirect(base_url('devices/'), 'refresh');
 				}
 			}
@@ -454,6 +463,7 @@
 			$group = $this->device->getGroupByName($name);
 		
 			if (empty($status) || trim($status) == '') {
+				log_message('debug', '[Devices/Delete]: No status given (should be "confirm" or "execute" after successful confirmation)');
 				redirect(base_url('devices/showgroup/'.$group->name), 'refresh');
 			}
 			else {
@@ -472,6 +482,7 @@
 					 }
 				}
 				else {
+					log_message('debug', '[Rooms/Delete]: Wrong status given (should be "confirm" or "execute" after successful confirmation)');
 					redirect(base_url('devices/groups'), 'refresh');
 				}
 			}

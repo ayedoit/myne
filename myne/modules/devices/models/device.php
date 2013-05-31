@@ -456,7 +456,7 @@ Class device extends CI_Model {
 	    log_message('debug', 'Attempting to toggle '.$type.' with name "'.$name.'" - Status: "'.$status.'"');
 		
 	    switch ($type) {
-			case 'device' : $devices = $this->getDevicesByName($name); break;
+			case 'device' : $devices = array('0' => $this->getDeviceByName($name)); break;
 			case 'room' : $room = $this->room->getRoomByName($name); $devices = $this->device->getDevicesByRoom($room->id); break;
 			case 'group' : $group = $this->getGroupByName($name); $devices = $this->device->getDevicesByGroup($group->id); break;
 			case 'type' : $type = $this->getTypeByName($name); $devices = $this->device->getDevicesByType($type->id); break;
@@ -494,7 +494,7 @@ Class device extends CI_Model {
 								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
 							} catch (Exception $e) {
 								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								show_error($e->getMessage());
+								throw new Exception($e->getMessage());
 							}
 							break;
 						case 'intertechno':
@@ -504,7 +504,7 @@ Class device extends CI_Model {
 								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
 							} catch (Exception $e) {
 								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								show_error($e->getMessage());
+								throw new Exception($e->getMessage());
 							}
 							break;
 						case 'xbmc':
@@ -518,6 +518,7 @@ Class device extends CI_Model {
 					// If the device has a gateway, send the message via the gateway
 					if ($device->gateway != 0) {
 						log_message('debug', '['.$device->clear_name.'] Gateway needed');
+						
 						// Get Gateway
 						$this->load->model('gateways/gateway');
 						$gateway = $this->gateway->getGatewayByID($device->gateway);
@@ -535,7 +536,7 @@ Class device extends CI_Model {
 							$this->gateway_model->send($device, $msg, $gateway);
 						} catch (Exception $e) {
 							log_message('debug', '['.$device->clear_name.'] Error: Could not send message to Gateway "'.$gateway->clear_name.'"');
-							show_error($e->getMessage());
+							throw new Exception($e->getMessage());
 						}	
 					} # Device needs gateway for communication
 					// Otherwise, send directly to the device
@@ -553,12 +554,23 @@ Class device extends CI_Model {
 								$this->load->model('devices/xbmc');
 								log_message('debug', '['.$device->clear_name.'] Attempting to send message to device');
 								
-								$this->xbmc->send($msg, $url);
+								try {
+									$this->xbmc->send($msg, $url);
+								} catch (Exception $e) {
+									log_message('debug', '['.$device->clear_name.'] Could net send message to device: "'.$e->getMessage().'"');
+									throw new Exception($e->getMessage());
+								}
 							} # Status "off"
 							elseif ($status == 'on') {
 								$this->load->model('wol');
 								log_message('debug', '['.$device->clear_name.'] Attempting to wake device via Wake on LAN');
-								$response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
+								
+								try {
+									$response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
+								} catch (Exception $e) {
+									log_message('debug', '['.$device->clear_name.'] Could net send message to device: "'.$e->getMessage().'"');
+									throw new Exception($e->getMessage());
+								}
 							} # Status "on"
 						} # Device vendor is xbmc
 						else {

@@ -42,6 +42,7 @@
 	
 	public function add($status) {
 		if (empty($status) || trim($status) == '') {
+			log_message('debug', '[Gateways/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('gateways/add/new'), 'refresh');
 		}
 		else {
@@ -66,6 +67,7 @@
 					redirect(base_url('gateways/show/'.$gateway_data['name']), 'refresh');
 				}
 				else {
+					log_message('debug', '[Gateways/Add]: Validation requested but no data submitted');
 					redirect(base_url('gateways/add/new'), 'refresh');
 				}
 			}
@@ -85,6 +87,7 @@
 		$gateway = $this->gateway->getGatewayByName($name);
 		
 		if (empty($status) || trim($status) == '') {
+			log_message('debug', '[Gateways/Delete]: No status given (should be "confirm" or "execute" after successful confirmation)');
 			redirect(base_url('gateways/show/'.$gateway->name), 'refresh');
 		}
 		else {
@@ -103,6 +106,7 @@
 				 }
 			}
 			else {
+				log_message('debug', '[Rooms/Delete]: Wrong status given (should be "confirm" or "execute" after successful confirmation)');
 				redirect(base_url('gateways/'), 'refresh');
 			}
 		}

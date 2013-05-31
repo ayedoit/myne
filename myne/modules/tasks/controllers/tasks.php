@@ -66,7 +66,12 @@ class Tasks extends CI_Controller {
 						$option = $this->device->getOptionByID($task->action);
 
 						if ($option->name == 'toggle') {
-							$this->device->toggle($task->target_type,$task->target_name,$task->action_opt);
+							try {
+								$this->device->toggle($task->target_type,$task->target_name,$task->action_opt);
+								log_message('debug', '[Gateways/Run]: Task with ID "'.$task->id.'" successfully executed');
+							} catch (Exception $e) {
+								log_message('debug', '[Gateways/Run]: Error. Task with ID "'.$task->id.'" not executed: "'.$e->getMessage().'"');
+							}
 						} # Action is toggle?
 					} # Is the time right?
 				} # DOW set?
@@ -77,6 +82,7 @@ class Tasks extends CI_Controller {
 	
 	public function add($status,$device_type='',$device_name='') {
 		if (empty($status) || trim($status) == '') {
+			log_message('debug', '[Tasks/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('tasks/add/new'), 'refresh');
 		}
 		else {
@@ -128,6 +134,7 @@ class Tasks extends CI_Controller {
 					redirect(base_url('devices/show/'.$task_data['target_name']), 'refresh');
 				}
 				else {
+					log_message('debug', '[Tasks/Add]: Validation requested but no data submitted');
 					redirect(base_url('tasks/add/new'), 'refresh');
 				}
 			}
