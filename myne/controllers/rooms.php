@@ -30,7 +30,7 @@ class Rooms extends CI_Controller {
 	
 	public function add($status) {
 		if (empty($status) || trim($status) == '') {
-			log_message('debug', 'Add Room: No status given (should be "new" for new rooms or "validate" for validation)');
+			log_message('debug', '[Rooms/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('rooms/add/new'), 'refresh');
 		}
 		else {
@@ -50,7 +50,7 @@ class Rooms extends CI_Controller {
 					redirect(base_url('rooms/show/'.$room_data['name']), 'refresh');
 				}
 				else {
-					log_message('debug', 'Add Room: Validation requested but no data submitted');
+					log_message('debug', '[Rooms/Add]: Validation requested but no data submitted');
 					redirect(base_url('rooms/add/new'), 'refresh');
 				}
 			}
@@ -69,7 +69,7 @@ class Rooms extends CI_Controller {
 		
 		if (empty($status) || trim($status) == '') {
 			redirect(base_url('rooms/show/'.$room->name), 'refresh');
-			log_message('debug', 'Delete Room: No status given (should be "confirm" or "execute" after successful confirmation)');
+			log_message('debug', '[Rooms/Delete]: No status given (should be "confirm" or "execute" after successful confirmation)');
 		}
 		else {
 			if ($status == 'confirm') {
@@ -88,7 +88,7 @@ class Rooms extends CI_Controller {
 			}
 			else {
 				redirect(base_url('rooms/'), 'refresh');
-				log_message('debug', 'Delete Room: Wrong status given (should be "confirm" or "execute" after successful confirmation)');
+				log_message('debug', '[Rooms/Delete]: Wrong status given (should be "confirm" or "execute" after successful confirmation)');
 			}
 		}
 
