@@ -12,7 +12,7 @@ class Tasks extends CI_Controller {
     }
     
 	public function index() {  
-		$this->load->model('task');
+		$this->load->model('tasks/task');
 		$tasks = $this->task->getTasks();
 		
 	    $this->load->library('page');
@@ -34,7 +34,7 @@ class Tasks extends CI_Controller {
 	}
     
     public function run() {
-		$this->load->model('task');
+		$this->load->model('tasks/task');
 		$tasks = $this->task->getTasks();
 		
 		foreach ($tasks as $task) {					
@@ -42,7 +42,7 @@ class Tasks extends CI_Controller {
 			$event = $this->event->getEventByID($task->event);
 			if ($event->name == 'timer') {
 				// Get timer
-				$this->load->model('timer');
+				$this->load->model('timers/timer');
 				$timer = $this->timer->getTimerByID($task->event_opt);
 					
 				// Get current weekday
@@ -81,7 +81,7 @@ class Tasks extends CI_Controller {
 		}
 		else {
 			if ($status == 'validate') {
-				$this->load->model('task');
+				$this->load->model('tasks/task');
 				if (isset($_POST['form']) && $_POST['form']=='1') {
 					// Take form input and validate
 					$task_data = array(
@@ -114,7 +114,7 @@ class Tasks extends CI_Controller {
 							);
 							
 							// Add timer to DB
-							$this->load->model('timer');
+							$this->load->model('timers/timer');
 							$timer_id = $this->timer->addTimer($timer_data);
 							
 							// Add timer ID to task Data
@@ -155,12 +155,5 @@ class Tasks extends CI_Controller {
 	
 	public function view($view) {
 		$this->load->view($view,"");
-	}
-        
-    function logout()
-	{
-	  $this->session->unset_userdata('logged_in');
-	  session_destroy();
-	  redirect('dash', 'refresh');
 	}
 }

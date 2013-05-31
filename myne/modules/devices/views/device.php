@@ -268,7 +268,7 @@
 		</table>
 	</div>
 	<?php
-		$this->load->model('task');
+		$this->load->model('tasks/task');
 		$tasks = $this->task->getTasksByDevice($device->name,'device');
 		
 		if (sizeof($tasks) != 0) {
