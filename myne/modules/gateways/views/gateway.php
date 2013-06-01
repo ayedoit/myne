@@ -43,7 +43,7 @@
 						source: function() {
 							var gateways = $(this).myne_api({
 							  method: "getRooms",
-							  params: {"model": "room", "opts":[""]}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "room", "opts":[""]}
 							});
 							response = jQuery.parseJSON(gateways.responseText);
 							
@@ -124,7 +124,7 @@
 			source: function() {
 				var gateways = $(this).myne_api({
 				  method: "getRooms",
-				  params: {"model": "room", "opts":[""]}
+				  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "room", "opts":[""]}
 				});
 				response = jQuery.parseJSON(gateways.responseText);
 				
@@ -148,7 +148,7 @@
 			source: function() {
 				var gateways = $(this).myne_api({
 				  method: "getGatewayTypes",
-				  params: {"model": "gateways/gateway", "opts":[""]}
+				  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "gateways/gateway", "opts":[""]}
 				});
 				response = jQuery.parseJSON(gateways.responseText);
 				

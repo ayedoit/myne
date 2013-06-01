@@ -38,14 +38,14 @@
 		$('.toggle_on').click(function() {
 			$(this).myne_api({
 			  method: "toggle",
-			  params: {"model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"on"}}
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"on"}}
 			});
 		});
 		
 		$('.toggle_off').click(function() {
 			$(this).myne_api({
 			  method: "toggle",
-			  params: {"model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"off"}}
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"off"}}
 			});
 		});
 	});

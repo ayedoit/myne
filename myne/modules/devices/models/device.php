@@ -158,7 +158,7 @@ Class device extends CI_Model {
 	public function getDevicesByType($type) {
 		$query = $this->db->get_where('devices', array('type' => $type));
 		
-		log_message('debug', 'Polling devices of type with ID "'.$id.'" from database');
+		log_message('debug', 'Polling devices of type with ID "'.$type.'" from database');
 		
 		$devices = array();
 		foreach ($query->result() as $row)
@@ -472,7 +472,7 @@ Class device extends CI_Model {
 				$options = $this->getOptionsByDeviceID($device->id);
 				
 				log_message('debug', '['.$device->clear_name.'] Attempting to set status "'.$status.'"');
-				log_message('debug', $device->clear_name.': Checking permissions');
+				log_message('debug', '['.$device->clear_name.'] Checking permissions');
 				
 				// If device has option "toggle", toggle it
 				if (array_key_exists('toggle', $options)) {	
@@ -481,7 +481,7 @@ Class device extends CI_Model {
 					// Get Vendor
 					$vendor = $this->getVendorByID($device->vendor);
 					
-					log_message('debug', '['.$device->clear_name.'] Is of vendor "'.$vendor->clear_name.'"');
+					log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
 					log_message('debug', '['.$device->clear_name.'] Creating vendor-/type-specific message');
 					
 					// Create Message

@@ -138,7 +138,6 @@ Class gateway extends CI_Model {
 			log_message('debug', 'Updating gateway with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database');
 			return true;
 		}  catch (Exception $e) {
-			atch (Exception $e) {
 			log_message('debug', 'Updating gateway with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
 			throw new Exception($e->getMessage());
 		}

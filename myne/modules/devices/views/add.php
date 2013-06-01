@@ -521,16 +521,15 @@
 
 			
 			// Get vendors for selected type
-			var request = {"jsonrpc": "2.0", "method": "getVendorsByType", "params": {"model":"devices/vendor","opts":[value]}, "id": 2};
+			var request = {"jsonrpc": "2.0", "method": "getVendorsByType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/vendor","opts":[value]}, "id": 2};
 			$.post("<?= base_url('api/request'); ?>", request, function(data) {
-				response = jQuery.parseJSON(data);
 				
 				$("#devices_vendor option").each(function() {
 					$(this).remove();
 				});
 				
 				// Udate vendors
-				$.each(response.result, function (key,val) {
+				$.each(data.result, function (key,val) {
 					$('#devices_vendor')
 					 .append($("<option></option>")
 					 .attr("value",val.id)
@@ -546,16 +545,15 @@
 			var response = "";
 			
 			// Get vendors for selected type
-			var request = {"jsonrpc": "2.0", "method": "getModelsByVendor", "params": {"model":"devices/model","opts":[value]}, "id": 2};
+			var request = {"jsonrpc": "2.0", "method": "getModelsByVendor", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>" ,"model":"devices/model","opts":[value]}, "id": 2};
 			$.post("<?= base_url('api/request'); ?>", request, function(data) {
-				response = jQuery.parseJSON(data);
 				
 				$("#devices_model option").each(function() {
 					$(this).remove();
 				});
 				
 				// Udate vendors
-				$.each(response.result, function (key,val) {
+				$.each(data.result, function (key,val) {
 					$('#devices_model')
 					 .append($("<option></option>")
 					 .attr("value",val.id)
@@ -661,7 +659,7 @@
 			function(value, element, id_type) {
 				var response = null;
 				// Check ID against API
-				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"model":"tools","opts":[value,id_type]}, "id": 1};
+				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"tools","opts":[value,id_type]}, "id": 1};
 				$.ajax({
 					url: "<?= base_url('api/request'); ?>",
 					type: "post",

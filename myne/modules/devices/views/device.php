@@ -69,7 +69,7 @@
 						source: function() {
 							var gateways = $(this).myne_api({
 							  method: "getRooms",
-							  params: {"model": "room", "opts":[""]}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "room", "opts":[""]}
 							});
 							response = jQuery.parseJSON(gateways.responseText);
 							
@@ -101,6 +101,7 @@
 					?>
 					<a class="dropdown-toggle" data-toggle="dropdown"><span class="group_count"><?= $group_count ?></span> Gruppe(n) <b class="caret"></b></a>
 						<ul class="dropdown-menu">
+							<li class="nav-header">Gruppen</li>
 							<?php
 								foreach ($groups as $group) {
 									// Check if device already has this group
@@ -124,7 +125,7 @@
 					$('.remove_group').click(function() {
 						$(this).myne_api({
 						  method: "removeGroupMember",
-						  params: {"model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
 						});
 						$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
 						var value = parseInt($('.group_count').text());
@@ -134,7 +135,7 @@
 					$('.add_group').click(function() {
 						$(this).myne_api({
 						  method: "addGroupMember",
-						  params: {"model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
 						});
 						$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
 						var value = parseInt($('.group_count').text());
@@ -175,7 +176,7 @@
 						source: function() {
 							var gateways = $(this).myne_api({
 							  method: "getGateways",
-							  params: {"model": "gateways/gateway", "opts":[""]}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "gateways/gateway", "opts":[""]}
 							});
 							response = jQuery.parseJSON(gateways.responseText);
 							
@@ -368,14 +369,14 @@
 							$(this).removeClass('active');
 							$(this).myne_api({
 							  method: "updateTimer",
-							  params: {"model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"0"}}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"0"}}
 							});
 						}
 						else {
 							$(this).addClass('active');
 							$(this).myne_api({
 							  method: "updateTimer",
-							  params: {"model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"1"}}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"1"}}
 							});
 						}
 					});
@@ -383,7 +384,7 @@
 					$('.toggle_task_action').click(function() {
 						$(this).myne_api({
 						  method: "updateTask",
-						  params: {"model": "task", "opts":{"name":$(this).data('name'),"what":"action_opt","new_value":$(this).data('value')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "task", "opts":{"name":$(this).data('name'),"what":"action_opt","new_value":$(this).data('value')}}
 						});
 						
 						if ($(this).data('value') == 'on') {
@@ -407,7 +408,7 @@
 					$('.toggle_task_active').click(function() {
 						$(this).myne_api({
 						  method: "updateTask",
-						  params: {"model": "task", "opts":{"name":$(this).data('name'),"what":"active","new_value":$(this).data('value')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "task", "opts":{"name":$(this).data('name'),"what":"active","new_value":$(this).data('value')}}
 						});
 						
 						if ($(this).data('value') == '0') {
@@ -425,7 +426,7 @@
 					$('.delete_task').click(function() {
 						$(this).myne_api({
 						  method: "deleteTask",
-						  params: {"model": "task", "opts":{"name":$(this).data('name')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "task", "opts":{"name":$(this).data('name')}}
 						});
 						
 						$('#task-single-'+$(this).data('name')).fadeOut();

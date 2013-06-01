@@ -16,29 +16,4 @@ jQuery.fn.myne_api = function(options) {
 	return response;
 	
 };
-$(document).ready(function() {
-	$('.toggle_on').click(function() {
-		$(this).myne_api({
-		  method: "toggle",
-		  params: {"model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"on"}}
-		});
-	});
-	
-	$('.toggle_off').click(function() {
-		$(this).myne_api({
-		  method: "toggle",
-		  params: {"model": "devices/device", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"off"}}
-		});
-	});
-	
-	//~ // Device Edit
-	//~ $('.device_data tr').hover(
-		//~ function() {
-			//~ $(this).find('.edit_device').toggleClass('hide');
-		//~ }
-	//~ );
-	
-	$('.editable').editable();
-});
-
 

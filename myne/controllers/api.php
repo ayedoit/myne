@@ -3,28 +3,54 @@ session_start(); //we need to call PHP's session object to access it through CI
 class API extends CI_Controller {
 	function __construct(){
         parent::__construct();
-        
-        // Check Login
-        if($this->tools->getSettingByName('login') == 'true') {
-			$this->load->model('user');
-			if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+
+		// Check API
+        if($this->tools->getSettingByName('api') != 'true') {
+			show_error('API not activated!');
+			die;
 		}
     }
     
 	public function request($json="") {
+		log_message('debug', 'Request from "'.$_SERVER['REMOTE_ADDR'].'"');
+		log_message('debug',$_SERVER['HTTP_X_REQUESTED_WITH']);
 		if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+			
 			// Check for correct request type
 			// If not JSON, die
 			log_message('error', 'API Error: Wrong request type');
-			show_error('Error. Wrong request type! JSON Only!');
+			show_error('Error. Wrong request type: "'.$_SERVER['HTTP_X_REQUESTED_WITH'].'"');
 			die;
 		} 
+
+		log_message('debug',print_r($_POST,true));
 		
 	    $this->load->model('myne_api');
-		$response = $this->myne_api->request($_POST);
-	    
-	    // Return response
-	    echo $response;
+
+	    if ($this->myne_api->checkAPIKey($_POST['params']['api_key'])) {
+	    	$response = $this->myne_api->request($_POST);
+
+	    	// Return response
+	    	echo $response;
+	    }
+	    else {
+	    	// JSON Error
+	    	$error = array(
+				"code" => "-32602",
+				"message" => "Authentication failed"
+			);
+			
+			$return = array(
+				"jsonrpc" => "2.0",
+				"error" => $error,
+				"id" => "1"
+			);
+			
+			log_message('debug', 'Request: Error');
+			log_message('debug', 'Error: '.$error['message']);
+			
+			echo json_encode($return);
+	    }   
     }
     
     public function notify($json) {  

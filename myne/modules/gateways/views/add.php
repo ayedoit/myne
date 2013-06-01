@@ -66,7 +66,7 @@
 			function(value, element, id_type) {
 				var response = null;
 				// Check ID against API
-				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"model":"tools","opts":[value,id_type]}, "id": 1};
+				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"tools","opts":[value,id_type]}, "id": 1};
 				$.ajax({
 					url: "<?= base_url('api/request'); ?>",
 					type: "post",

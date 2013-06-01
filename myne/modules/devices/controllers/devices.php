@@ -159,7 +159,7 @@
 		//~ else {
 			//~ redirect(base_url(), 'refresh');
 		//~ }
-	}
+	// }
 	
 	// Marked for removal
 	//~ public function type($type){

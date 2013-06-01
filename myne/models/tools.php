@@ -38,9 +38,9 @@ Class tools extends CI_Model {
 		
 		foreach ($query->result() as $row)
 		{
-			$setting[] = $row;
+			$setting = $row;
 		}
-		return $setting;
+		return $setting->value;
 	}
 	
 	//~ $this->load->model('cron');

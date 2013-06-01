@@ -380,16 +380,16 @@
 			
 			// Get entries for selected type
 			if (value == 'group') {
-				var request = {"jsonrpc": "2.0", "method": "getGroups", "params": {"model":"devices/device","opts":[""]}, "id": 2};
+				var request = {"jsonrpc": "2.0", "method": "getGroups", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[""]}, "id": 2};
 			}
 			else if (value == 'device') {
-				var request = {"jsonrpc": "2.0", "method": "getDevices", "params": {"model":"devices/device","opts":[""]}, "id": 2};
+				var request = {"jsonrpc": "2.0", "method": "getDevices", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[""]}, "id": 2};
 			}
 			else if (value == 'room') {
-				var request = {"jsonrpc": "2.0", "method": "getRooms", "params": {"model":"room","opts":[""]}, "id": 2};
+				var request = {"jsonrpc": "2.0", "method": "getRooms", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"room","opts":[""]}, "id": 2};
 			}
 			else if (value == 'type') {
-				var request = {"jsonrpc": "2.0", "method": "getDeviceTypes", "params": {"model":"devices/device","opts":[""]}, "id": 2};
+				var request = {"jsonrpc": "2.0", "method": "getDeviceTypes", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[""]}, "id": 2};
 			}
 
 			$.post("<?= base_url('api/request'); ?>", request, function(data) {
@@ -427,7 +427,7 @@
 			function(value, element, id_type) {
 				var response = null;
 				// Check ID against API
-				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"model":"tools","opts":[value,id_type]}, "id": 1};
+				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"tools","opts":[value,id_type]}, "id": 1};
 				$.ajax({
 					url: "<?= base_url('api/request'); ?>",
 					type: "post",

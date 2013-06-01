@@ -38,7 +38,7 @@
 			);
 			
 			log_message('debug', 'Request: Success');
-			log_message('debug', 'Response: '.$result);
+			log_message('debug', 'Response: '.print_r($result,true));
 			
 			return json_encode($return);
 		} catch (Exception $e) {
@@ -59,6 +59,18 @@
 			
 			return json_encode($return);
 		}
+	}
+
+	public function checkAPIKey($api_key) {
+		$key = $this->tools->getSettingByName('api_key');
+
+		// Check if given API key is equal to the one defined in the database
+		if ($api_key == $key) {
+			log_message('debug', '[myne_api/checkAPIKey] API Key verification successful: "'.$api_key.'"');
+			return true;
+		}
+		log_message('debug', '[myne_api/checkAPIKey] API Key verification failed: "'.$api_key.'"');
+		return false;
 	}
   }
 ?>
