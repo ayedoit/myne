@@ -12,6 +12,7 @@ myne
 * elektrischen Rolläden
 * Bewegungssensoren
 * Kameras
+* Wetterinformationen
 
 [myne](http://myne.ayedo.de/) wurde entwickelt mit dem Ziel, ein **Gateway für lose Einzelkomponenten** bereit zu stellen und dabei auf **offene Software** zu setzen und gleichzeitig selbst so offen zu sein, dass es in andere Umgebungen integriert werden kann. myne hat eine JSON-RPC API die alle internen Funktionen 1:1 abbildet und kann so **in andere Applikationen integriert** werden. Die Idee ist, eine einfache und nach Möglichkeit homogene Schnittstelle für ansonsten fragmentierte Hard- und Software bereitzustellen. **Mit Fokus auf den typischen Endanwender ohne technischen Hintergrund**.
 
