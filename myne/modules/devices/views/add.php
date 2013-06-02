@@ -420,13 +420,17 @@
 				  <?php
 					$options = array();
 					$this->load->model('devices/device');
-					$device_options = $this->device->getOptions();
+
+					// Inherit Options from Device type
+					$device_options = $this->device->getOptionsByDeviceType('1');
 					
+					$selected = array();
 					foreach ($device_options as $option) {
+						$selected = $option->id;
 						$options[$option->id] = $option->clear_name;
 					}
 					$data = 'id="options"';
-					echo form_multiselect('options[]', $options,"1",$data);
+					echo form_multiselect('options[]', $options,$selected,$data);
 				  ?>
 				</div>
 			</div>
@@ -527,7 +531,7 @@
 				$("#devices_vendor option").each(function() {
 					$(this).remove();
 				});
-				
+
 				// Udate vendors
 				$.each(data.result, function (key,val) {
 					$('#devices_vendor')
@@ -537,6 +541,25 @@
 				});
 				
 				$('#devices_vendor').trigger('change');
+			});	
+
+			// Get options for selected type
+			// Get vendors for selected type
+			var request = {"jsonrpc": "2.0", "method": "getOptionsByDeviceType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/device","opts":[value]}, "id": 3};
+			$.post("<?= base_url('api/request'); ?>", request, function(data) {
+				
+				$("#options option").each(function() {
+					$(this).remove();
+				});
+
+				// Udate vendors
+				$.each(data.result, function (key,val) {
+					$('#options')
+					 .append($("<option></option>")
+					 .attr("value",val.id)
+					 .attr("selected","selected")
+					 .text(val.clear_name)); 
+				});
 			});	
 		});
 		

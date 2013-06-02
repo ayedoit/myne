@@ -301,10 +301,48 @@ Class device extends CI_Model {
 		$this->db->delete('device_has_option', array('device_id' => $device->id));
 	}
 	
-	public function getOptionsByDeviceID($id) {
-		$query = $this->db->get_where('device_has_option', array('device_id' => $id));
+	public function getRevokedOptions($device_id) {
+		$query = $this->db->get_where('device_revoke_option', array('device_id' => $device_id));
 		
-		log_message('debug', 'Polling device options for device with ID "'.$id.'" from database');
+		log_message('debug', 'Polling revoked device options for device with ID "'.$device_id.'" from database');
+		
+		$options = array();
+		foreach ($query->result() as $row)
+		{
+			$option_data = $this->getOptionByID($row->option_id);
+			$options[$option_data->name] = $option_data;
+			
+		}
+		return $options;
+	}
+
+	public function deviceHasOption($device_name,$option_name) {
+		log_message('debug', 'Determining if device with name "'.$device_name.'" has option "'.$option_name.'"');
+
+		// Get device
+		$device = $this->getDeviceByName($device_name);
+
+		// Check options by device type
+		$options = $this->getOptionsByDeviceType($device->type);
+
+		if (array_key_exists($option_name,$options)) {
+			// Device has requested option inherited from device type
+			log_message('debug', 'Device with name "'.$device_name.'" has option "'.$option_name.'".');
+
+			// Checking if option is revoked for this device specifically
+			if (array_key_exists($option_name, $this->getRevokedOptions($device->id))) {
+				log_message('debug', 'Device with name "'.$device_name.'" has revoked option "'.$option_name.'".');
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public function getOptionsByDeviceType($id) {
+		$query = $this->db->get_where('device_type_has_option', array('device_type_id' => $id));
+		
+		log_message('debug', 'Polling device type options for device with ID "'.$id.'" from database');
 		
 		$options = array();
 		foreach ($query->result() as $row)
@@ -468,14 +506,12 @@ Class device extends CI_Model {
 	    
 			// Toggle each Device
 			foreach ($devices as $device) {	
-				// Get options
-				$options = $this->getOptionsByDeviceID($device->id);
 				
 				log_message('debug', '['.$device->clear_name.'] Attempting to set status "'.$status.'"');
 				log_message('debug', '['.$device->clear_name.'] Checking permissions');
 				
 				// If device has option "toggle", toggle it
-				if (array_key_exists('toggle', $options)) {	
+				if ($this->deviceHasOption($device->name,"toggle")) {	
 					log_message('debug', '['.$device->clear_name.'] Has option "toggle"');
 						
 					// Get Vendor

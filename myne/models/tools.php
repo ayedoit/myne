@@ -40,6 +40,7 @@ Class tools extends CI_Model {
 		{
 			$setting = $row;
 		}
+		log_message('debug','Setting "'.$name.'" has value "'.$setting->value.'"');
 		return $setting->value;
 	}
 	
