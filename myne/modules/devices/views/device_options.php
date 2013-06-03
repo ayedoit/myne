@@ -1,7 +1,6 @@
 <div class="row-fluid">
 	<?php
 	// Get Device Type Options
-	$options = $this->device->getOptionsByDeviceID($device->id);
 	$device_type = $this->device->getTypeByID($device->type);
 
 		echo "<ul class='inline'>";
@@ -10,7 +9,7 @@
 		echo "<hr>";
 		
 		// If "toggle" is set
-		if (array_key_exists('toggle',$options)) {
+		if ($this->device->deviceHasOption($device->name,"toggle")) {
 		echo "<li>";
 		  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a> ";
 		  echo "<a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-danger' title='".$device->clear_name." anschalten.' ><i class='icon-off icon-white'></i></a>";
