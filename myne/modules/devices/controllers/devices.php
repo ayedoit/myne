@@ -370,9 +370,9 @@
 					}
 					
 					// Tasks / Options
-					foreach($_POST['options'] as $option) {
-						$this->device->addDeviceOptionPair($device_id,$option);
-					}
+					// foreach($_POST['options'] as $option) {
+					// 	$this->device->addDeviceOptionPair($device_id,$option);
+					// }
 					
 					// Done!
 					redirect(base_url('devices/show/'.$device_data['name']), 'refresh');

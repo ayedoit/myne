@@ -533,6 +533,16 @@ Class device extends CI_Model {
 								throw new Exception($e->getMessage());
 							}
 							break;
+						case 'pollin':
+							$this->load->model('devices/pollin'); 
+							try {
+								$msg = $this->pollin->msg($device,$status); 
+								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+							} catch (Exception $e) {
+								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+								throw new Exception($e->getMessage());
+							}
+							break;
 						case 'intertechno':
 							$this->load->model('devices/intertechno'); 
 							try {
