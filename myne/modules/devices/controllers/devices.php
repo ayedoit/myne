@@ -87,7 +87,7 @@
 			    
 		$this->load->library('page');
 		$html = $this->load->view('title',array('title' => $group->clear_name),true);
-		$html = $this->load->view('group',array('group' => $group),true);
+		$html .= $this->load->view('group',array('group' => $group),true);
 		$this->page->show($html);
 	}
 	
