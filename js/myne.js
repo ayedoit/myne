@@ -10,10 +10,17 @@ jQuery.fn.myne_api = function(options) {
 		async: false,
 		success: function(data) {
 			return data;
+		},
+		fail: function(data) { 
+			alert(data); 
 		} 
 	});
 	
 	return response;
 	
 };
-
+jQuery.fn.myne_notify = function(options) {
+	$('#myne_notify').removeClass('notify-info').addClass('notify-'+options.class).clearQueue().stop(true,false).text(options.text).fadeIn('fast', 'linear', function() {
+		$(this).delay(1500).fadeOut('400');
+	});
+};

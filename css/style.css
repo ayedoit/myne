@@ -1,6 +1,31 @@
 body {
-	padding-top: 60px;
+	padding-top: 40px;
 }
+
+#myne_notify {
+	position: fixed;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  z-index: 1031;
+  margin: 0;
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+}
+.notify-error {
+  background: #ee5f5b;
+}
+.notify-warning {
+  background: #ee5f5b;
+}
+.notify-info {
+  background: #5bc0de;
+}
+.notify-success {
+  background: #62c462;
+}
+
 label.valid {
   width: 24px;
   height: 24px;

@@ -123,3 +123,4 @@
         </div>
       </div>
     </div>
+    <div class="hide notify-info" id="myne_notify"></div>

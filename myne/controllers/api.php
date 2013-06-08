@@ -28,17 +28,37 @@ class API extends CI_Controller {
 		
 	    $this->load->model('myne_api');
 
-	    if ($this->myne_api->checkAPIKey($_POST['params']['api_key'])) {
-	    	$response = $this->myne_api->request($_POST);
+	    if (isset($_POST['params']['api_key']) && trim($_POST['params']['api_key']) != '') {
+		    if ($this->myne_api->checkAPIKey($_POST['params']['api_key'])) {
+		    	$response = $this->myne_api->request($_POST);
 
-	    	// Return response
-	    	echo $response;
-	    }
+		    	// Return response
+		    	echo $response;
+		    }
+		    else {
+		    	// JSON Error
+		    	$error = array(
+					"code" => "-32602",
+					"message" => "API Authentication failed"
+				);
+				
+				$return = array(
+					"jsonrpc" => "2.0",
+					"error" => $error,
+					"id" => "1"
+				);
+				
+				log_message('debug', 'Request: Error');
+				log_message('debug', 'Error: '.$error['message']);
+				
+				echo json_encode($return);
+		    }
+		}
 	    else {
 	    	// JSON Error
 	    	$error = array(
 				"code" => "-32602",
-				"message" => "Authentication failed"
+				"message" => "API Authentication failed"
 			);
 			
 			$return = array(
