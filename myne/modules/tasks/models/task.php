@@ -19,6 +19,7 @@ Class task extends CI_Model {
 		
 		log_message('debug', 'Polling task with ID "'.$id.'" from database');
 		
+		$task = "";
 		foreach ($query->result() as $row)
 		{
 			$task = $row;
@@ -31,6 +32,7 @@ Class task extends CI_Model {
 		
 		log_message('debug', 'Polling task with name "'.$name.'" from database');
 		
+		$task = "";
 		foreach ($query->result() as $row)
 		{
 			$task = $row;

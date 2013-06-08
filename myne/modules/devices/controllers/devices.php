@@ -62,6 +62,11 @@
 		// Get device
 		$this->load->model('device');
 		$device = $this->device->getDeviceByName($device);
+
+		if (empty($device) || sizeof($device) == 0) {
+			show_404();
+			die;
+		}
 			    
 		$this->load->library('page');
 		$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
@@ -74,6 +79,11 @@
 		// Get device
 		$this->load->model('device');
 		$group = $this->device->getGroupByName($group);
+
+		if (empty($group) || sizeof($group) == 0) {
+			show_404();
+			die;
+		}
 			    
 		$this->load->library('page');
 		$html = $this->load->view('title',array('title' => $group->clear_name),true);

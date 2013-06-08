@@ -24,6 +24,7 @@ Class timer extends CI_Model {
 		
 		log_message('debug', 'Polling timer with ID "'.$id.'" from database');
 		
+		$timer = "";
 		foreach ($query->result() as $row)
 		{
 			$timer = $row;

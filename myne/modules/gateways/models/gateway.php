@@ -67,6 +67,7 @@ Class gateway extends CI_Model {
 		
 		log_message('debug', 'Polling gateway with name "'.$name.'" from database');
 
+		$gateway = "";
 		foreach ($query->result() as $row)
 		{
 			$gateway = $row;
@@ -95,6 +96,7 @@ Class gateway extends CI_Model {
 		
 		log_message('debug', 'Polling gateway type with ID "'.$id.'" from database');
 		
+		$gateway = "";
 		foreach ($query->result() as $row)
 		{
 			$gateway_type = $row;
@@ -107,6 +109,7 @@ Class gateway extends CI_Model {
 		
 		log_message('debug', 'Polling gateway with ID "'.$id.'" from database');
 		
+		$gateway = "";
 		foreach ($query->result() as $row)
 		{
 			$gateway = $row;

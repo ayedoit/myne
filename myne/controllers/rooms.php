@@ -21,7 +21,12 @@ class Rooms extends CI_Controller {
 		// Get room
 		$this->load->model('room');
 		$room = $this->room->getRoomByName($room);
-			    
+		
+		if (empty($room) || sizeof($room) == 0) {
+			show_404();
+			die;
+		}
+
 		$this->load->library('page');
 		$html = $this->load->view('title',array('title' => $room->clear_name),true);
 		$html .= $this->load->view('room',array('room' => $room),true);

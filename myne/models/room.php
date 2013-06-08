@@ -20,7 +20,6 @@ Class room extends CI_Model {
 	}
 	
 	public function getRoomsByName($name) {
-		$this->load->database();
 		$this->db->select('*');
 		$this->db->from('rooms');
 		$this->db->like('name',$name);
@@ -38,9 +37,9 @@ Class room extends CI_Model {
 	
 	public function getRoomByID($id) {
 		$query = $this->db->get_where('rooms', array('id' => $id));
-				
-		foreach ($query->result() as $row)
-		{
+		
+		$room = "";	
+		foreach ($query->result() as $row) {
 			$room = $row;
 		}
 		
@@ -51,9 +50,9 @@ Class room extends CI_Model {
 	
 	public function getRoomByName($name) {
 		$query = $this->db->get_where('rooms', array('name' => $name));
-				
-		foreach ($query->result() as $row)
-		{
+		
+		$room = "";
+		foreach ($query->result() as $row) {
 			$room = $row;
 		}
 		
@@ -69,8 +68,8 @@ Class room extends CI_Model {
 		$this->db->order_by('id','DESC');
 		$query = $this->db->get();
 		
-		foreach ($query->result() as $row)
-		{
+		$room = "";
+		foreach ($query->result() as $row) {
 			$room = $row;
 		}
 		

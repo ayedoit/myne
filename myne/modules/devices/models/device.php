@@ -136,6 +136,7 @@ Class device extends CI_Model {
 		
 		log_message('debug', 'Polling device type with name "'.$name.'" from database');
 		
+		$device_type = "";
 		foreach ($query->result() as $row)
 		{
 			$device_type = $row;
@@ -148,6 +149,7 @@ Class device extends CI_Model {
 		
 		log_message('debug', 'Polling device type with ID "'.$id.'" from database');
 		
+		$device_type = "";
 		foreach ($query->result() as $row)
 		{
 			$device_type = $row;
@@ -173,12 +175,12 @@ Class device extends CI_Model {
 		
 		log_message('debug', 'Polling device types from database');
 		
-		$types = array();
+		$$device_types = array();
 		foreach ($query->result() as $row)
 		{
-			$types[] = $row;
+			$device_types[] = $row;
 		}
-		return $types;
+		return $device_types;
 	}
 	
 	public function getDevicesByName($name) {
@@ -202,6 +204,7 @@ Class device extends CI_Model {
 				
 		log_message('debug', 'Polling device with name "'.$name.'" from database');
 		
+		$device = "";
 		foreach ($query->result() as $row)
 		{
 			$device = $row;
@@ -229,7 +232,8 @@ Class device extends CI_Model {
 		$query = $this->db->get_where('vendors',array('id' => $id));
 		
 		log_message('debug', 'Polling vendor with ID "'.$id.'" from database');
-				
+		
+		$vendor = "";		
 		foreach ($query->result() as $row)
 		{
 			$vendor = $row;
@@ -255,6 +259,7 @@ Class device extends CI_Model {
 				
 		log_message('debug', 'Polling device group with name "'.$name.'" from database');
 		
+		$group ="";
 		foreach ($query->result() as $row)
 		{
 			$group = $row;
@@ -279,7 +284,8 @@ Class device extends CI_Model {
 		$query = $this->db->get_where('device_options',array('id' => $id));
 		
 		log_message('debug', 'Polling device option with ID "'.$id.'" from database');
-				
+		
+		$option = "";	
 		foreach ($query->result() as $row)
 		{
 			$option = $row;

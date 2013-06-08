@@ -33,6 +33,11 @@
 		// Get device
 		$this->load->model('gateway');
 		$gateway = $this->gateway->getGatewayByName($gateway);
+
+		if (empty($gateway) || sizeof($gateway) == 0) {
+			show_404();
+			die;
+		}
 			    
 		$this->load->library('page');
 		$html = $this->load->view('title',array('icon' => $this->gateway->getGatewayTypeByID($gateway->type),'title' => $gateway->clear_name),true);
