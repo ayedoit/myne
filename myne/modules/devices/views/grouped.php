@@ -1,13 +1,19 @@
 <?php
-// Rooms
-$this->load->view('devices/devices_by_room'); 
+echo "<div class='row-fluid'>";
+	// Rooms
+	$this->load->view('devices/devices_by_room'); 
 
-// Types
-$this->load->view('devices/devices_by_type'); 
+	// Types
+	$this->load->view('devices/devices_by_type'); 
+echo "</div>";
 
-// Groups
-$this->load->view('devices/devices_by_group'); 
+echo "<hr>";
 
-// Gateways
-$this->load->view('devices/devices_by_gateway'); 
+echo "<div class='row-fluid'>";
+	// Groups
+	$this->load->view('devices/devices_by_group'); 
+
+	// Gateways
+	$this->load->view('devices/devices_by_gateway'); 
+echo "</div>";
 ?>

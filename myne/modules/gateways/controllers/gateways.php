@@ -40,7 +40,7 @@
 		}
 			    
 		$this->load->library('page');
-		$html = $this->load->view('title',array('icon' => $this->gateway->getGatewayTypeByID($gateway->type),'title' => $gateway->clear_name),true);
+		$html = $this->load->view('title',array('icon' => $gateway->icon,'title' => $gateway->clear_name),true);
 		$html .= $this->load->view('gateway',array('gateway' => $gateway),true);
 		$this->page->show($html);
 	}
@@ -98,7 +98,7 @@
 		else {
 			if ($status == 'confirm') {
 				$this->load->library('page');
-				$html = $this->load->view('title',array('icon' => $this->gateway->getGatewayTypeByID($gateway->type),'title' => $gateway->clear_name),true);
+				$html = $this->load->view('title',array('icon' => $gateway->icon,'title' => $gateway->clear_name),true);
 				$html .= $this->load->view('gateways/confirm_delete',array('gateway' => $gateway),true);
 				$html .= $this->load->view('gateways/gateway_delete', array('gateway' => $gateway),true);
 				$this->page->show($html);

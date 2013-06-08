@@ -1,8 +1,8 @@
-<div class="row-fluid">
+<div class="row-fluid span6">
 	<?php
 		$this->load->model('devices/device');
 		if (isset($group) && !empty($group)) {
-			echo '<div class="span6 group">';
+			echo '<div class="span12 group">';
 				echo '<span class="groupname">';
 					echo '<li class="dropdown">';
 						echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$group->clear_name.' <b class="caret"></b></a>';
@@ -24,7 +24,7 @@
 						foreach ($devices as $device) {
 							echo "<li class='clearfix'>";
 								$type = $this->device->getTypeByID($device->type);
-								echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$type->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
+								echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 								echo "<div class='pull-right'>";	
 									// Options
 									if ($this->device->deviceHasOption($device->name,"toggle")) {
@@ -49,7 +49,7 @@
 			
 			if (sizeof($groups) > 0) {
 				foreach ($groups as $group) {
-					echo '<div class="span3 group">';
+					echo '<div class="span5 group">';
 						echo '<span class="groupname">';
 							echo '<li class="dropdown">';
 								echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$group->clear_name.' <b class="caret"></b></a>';
@@ -73,7 +73,7 @@
 								foreach ($devices as $device) {
 									echo "<li class='clearfix'>";
 										$type = $this->device->getTypeByID($device->type);
-										echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$type->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
+										echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 										echo "<div class='pull-right'>";	
 											// Options
 											if ($this->device->deviceHasOption($device->name,"toggle")) {

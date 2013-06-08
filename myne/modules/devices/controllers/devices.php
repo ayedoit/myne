@@ -69,7 +69,7 @@
 		}
 			    
 		$this->load->library('page');
-		$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
+		$html = $this->load->view('title',array('icon' => $device->icon,'title' => $device->clear_name),true);
 		$html .= $this->load->view('device',array('device' => $device),true);
 		$html .= $this->load->view('device_options', array('device' => $device),true);
 		$this->page->show($html);
@@ -463,7 +463,7 @@
 			else {
 				if ($status == 'confirm') {
 					$this->load->library('page');
-					$html = $this->load->view('title',array('icon' => $this->device->getTypeByID($device->type),'title' => $device->clear_name),true);
+					$html = $this->load->view('title',array('icon' => $device->icon,'title' => $device->clear_name),true);
 					$html .= $this->load->view('devices/confirm_delete',array('device' => $device),true);
 					$html .= $this->load->view('devices/device_delete', array('device' => $device),true);
 					$this->page->show($html);
