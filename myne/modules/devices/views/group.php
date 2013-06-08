@@ -25,6 +25,36 @@
 		    <?php
 			}
 			?>
+
+			<tr>
+				<td><b>Gruppenaktionen</b></td>
+				<td>
+					<li class="dropdown group_dropdown">
+					<?php
+						$this->load->model('devices/device');
+						$group_options = $this->device->getOptionsByGroup($group->id);
+						$option_count = sizeof($group_options);
+						
+						$options = $this->device->getOptions();
+					?>
+					<a class="dropdown-toggle" data-toggle="dropdown"><span class="option_count"><?= $option_count ?></span> Aktion(en) <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li class="nav-header">Mögl. Aktionen</li>
+							<?php
+								foreach ($options as $option) {
+									// Check if device already has this option
+									if ($this->device->groupHasOption($group->name,$option->name)) {
+										echo '<li><a id="option-'.$option->id.'" data-group="'.$group->id.'" data-id="'.$option->id.'" class="remove_option"><i class="indicator icon-ok"></i> '.$option->clear_name.'</a></li>';
+									}
+									else {
+										echo '<li><a id="option-'.$option->id.'" data-group="'.$group->id.'" data-id="'.$option->id.'" class="add_option"><i class="indicator"></i> '.$option->clear_name.'</a></li>';
+									}
+								}
+							?>
+						</ul>
+					</li>
+				</td>
+			</tr>	
 		</table>
 	</div>
 	
@@ -42,3 +72,26 @@
 	echo "</ul>";
 	?>
 </div>
+<script>
+	$(document).ready(function() {
+		$('.remove_option').click(function() {
+			$(this).myne_api({
+			  method: "removeGroupOption",
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group'),"option_id":$(this).data('id')}}
+			});
+			$('#option-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+			var value = parseInt($('.option_count').text());
+			$('.option_count').text(value-1);
+		});
+		
+		$('.add_option').click(function() {
+			$(this).myne_api({
+			  method: "addGroupOption",
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group'),"option_id":$(this).data('id')}}
+			});
+			$('#option-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+			var value = parseInt($('.option_count').text());
+			$('.option_count').text(value+1);
+		});
+	});
+</script>

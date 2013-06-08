@@ -93,7 +93,7 @@
 				<td>
 					<li class="dropdown group_dropdown">
 					<?php
-						$this->load->model('device');
+						$this->load->model('devices/device');
 						$device_groups = $this->device->getGroupsByDevice($device->id);
 						$group_count = sizeof($device_groups);
 						

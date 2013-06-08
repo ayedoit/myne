@@ -4,11 +4,16 @@
 			echo '<div class="span6 group">';
 				echo '<span class="groupname">';	
 					echo '<li class="dropdown">';
-						echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$type->clear_name.' <b class="caret"></b></a>';
-						echo '<ul class="dropdown-menu">';
-							echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
-							echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
-						echo '</ul>';
+						if ($this->device->deviceTypeHasOption($type->name,'toggle')) {	
+							echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$type->clear_name.' <b class="caret"></b></a>';
+							echo '<ul class="dropdown-menu">';
+								echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
+								echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+							echo '</ul>';
+						}
+						else {
+							echo $type->clear_name;
+						}
 					echo '</li>';
 				echo '</span>';
 				
@@ -47,11 +52,16 @@
 					echo '<div class="span3 group">';
 						echo '<span class="groupname">';
 							echo '<li class="dropdown">';
-								echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$type->clear_name.' <b class="caret"></b></a>';
-								echo '<ul class="dropdown-menu">';
-									echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
-									echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
-								echo '</ul>';
+								if ($this->device->deviceTypeHasOption($type->name,'toggle')) {	
+									echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$type->clear_name.' <b class="caret"></b></a>';
+									echo '<ul class="dropdown-menu">';
+										echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
+										echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+									echo '</ul>';
+								}
+								else {
+									echo $type->clear_name;
+								}
 							echo '</li>';
 						echo '</span>';
 						

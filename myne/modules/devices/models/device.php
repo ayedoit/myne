@@ -175,7 +175,7 @@ Class device extends CI_Model {
 		
 		log_message('debug', 'Polling device types from database');
 		
-		$$device_types = array();
+		$device_types = array();
 		foreach ($query->result() as $row)
 		{
 			$device_types[] = $row;
@@ -211,6 +211,19 @@ Class device extends CI_Model {
 		}
 		return $device;
 	}
+
+	public function getDeviceTypeByName($name) {
+		$query = $this->db->get_where('device_types',array('name' => $name));
+				
+		log_message('debug', 'Polling device type with name "'.$name.'" from database');
+		
+		$device_type = "";
+		foreach ($query->result() as $row)
+		{
+			$device_type = $row;
+		}
+		return $device_type;
+	}
 	
 	public function getDevicesByID($ids) {
 		$this->db->select('*');
@@ -226,6 +239,28 @@ Class device extends CI_Model {
 			$devices[] = $row;
 		}
 		return $devices;
+	}
+
+	public function getDevicesByOptions($options) {
+		$devices = $this->getDevices();
+
+		$return = array();
+		foreach($devices as $device) {
+			$device_has_options = true;
+			foreach($options as $option) {
+				$r_option = $this->getOptionByID($option);
+
+				// Check if device has option
+				if (!$this->deviceHasOption($device->name,$r_option->name)) {
+					$device_has_options = false;
+				}
+			}
+			if ($device_has_options) {
+				$return[] = $device;
+			}
+		}
+
+		return $return;
 	}
 	
 	public function getVendorByID($id) {
@@ -300,11 +335,25 @@ Class device extends CI_Model {
 		
 		return $this->db->insert_id();
 	}
-	
-	public function removeDeviceOptionPair($device_id,$option_id) {
-		log_message('debug', 'Remvoving option with ID "'.$option_id.'" for device with ID "'.$device_id.'" from database');
+
+	public function addGroupOption($group_id,$option_id) {
+		$query = $this->db->insert('group_has_option',array('group_id' => $group_id,'option_id' => $option_id));
 		
-		$this->db->delete('device_has_option', array('device_id' => $device->id));
+		log_message('debug', 'Adding option with ID "'.$option_id.'" for group with ID "'.$group_id.'" to database');
+		
+		return $this->db->insert_id();
+	}
+
+	public function removeGroupOption($group_id,$option_id) {
+		$query = $this->db->delete('group_has_option',array('group_id' => $group_id,'option_id' => $option_id));
+		
+		log_message('debug', 'Removing option with ID "'.$option_id.'" for group with ID "'.$group_id.'" from database');
+	}
+	
+	public function removeDeviceOptionRevokation($device_id,$option_id) {
+		log_message('debug', 'Remvoving revoke of option with ID "'.$option_id.'" for device with ID "'.$device_id.'" from database');
+		
+		$this->db->delete('device_revoke_option', array('device_id' => $device->id, 'option' => $option_id));
 	}
 	
 	public function getRevokedOptions($device_id) {
@@ -320,6 +369,40 @@ Class device extends CI_Model {
 			
 		}
 		return $options;
+	}
+
+	public function groupHasOption($group_name,$option_name) {
+		log_message('debug', 'Determining if group with name "'.$group_name.'" has option "'.$option_name.'"');
+
+		// Get device
+		$group = $this->getGroupByName($group_name);
+
+		// Check options by group
+		$options = $this->getOptionsByGroup($group->id);
+
+		if (array_key_exists($option_name,$options)) {
+			// Device has requested option inherited from device type
+			log_message('debug', 'Group with name "'.$group_name.'" has option "'.$option_name.'".');
+			return true;
+		}
+		return false;
+	}
+
+	public function deviceTypeHasOption($device_type_name,$option_name) {
+		log_message('debug', 'Determining if device type with name "'.$device_type_name.'" has option "'.$option_name.'"');
+
+		// Get device type
+		$device_type = $this->getDeviceTypeByName($device_type_name);
+
+		// Check options by device type
+		$options = $this->getOptionsByDeviceType($device_type->id);
+
+		if (array_key_exists($option_name,$options)) {
+			// Device has requested option inherited from device type
+			log_message('debug', 'Device type with name "'.$device_type_name.'" has option "'.$option_name.'".');
+			return true;
+		}
+		return false;
 	}
 
 	public function deviceHasOption($device_name,$option_name) {
@@ -360,7 +443,7 @@ Class device extends CI_Model {
 		return $options;
 	}
 	
-	public function getOptionsByGroupID($id) {
+	public function getOptionsByGroup($id) {
 		$query = $this->db->get_where('group_has_option', array('group_id' => $id));
 		
 		log_message('debug', 'Polling device group options for device group with ID "'.$id.'" from database');
@@ -402,7 +485,7 @@ Class device extends CI_Model {
 			'device_id' => $device_id
 		);
 		
-		log_message('debug', 'Adding device with ID "'.$device_id.'" to device group with ID "'.$id.'" to database');
+		log_message('debug', 'Adding device with ID "'.$group_id.'" to device group with ID "'.$device_id.'" to database');
 		
 		$this->db->insert('device_group_members', $data); 
 	}
@@ -443,11 +526,11 @@ Class device extends CI_Model {
 		
 		
 		log_message('debug', 'Removing device options for device with ID "'.$device->id.'" from database');
-		$options = $this->getOptionsByDeviceID($device->id);
+		$options = $this->getRevokedOptions($device->id);
 		
 		if (sizeof($options) != 0) {
 			foreach ($options as $option) {
-				$this->removeDeviceOptionPair($device->id,$option->id);
+				$this->removeDeviceOptionRevokation($device->id,$option->id);
 			}
 		}
 		
@@ -488,6 +571,15 @@ Class device extends CI_Model {
 			}
 		}
 		
+		// Remove options
+		$options = $this->getOptionsByGroup($group->id);
+		
+		if (sizeof($options) != 0) {
+			foreach ($options as $option) {
+				$this->removeGroupOption($group->id,$option->id);
+			}
+		}
+
 		// Delete group
 		log_message('debug', 'Removing device group with name "'.$name.'" from database');
 		$this->db->delete('device_groups', array('name' => $name)); 

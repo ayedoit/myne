@@ -8,6 +8,9 @@
 						echo '<ul class="dropdown-menu">';
 							echo "<li><a data-type='room' data-name='".$room->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
 							echo "<li><a data-type='room' data-name='".$room->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+							echo '<li class="divider"></li>';
+							echo '<li class="nav-header">Verwaltung</li>';
+							echo '<li><a href="'.base_url("rooms/show").'/'.$room->name.'"><i class="icon-share-alt"></i> Raum anzeigen</a></li>';
 						echo '</ul>';
 					echo '</li>';
 				echo '</span>';
@@ -51,6 +54,9 @@
 								echo '<ul class="dropdown-menu">';
 									echo "<li><a data-type='room' data-name='".$room->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
 									echo "<li><a data-type='room' data-name='".$room->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+									echo '<li class="divider"></li>';
+									echo '<li class="nav-header">Verwaltung</li>';
+									echo '<li><a href="'.base_url("rooms/show").'/'.$room->name.'"><i class="icon-share-alt"></i> Raum anzeigen</a></li>';
 								echo '</ul>';
 							echo '</li>';
 						echo '</span>';

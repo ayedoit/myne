@@ -419,8 +419,20 @@
 					);	
 
 					// Insert!
-					$device_id = $this->device->addGroup($group_data);
-						
+					$group_id = $this->device->addGroup($group_data);
+
+					// Tasks / Options
+					foreach($_POST['groups_options'] as $option_id) {
+						$this->device->addGroupOption($group_id,$option_id);
+					}
+
+					// Members
+					if (sizeof($_POST['groups_devices']) != 0) {
+						foreach ($_POST['groups_devices'] as $device) {
+							$this->device->addGroupMember($group_id,$device);
+						}
+					}
+					
 					// Done!
 					redirect(base_url('devices/showgroup/'.$group_data['name']), 'refresh');
 				}

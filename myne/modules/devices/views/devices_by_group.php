@@ -1,19 +1,24 @@
 <div class="row-fluid">
 	<?php
+		$this->load->model('devices/device');
 		if (isset($group) && !empty($group)) {
 			echo '<div class="span6 group">';
-				echo '<span class="groupname">';	
+				echo '<span class="groupname">';
 					echo '<li class="dropdown">';
 						echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$group->clear_name.' <b class="caret"></b></a>';
 						echo '<ul class="dropdown-menu">';
-							echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
-							echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+							if ($this->device->groupHasOption($group->name,'toggle')) {	
+								echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
+								echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+								echo '<li class="divider"></li>';
+							}
+							echo '<li class="nav-header">Verwaltung</li>';
+							echo '<li><a href="'.base_url("devices/showgroup/").'/'.$group->name.'"><i class="icon-share-alt"></i> Gruppe anzeigen</a></li>';
 						echo '</ul>';
 					echo '</li>';
 				echo '</span>';
 				
 				echo '<ul class="unstyled devicelist">';
-					$this->load->model('devices/device');
 					$devices = $this->device->getDevicesByGroup($group->id);
 					if (sizeof($devices) > 0) {
 						foreach ($devices as $device) {
@@ -49,8 +54,13 @@
 							echo '<li class="dropdown">';
 								echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$group->clear_name.' <b class="caret"></b></a>';
 								echo '<ul class="dropdown-menu">';
-									echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
-									echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+									if ($this->device->groupHasOption($group->name,'toggle')) {	
+										echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
+										echo "<li><a data-type='group' data-name='".$group->name."' class='toggle_off' title='Aus'><i class='icon-off'></i> Aus</a></li>";
+										echo '<li class="divider"></li>';
+									}
+									echo '<li class="nav-header">Verwaltung</li>';
+									echo '<li><a href="'.base_url("devices/showgroup/").'/'.$group->name.'"><i class="icon-share-alt"></i> Gruppe anzeigen</a></li>';
 								echo '</ul>';
 							echo '</li>';
 						echo '</span>';

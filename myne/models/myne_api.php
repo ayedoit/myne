@@ -24,7 +24,7 @@
 		log_message('debug', 'API Call from '.$remote_ip);
 		log_message('debug', 'Method: '.$method);
 		log_message('debug', 'Model: '.$model);
-		log_message('debug', 'Opts: '.implode(",", $opts));
+		log_message('debug', 'Opts: '.print_r($opts,true));
 		
 		// Call function
 		$model = $this->load->model($model);
