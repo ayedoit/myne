@@ -45,6 +45,14 @@ $(document).ready(function() {
 			});
 		}
 	});	
-	$('.editable').editable();
+	$('.editable').editable({
+	    mode: 'popup',
+	    success: function(response, newValue) {
+		    $(this).myne_notify({
+				"text":"Einstellungen gespeichert",
+				"class":"success"
+			});
+		}
+	});
 });
 </script>

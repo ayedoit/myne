@@ -43,6 +43,22 @@ Class tools extends CI_Model {
 		log_message('debug','Setting "'.$name.'" has value "'.$setting->value.'"');
 		return $setting->value;
 	}
+
+	public function updateSettings($what,$new_value) {
+		$data = array(
+		   "value" => $new_value
+		);
+		
+		$this->db->where('name', $what);
+		try {
+			$this->db->update('settings', $data);
+			log_message('debug', 'Updating Settings, setting "'.$what.'" to "'.$new_value.'" in database');
+			return true;
+		}  catch (Exception $e) {
+			log_message('debug', 'Updating Settings, setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
+			throw new Exception($e->getMessage());
+		}
+	}
 	
 	//~ $this->load->model('cron');
 					//~ $cron = $this->cron->onDayOfWeek('sat,sun');

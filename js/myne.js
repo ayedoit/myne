@@ -21,6 +21,6 @@ jQuery.fn.myne_api = function(options) {
 };
 jQuery.fn.myne_notify = function(options) {
 	$('#myne_notify').removeClass('notify-info').addClass('notify-'+options.class).clearQueue().stop(true,false).text(options.text).fadeIn('fast', 'linear', function() {
-		$(this).delay(1500).fadeOut('400');
+		$(this).delay(2500).fadeOut('400');
 	});
 };

@@ -83,6 +83,12 @@
 							});
 							
 							return data;
+						},
+						success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
 						}
 					});
 				});
@@ -190,6 +196,12 @@
 							});
 							
 							return data;
+						},
+						success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
 						}
 					});
 				});
