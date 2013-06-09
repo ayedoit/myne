@@ -38,7 +38,7 @@
 			<tr>
 				<td><b>API Key</b></td>
 				<td>
-				  	<?php echo $this->tools->getSettingByName('api_key'); ?>
+				  	<a class="editable" id="settings-api_key" data-type="text" data-pk="api_key" data-url="<?php echo base_url(); ?>settings/update" data-original-title="API Key"><?= $this->tools->getSettingByName('api_key'); ?></a>
 				</td>
 			</tr>
 		</table>

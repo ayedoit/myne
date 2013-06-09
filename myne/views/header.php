@@ -113,6 +113,10 @@
 					<li><a href="<?= base_url('devices/addgroup/new') ?>"><i class='icon-plus'></i> Gruppe anlegen</a></li>
 				  </ul>
 				</li>
+
+				<li class="<?php $class = (current_url() == base_url('settings')) ? 'active': ""; echo $class; ?>">
+				  <a href="<?= base_url('settings') ?>"><i class='icon-wrench icon-white'></i> Einstellungen</a>
+				</li>
 			</ul>
 <!--
             <p class="navbar-text pull-right">
