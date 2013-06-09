@@ -52,6 +52,12 @@ $(document).ready(function() {
 				"text":"Einstellungen gespeichert",
 				"class":"success"
 			});
+		},
+		error: function(response, newValue) {
+		    $(this).myne_notify({
+				"text":"Einstellungen nicht gespeichert",
+				"class":"error"
+			});
 		}
 	});
 });
