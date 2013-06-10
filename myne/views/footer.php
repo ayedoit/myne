@@ -2,7 +2,7 @@
 </html>
 <script>
 $(document).ready(function() {
-	$('.toggle_on').click(function() {
+	$(document).on('click', '.toggle_on', function() {
 	    var response = $(this).myne_api({
 		  method: "toggle",
 		  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"on"}}
@@ -23,8 +23,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-	
-	$('.toggle_off').click(function() {
+	$(document).on('click', '.toggle_off', function() {
 		var response = $(this).myne_api({
 		  method: "toggle",
 		  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"off"}}

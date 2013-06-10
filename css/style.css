@@ -90,6 +90,9 @@ label.error {
 .groupname li.dropdown a{
 	cursor: pointer;
 }
+.href {
+  cursor: pointer;
+}
 .groupname li.dropdown a:hover {
 	text-decoration: none;
 }

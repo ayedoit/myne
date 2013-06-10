@@ -69,6 +69,33 @@
 	<?php
 	echo "<ul class='inline'>";
 		echo "<li><a class='btn btn-danger' href='".base_url('devices/delete/group/'.$group->name.'/confirm')."' title='Löschen'><i class='icon-remove-circle icon-white'></i> Löschen</a></li>";
+		?>
+		<div class="btn-group">
+		  <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+		    Gerät hinzufügen
+		    <span class="caret"></span>
+		  </a>
+		  <ul class="dropdown-menu">
+		    <?php
+		    	$g_options = $this->device->getOptionsByGroup($group->id);
+
+		    	$options = array();
+		    	foreach ($g_options as $option) {
+		    		$options[] = $option->id;
+		    	}
+
+		    	$devices = $this->device->getDevicesByOptions($options);
+
+		    	foreach ($devices as $device) {
+		    		// Check if device already has this group
+		    		if (!$this->device->deviceHasGroup($group->id,$device->id)) {
+		    			echo "<li><a class='href add_group_member' data-device_icon='".$device->icon."' data-device_name='".$device->name."' data-device_clear_name='".$device->clear_name."' data-device_id='".$device->id."' data-group_id='".$group->id."'><img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' />".$device->clear_name."</a></li>";
+		    		}
+		    	}
+		    ?>
+		  </ul>
+		</div>
+	<?php
 	echo "</ul>";
 	?>
 </div>
@@ -92,6 +119,30 @@
 			$('#option-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
 			var value = parseInt($('.option_count').text());
 			$('.option_count').text(value+1);
+		});
+
+		$(document).on('click', '.add_group_member', function() {
+			var response = $(this).myne_api({
+			  method: "addGroupMember",
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group_id'),"device_id":$(this).data('device_id')}}
+			});
+			var r_value = jQuery.parseJSON(response.responseText);
+			
+			if (r_value.hasOwnProperty('error')) {
+				$(this).myne_notify({
+					"text":r_value.error.message,
+					"class":"error"
+				});
+			}
+			else {
+				var append = "<li class='clearfix'><img width='20' height='20' src='<?= base_url('img/type_icons/'); ?>/"+$(this).data('device_icon')+"' class='pull-left devicelist-icon'><a class='pull-left' href='<?= base_url('devices/show/'); ?>/"+$(this).data('device_name')+"' title='"+$(this).data('device_clear_name')+"'>"+$(this).data('device_clear_name')+"</a><div class='pull-right'><a data-type='device' data-name='"+$(this).data('device_name')+"' class='toggle_on btn btn-mini btn-success' title='"+$(this).data('device_clear_name')+" anschalten.'><i class='icon-ok icon-white'></i></a>	<a data-type='device' data-name='"+$(this).data('device_name')+"' class='toggle_off btn btn-mini btn-danger' title='"+$(this).data('device_clear_name')+" ausschalten.'><i class='icon-off icon-white'></i></a></div></li>";
+				$('.devicelist').append(append);
+				$(this).myne_notify({
+					"text":$(this).data('device_clear_name')+" hinzugefügt",
+					"class":"success"
+				});
+				$(this).remove();
+			}
 		});
 	});
 </script>
