@@ -4,12 +4,15 @@ jQuery.fn.myne_api = function(options) {
 	
 	var response = $.ajax({
 		url: "/api/request",
-		type: "post",
-		data: options,
+		type: "POST",
+		//data: {'data' : JSON.stringify(options)},
+		data: JSON.stringify(options),
+		contentType: 'application/json',
 		dataType: "json",
 		async: false,
 		success: function(data) {
 			return data;
+			console.log(data);
 		},
 		fail: function(data) { 
 			alert(data); 

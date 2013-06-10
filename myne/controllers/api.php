@@ -13,6 +13,8 @@ class API extends CI_Controller {
     }
     
 	public function request($json="") {
+		$json = json_decode(file_get_contents('php://input'),true);
+		
 		if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
 			
 			// Check for correct request type
@@ -24,13 +26,13 @@ class API extends CI_Controller {
 			die;
 		} 
 
-		log_message('debug','Request: '.print_r($_POST,true));
+		log_message('debug','Request: '.print_r($json,true));
 		
 	    $this->load->model('myne_api');
 
-	    if (isset($_POST['params']['api_key']) && trim($_POST['params']['api_key']) != '') {
-		    if ($this->myne_api->checkAPIKey($_POST['params']['api_key'])) {
-		    	$response = $this->myne_api->request($_POST);
+	    if (isset($json['params']['api_key']) && trim($json['params']['api_key']) != '') {
+		    if ($this->myne_api->checkAPIKey($json['params']['api_key'])) {
+		    	$response = $this->myne_api->request($json);
 
 		    	// Return response
 		    	echo $response;
