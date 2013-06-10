@@ -1,5 +1,9 @@
 ![myne](https://raw.github.com/ayedoit/myne/master/img/myne_logo.png)
 
+Vorwort
+=======
+Aktuell ist **myne** noch nicht in der ersten Final erschienen. Es fehlen noch 2-3 Dinge, um ein rundes Produkt abzuliefern, wie z.B. ein Installer. Ich gebe mir Mühe, das bis Ende dieser Woche (2013-06-10) abzuliefern.
+
 myne ist
 ========
 
