@@ -1,20 +1,66 @@
 ![myne](https://raw.github.com/ayedoit/myne/master/img/myne_logo.png)
 
-myne
-====
+myne ist
+========
 
-[myne](http://myne.ayedo.de/) ist ein **Home Automation Gateway** und versteht sich als einfach bedienbare Schnittstelle zwischen dem Endanwender und verschiedenen, über eine API oder sonstwie **steuerbaren Elementen des modernen Zuhauses** wie zum Beispiel:
+ein Home Automation Gateway
+---------------------------
+[myne](http://myne.ayedo.de/) ist ein Server der als Schnittstelle zwischen verschiedenen steuerbaren Geräten in deinem Haushalt dient. Grundsätzlich sind der Phantasie da keine Grenzen gesetzt - lediglich unserer Zeit und unseren Mitteln, alles mögliche auszuprobieren.
+
+freie Open Source Software
+--------------------------
+Jeder Nerd da draußen möchte seine Elektrik fernsteuern können. Grundsätzlich kann das jeder. Aber die meisten "guten" und "einfachen" Lösungen (betrachten wir das mal als logisches AND) sind auch teuer und/oder proprietär.
+
+Wir meinen: Das muss so nicht sein. **myne** bietet eine gute Basis, neue Module zu entwickeln und mehr und mehr Geräte und Gerätetypen steuern zu können. Mit eurer Hilfe sollte das möglich sein.
+
+kein Cloud-Dienst
+-----------------
+Zur Installation und Benutzung benötigst du zuhause einen Web- und einen MySQL-Server. Natürlich kannst du **myne** auch extern hosten, die Steuerung der Geräte in deinem Zuhause wird dann aber entsprechend komplex.
+
+keine Standalone-Applikation
+----------------------------
+Man kann natürlich keine Software installieren und plötzlich alle Lichtschalter durch Magie am PC an- und ausschalten.
+
+Du brauchst steuerbare Aktoren, wie z.B. **Funksteckdosen** für deine Elektrogeräte, **Funkmodule** für den Unterputz-Einbau oder die Steuerung von Rolläden.
+
+Für die Steuerung von Funk-Geräten (433 MHz Devices) brauchst du ein Gateway. **myne** funktioniert hervorragend mit dem [ConnAir](http://simple-solutions.de/shop/product_info.php?products_id=87).
+
+Aktuell kannst du auch dein XBMC an- und ausschalten. Allerdings ist das noch WIP und nicht sehr zuverlässig. Wir arbeiten daran.
+
+myne kann
+=========
 
 * Funksteckdosen
 * Funkschalter
-* Heizungsthermostate
 * Mediencenter-Software (z.B. XBMC)
-* elektrischen Rolläden
-* Bewegungssensoren
-* Kameras
-* Wetterinformationen
+ 
+von Herstellern wie z.B.
+------------------------
 
-[myne](http://myne.ayedo.de/) wurde entwickelt mit dem Ziel, ein **Gateway für lose Einzelkomponenten** bereit zu stellen und dabei auf **offene Software** zu setzen und gleichzeitig selbst so offen zu sein, dass es in andere Umgebungen integriert werden kann. myne hat eine JSON-RPC API die alle internen Funktionen 1:1 abbildet und kann so **in andere Applikationen integriert** werden. Die Idee ist, eine einfache und nach Möglichkeit homogene Schnittstelle für ansonsten fragmentierte Hard- und Software bereitzustellen. **Mit Fokus auf den typischen Endanwender ohne technischen Hintergrund**.
+* Intertechno
+* Elro
+* Brennenstuhl
+* Pollin
+* vermutlich vielen mehr - **da ist es an euch, zu testen**
+
+eine offene API
+---------------
+Eine **JSON-RPC API** bildet jede Funktion des Backends transparent ab. Das bietet natürlich Möglichkeiten, eigene mobile Apps zu programmieren. Dokumentation folgt. 
+
+myne wird können
+================
+
+* elektrischen Rolläden
+* Kameras
+* Bewegungssensoren
+* Wetterinformationen
+* Heizungsthermostate
+* WLAN Steckdosen
+
+myne könnte
+===========
+Vermutlich vieles. Theoretisch sind WeMos von Belkin steuerbar, ebenso Homematic Geräte und zahlreiche vorhandene WLAN Steckdosen-Aufsätze. Aktuell ist **myne** WIP und geht steil auf die erste Final zu. Wir versuchen möglichst viele Geräte in die Finger zu kriegen, um sie ins System zu bringen. Gebt uns Zeit. Oder **macht es selbst**.
+
 
 Maintainer
 ----------
