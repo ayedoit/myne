@@ -283,7 +283,7 @@
 					$('.masterdip-editable').editable({
 					    mode: 'popup',
 					    validate: function(value) {
-					    	var slavedip = $('.masterdip-editable').text();
+					    	var slavedip = $('.slavedip-editable').text();
 					    	var masterdip = value;
 						    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
 							$.ajax({

@@ -19,7 +19,7 @@ $(document).ready(function() {
 		else {
 			$(this).myne_notify({
 				"text":$(this).data('name')+" angeschaltet",
-				"class":"info"
+				"class":"success"
 			});
 		}
 	});
@@ -40,7 +40,7 @@ $(document).ready(function() {
 		else {
 			$(this).myne_notify({
 				"text":$(this).data('name')+" ausgeschaltet",
-				"class":"info"
+				"class":"error"
 			});
 		}
 	});	
