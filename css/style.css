@@ -80,6 +80,10 @@ label.error {
      -moz-border-radius: 0 4px 4px;
           border-radius: 0 4px 4px;
 }
+#time {
+  font-weight: bold;
+  color: #fff;
+}
 .devicelist li {
 	margin: 5px 0;
 	padding: 1px;

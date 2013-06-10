@@ -393,7 +393,7 @@
 							$event_type = $this->event->getEventByID($task->event);
 							
 							if ($event_type->name == 'timer') {
-								$this->load->model('timer');
+								$this->load->model('timers/timer');
 
 								$event = $this->timer->getTimerByID($task->event_opt);
 								echo "<td><i class='icon-calendar'></i> ";
@@ -467,25 +467,54 @@
 					$('.timer_update').click(function() {
 						if ($(this).hasClass('active')) {
 							$(this).removeClass('active');
-							$(this).myne_api({
+							var response = $(this).myne_api({
 							  method: "updateTimer",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"0"}}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "timers/timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"0"}}
 							});
 						}
 						else {
 							$(this).addClass('active');
-							$(this).myne_api({
+							var response = $(this).myne_api({
 							  method: "updateTimer",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"1"}}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "timers/timer", "opts":{"id":$(this).data('id'),"what":$(this).data('what'),"new_value":"1"}}
+							});
+						}
+						var r_value = jQuery.parseJSON(response.responseText);
+
+						if (r_value.hasOwnProperty('error')) {
+							$(this).myne_notify({
+								"text":r_value.error.message,
+								"class":"error"
+							});
+						}
+						else {
+							$(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
 							});
 						}
 					});
 					
 					$('.toggle_task_action').click(function() {
-						$(this).myne_api({
+						var response = $(this).myne_api({
 						  method: "updateTask",
-						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "task", "opts":{"name":$(this).data('name'),"what":"action_opt","new_value":$(this).data('value')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "tasks/task", "opts":{"name":$(this).data('name'),"what":"action_opt","new_value":$(this).data('value')}}
 						});
+
+						var r_value = jQuery.parseJSON(response.responseText);
+
+						if (r_value.hasOwnProperty('error')) {
+							$(this).myne_notify({
+								"text":r_value.error.message,
+								"class":"error"
+							});
+						}
+						else {
+							$(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						}
 						
 						if ($(this).data('value') == 'on') {
 							// Update button
@@ -506,10 +535,25 @@
 					});
 					
 					$('.toggle_task_active').click(function() {
-						$(this).myne_api({
+						var response = $(this).myne_api({
 						  method: "updateTask",
-						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "task", "opts":{"name":$(this).data('name'),"what":"active","new_value":$(this).data('value')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "tasks/task", "opts":{"name":$(this).data('name'),"what":"active","new_value":$(this).data('value')}}
 						});
+
+						var r_value = jQuery.parseJSON(response.responseText);
+
+						if (r_value.hasOwnProperty('error')) {
+							$(this).myne_notify({
+								"text":r_value.error.message,
+								"class":"error"
+							});
+						}
+						else {
+							$(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						}
 						
 						if ($(this).data('value') == '0') {
 							// Update icon
@@ -526,7 +570,7 @@
 					$('.delete_task').click(function() {
 						$(this).myne_api({
 						  method: "deleteTask",
-						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "task", "opts":{"name":$(this).data('name')}}
+						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "tasks/task", "opts":{"name":$(this).data('name')}}
 						});
 						
 						$('#task-single-'+$(this).data('name')).fadeOut();

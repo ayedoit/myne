@@ -118,11 +118,9 @@
 				  <a href="<?= base_url('settings') ?>"><i class='icon-wrench icon-white'></i> Einstellungen</a>
 				</li>
 			</ul>
-<!--
-            <p class="navbar-text pull-right">
-              <a href="#" class="navbar-link">Username</a>
+            <p class="navbar-text pull-right" id="time">
+            	
             </p>
--->
           </div><!--/.nav-collapse -->
         </div>
       </div>

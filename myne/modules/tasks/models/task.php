@@ -91,7 +91,7 @@ Class task extends CI_Model {
 		// Timer
 		if ($event->name == 'timer') {
 			log_message('debug', 'Event is of type "timer"');
-			$this->load->model('timer');
+			$this->load->model('timers/timer');
 			
 			// Get concrete timer to current task
 			log_message('debug', 'Polling specific timer for task "'.$task->clear_name.'" from database');
