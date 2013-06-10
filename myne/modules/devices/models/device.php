@@ -584,6 +584,18 @@ Class device extends CI_Model {
 		log_message('debug', 'Removing device group with name "'.$name.'" from database');
 		$this->db->delete('device_groups', array('name' => $name)); 
 	}
+
+	public function dipIsUnique($masterdip,$slavedip) {
+		
+		log_message('debug', 'Checking if Master DIP /Slave DIP combination is unique');
+		
+		$query = $this->db->get_where('devices',array('masterdip' => $masterdip, 'slavedip' => $slavedip));
+		
+		if ($query->num_rows != 0) {
+			return "false";
+		}
+		return "true";
+	}
 	
 	public function toggle($type,$name,$status){
 	    $this->load->model('room');

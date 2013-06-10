@@ -225,7 +225,7 @@
 				?>
 				<tr>
 					<td><b>Master DIP</b></td>
-					<td><a class="editable" id="<?= $device->name ?>-masterdip" data-type="text" data-pk="masterdip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Master DIP"><?= $device->masterdip ?></a></td>
+					<td><a class="masterdip-editable" id="<?= $device->name ?>-masterdip" data-type="text" data-pk="masterdip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Master DIP"><?= $device->masterdip ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -237,11 +237,87 @@
 				?>
 				<tr>
 					<td><b>Slave DIP</b></td>
-					<td><a class="editable" id="<?= $device->name ?>-slavedip" data-type="text" data-pk="slavedip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Slave DIP"><?= $device->slavedip ?></a></td>
+					<td><a class="slavedip-editable" id="<?= $device->name ?>-slavedip" data-type="text" data-pk="slavedip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Slave DIP"><?= $device->slavedip ?></a></td>
 				</tr>
 		    <?php
 			}
 			?>
+			<script>
+				$(document).ready(function() {
+					$('.slavedip-editable').editable({
+					    mode: 'popup',
+					    validate: function(value) {
+					    	var slavedip = value;
+					    	var masterdip = $('.masterdip-editable').text();
+						    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
+							$.ajax({
+								url: "<?= base_url('api/request'); ?>",
+								type: "post",
+								data: request,
+								dataType: "json",
+								async: false,
+								success: function(data) {
+									response = data;
+								} 
+							});	
+							if (response.result=="true") {
+								return "";
+							}
+							else {
+								return "Diese Master DIP / Slave DIP Kombination existiert bereits!";
+							}
+						},
+					    success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						},
+						error: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen nicht gespeichert",
+								"class":"error"
+							});
+						}
+					});
+					$('.masterdip-editable').editable({
+					    mode: 'popup',
+					    validate: function(value) {
+					    	var slavedip = $('.masterdip-editable').text();
+					    	var masterdip = value;
+						    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
+							$.ajax({
+								url: "<?= base_url('api/request'); ?>",
+								type: "post",
+								data: request,
+								dataType: "json",
+								async: false,
+								success: function(data) {
+									response = data;
+								} 
+							});	
+							if (response.result=="true") {
+								return "";
+							}
+							else {
+								return "Diese Master DIP / Slave DIP Kombination existiert bereits!";
+							}
+						},
+					    success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						},
+						error: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen nicht gespeichert",
+								"class":"error"
+							});
+						}
+					});
+				});
+			</script>
 			
 			<?php
 			// Get Address

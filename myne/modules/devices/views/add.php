@@ -691,7 +691,6 @@
 					async: false,
 					success: function(data) {
 						response = data;
-						console.log(response.result);
 					} 
 				});	
 				if (response.result=="true") {
@@ -702,6 +701,34 @@
 				}
 			},
 			"Diese ID existiert bereits. Die ID muss eindeutig sein."
+		);
+
+		$.validator.addMethod(
+			"DIPunique",
+			function(value, element) {
+				var slavedip = $('#devices_slavedip').val();
+				var masterdip = $('#devices_masterdip').val();
+				var response = null;
+				// Check DIP Combination against API
+				var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
+				$.ajax({
+					url: "<?= base_url('api/request'); ?>",
+					type: "post",
+					data: request,
+					dataType: "json",
+					async: false,
+					success: function(data) {
+						response = data;
+					} 
+				});	
+				if (response.result=="true") {
+					return true;
+				}
+				else {
+					return false;
+				}
+			},
+			"Diese Master DIP / Slave DIP Kombination existiert bereits. Die Kombination muss eindeutig sein."
 		);
 		
 		$('#add_device').validate(
@@ -811,7 +838,8 @@
 			},
 			devices_slavedip: {
 			  regex: /^[A-Za-z\d]+$/,
-			  required: true
+			  required: true,
+			  DIPunique: true
 			},
 			devices_tx433version: {
 				number: true
