@@ -13,21 +13,18 @@ class API extends CI_Controller {
     }
     
 	public function request($json="") {
-		$json = json_decode(file_get_contents('php://input'),true);
-		
-		if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
-			
-			// Check for correct request type
-			// If not JSON, die
-			log_message('debug', 'Request from "'.$_SERVER['REMOTE_ADDR'].'"');
-			log_message('error', 'API Error: Wrong request type');
-			log_message('debug','Requested with: '.$_SERVER['HTTP_X_REQUESTED_WITH']);
-			show_error('Error. Wrong request type: "'.$_SERVER['HTTP_X_REQUESTED_WITH'].'"');
-			die;
-		} 
+	$json = json_decode(file_get_contents('php://input'),true);
+	if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+		// Check for correct request type
+		// If not JSON, die
+		log_message('debug', 'Request from "'.$_SERVER['REMOTE_ADDR'].'"');
+		log_message('error', 'API Error: Wrong request type');
+		log_message('debug','Requested with: '.$_SERVER['HTTP_X_REQUESTED_WITH']);
+		show_error('Error. Wrong request type: "'.$_SERVER['HTTP_X_REQUESTED_WITH'].'"');
+		die;
+	} 
+	log_message('debug','Request: '.print_r($json,true));
 
-		log_message('debug','Request: '.print_r($json,true));
-		
 	    $this->load->model('myne_api');
 
 	    if (isset($json['params']['api_key']) && trim($json['params']['api_key']) != '') {
