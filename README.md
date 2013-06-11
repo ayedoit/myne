@@ -1,8 +1,84 @@
 ![myne](https://raw.github.com/ayedoit/myne/master/img/myne_logo.png)
 
-Vorwort
-=======
-Aktuell ist **myne** noch nicht in der ersten Final erschienen. Es fehlen noch 2-3 Dinge, um ein rundes Produkt abzuliefern, wie z.B. ein Installer. Ich gebe mir Mühe, das bis Ende dieser Woche (2013-06-10) abzuliefern.
+Installieren
+============
+
+Voraussetzungen
+---------------
+* Webserver (Apache, nginx)
+* MySQL Server
+* 433 MHz Gateway ([ConnAir](http://simple-solutions.de/shop/product_info.php?products_id=87))
+* Für Tasks: eine Cron-Funktion auf dem Webserver
+
+Download
+--------
+```bash
+cd /var/www
+wget https://github.com/ayedoit/myne/archive/master.zip
+unzip master.zip
+mv myne-master myne
+```
+
+Oder
+
+```bash
+cd /var/www
+git clone git://github.com/ayedoit/myne.git
+```
+
+Datenbank-Setup
+---------------
+Die Zugangsdaten zu eurer Datenbank müssen in **/var/www/myne/myne/config/database.php** eingetragen werden.
+
+```php
+$db['default']['hostname'] = 'DB-HOST';
+$db['default']['username'] = 'DB-USER';
+$db['default']['password'] = 'DB-PASSWORT';
+$db['default']['database'] = 'DB';
+$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbprefix'] = '';
+$db['default']['pconnect'] = TRUE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;
+```
+Der Installer
+-------------
+Wenn eure Datenbank-Zugangsdaten eingetragen sind und euer Webserver richtig konfiguriert ist (das überlasse ich mal jedem selbst, da man dafür kein Allgemeinrezept hierhin packen kann), dann ruft den Installer auf: 
+
+```html
+http://MYNE-HOST/installer
+```
+
+Dort müsst ihr eure Userdaten hinterlegen, für den Fall, dass ihr später **myne** mit Login benutzen wollt (bietet aktuell nur Schutz vor ungewolltem Zugriff - ACLs folgen später). Der Installer legt euch die nötigen Tabellen an.
+
+Erste Schritte
+--------------
+Aktuell können **nur Funksteckdosen** auf 433 MHz Basis gesteuert werden. Die Steuerung von XBMC-Hosts ist zwar implementiert, braucht aber noch Feinschliff.
+
+Daher würde es sich anbieten, eure ersten Schritte mit **myne** so zu beginnen:
+
+* Räume > Raum anlegen (jedes Gerät steht in einem Raum. Logisch, oder? Und ja - auch der Garten wäre hier ein Raum.)
+* Gateways > Gateway anlegen (Ohne Gateway - bzw. ohne [ConnAir](http://simple-solutions.de/shop/product_info.php?products_id=87) - könnt ihr die Funksteckdosen nicht steuern)
+* Geräte > Gerät anlegen
+
+Ihr könnt Räume, Gruppen und Geräte auch im "Gerät anlegen" Dialog mitanlegen, wenn euch das einfacher erscheint.
+
+WIP
+---
+* Icons für die Devices können zwar schon festgelegt werden, allerdings gibt es dafür noch keine Frontendfunktion. Ende der Woche!
+* Tasks für Gruppen/Räume/Gerätetypen können ebenfalls festgelegt werden, allerdings gibt es auch dafür keine Frontendfunktion
+* Eine Funktion, die euch initial einen Cronjob für die Tasks anlegt kommt ebenfalls Ende der Woche
+* Der übliche Feinschliff im Frontend
+
+Bug-Reports & Feature-Requests
+------------------------------
+Bitte nutzt dafür die [GitHub Issues](https://github.com/ayedoit/myne/issues). Sollte es wirklich dringend sein oder ihr Bock auf Fachsimpeleien habt, mailt mir an [hello@fabianpeter.de](mailto:hello@fabianpeter.de)
 
 myne ist
 ========
@@ -65,6 +141,10 @@ myne könnte
 ===========
 Vermutlich vieles. Theoretisch sind WeMos von Belkin steuerbar, ebenso Homematic Geräte und zahlreiche vorhandene WLAN Steckdosen-Aufsätze. Aktuell ist **myne** WIP und geht steil auf die erste Final zu. Wir versuchen möglichst viele Geräte in die Finger zu kriegen, um sie ins System zu bringen. Gebt uns Zeit. Oder **macht es selbst**.
 
+Lizenz
+======
+
+**myne** ist unter der **GNU GENERAL PUBLIC LICENSE v3** veröffentlicht. Wem das nichts sagt: [TL;DRLegal](http://www.tldrlegal.com/license/gnu-general-public-license-v3-(gpl-3)
 
 Maintainer
 ----------
