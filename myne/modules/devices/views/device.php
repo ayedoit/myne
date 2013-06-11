@@ -253,7 +253,7 @@
 							$.ajax({
 								url: "<?= base_url('api/request'); ?>",
 								type: "post",
-								data: request,
+								data: JSON.stringify(request),
 								dataType: "json",
 								async: false,
 								success: function(data) {
@@ -289,7 +289,7 @@
 							$.ajax({
 								url: "<?= base_url('api/request'); ?>",
 								type: "post",
-								data: request,
+								data: JSON.stringify(request),
 								dataType: "json",
 								async: false,
 								success: function(data) {

@@ -392,7 +392,7 @@
 				var request = {"jsonrpc": "2.0", "method": "getDeviceTypes", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[""]}, "id": 2};
 			}
 
-			$.post("<?= base_url('api/request'); ?>", request, function(data) {
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				response = jQuery.parseJSON(data);
 				
 				$("#tasks_target option").each(function() {
@@ -431,7 +431,7 @@
 				$.ajax({
 					url: "<?= base_url('api/request'); ?>",
 					type: "post",
-					data: request,
+					data: JSON.stringify(request),
 					dataType: "json",
 					async: false,
 					success: function(data) {

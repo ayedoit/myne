@@ -162,7 +162,7 @@
 						
 						// Add Room to DB
 						$this->load->model('room');
-						$room_id = $this->room->addModel($room_data);
+						$room_id = $this->room->addRoom($room_data);
 						
 						// Add Room ID to Device Data
 						$device_data['room'] = $room_id;
@@ -197,7 +197,7 @@
 						);
 						
 						// Add Gateway to DB
-						$this->load->model('gateway');
+						$this->load->model('gateways/gateway');
 						$gateway_id = $this->gateway->addGateway($gateway_data);
 						
 						// Add Group ID to Device Data

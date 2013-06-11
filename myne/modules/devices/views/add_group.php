@@ -127,7 +127,7 @@
 			
 			// Get devices with selected options
 			var request = {"jsonrpc": "2.0", "method": "getDevicesByOptions", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/device","opts":[n_options]}, "id": 2};
-			$.post("<?= base_url('api/request'); ?>", request, function(data) {
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				
 				$("#groups_devices option").each(function() {
 					$(this).remove();

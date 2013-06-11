@@ -1,7 +1,18 @@
 body {
 	padding-top: 40px;
 }
-
+.jumbotron {
+  margin: 60px 0;
+  text-align: center;
+}
+.container-narrow {
+  width: 700px;
+  margin: 0 auto;
+}
+.installer_form {
+  margin: 0 auto;
+  width: 500px;
+}
 #myne_notify {
 	position: fixed;
   padding: 0;

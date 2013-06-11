@@ -42,46 +42,21 @@
 	    <div class="row-fluid">
 	      	<div class="span12" data-role="content">
 				<div class="jumbotron">
-			    <h1>Willkommen bei <a href="http://myne.ayedo.de" title=" myne - a Home Automation Gateway">myne</a></h1>
-			    <p class="lead"><b>myne</b> ist ein <b>Home Automation Gateway</b> und versteht sich als einfach bedienbare Schnittstelle zwischen dir - dem User -  und verschiedenen steuerbaren Elementen des modernen Zuhauses.</p>
+			    <h1>Oh :(</a></h1>
+			    <p class="lead"><b>myne</b> kann sich nicht mit deinem MySQL-Server verbinden. Überprüfe nochmal deine Einstellungen.</p>
 			  </div>
         <hr>
         <div class="row-fluid">
-          <h3 style="text-align: center;">Leg noch einen User für dich an.</h3>
-          <p class="lead" style="text-align: center;">Ob du <b>myne</b> mit oder ohne Login nutzen willst, kannst du später entscheiden.</p>
-            
-          <form class="form-horizontal installer_form" method="post" action="<?= base_url('installer/install'); ?>">
-            <div class="control-group">
-              <label class="control-label" for="username">Username</label>
-              <div class="controls">
-                <input type="text" id="username" name="username" placeholder="Username" required>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="password">Passwort</label>
-              <div class="controls">
-                <input type="password" id="password" name="password" placeholder="Passwort" required>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="givenname">Vorname</label>
-              <div class="controls">
-                <input type="text" id="givenname" name="givenname" placeholder="Vorname" required>
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label" for="surename">Nachname</label>
-              <div class="controls">
-                <input type="text" id="surename" name="surename" placeholder="Nachname" required>
-              </div>
-            </div>
-            <div class="control-group">
-              <div class="controls">
-                <input type="submit" class="btn btn-large btn-success" value="Installieren" />
-              </div>
-            </div>
-          </form>
-
+          <p>Wenn du hier bist, hast du vermutlich schon das meiste richtig gemacht. Trage jetzt noch die Zugangsdaten für deinen MySQL-Server in <code>myne/config/database.php</code> ein und klick auf "Installieren".</p>
+<pre>
+$db['default']['hostname'] = '127.0.0.1';
+$db['default']['username'] = 'DB-USER'; 
+$db['default']['password'] = 'DB-PASSWORD';
+$db['default']['database'] = 'DATABASE-NAME';
+$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbprefix'] = '';
+</pre>
+          <p style="text-align: center;"><a class="btn btn-large btn-success" href="<?= base_url('installer/install'); ?>">Installieren</a></p>
         </div>
 		    <hr>
 		    <a class="pull-left" href="https://github.com/ayedoit/myne" title="myne auf GitHub"><img heigth="43" width="100" src="<?= base_url('img/github.png'); ?>" /></a>&nbsp;

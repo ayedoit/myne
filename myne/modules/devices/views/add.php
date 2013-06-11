@@ -154,12 +154,24 @@
 					$this->load->model('room');
 					$rooms = $this->room->getRooms();
 					
-					$options = array();
-					foreach ($rooms as $room) {
-						$options[$room->id] = $room->clear_name;
+					$options = "";
+
+					if (sizeof($rooms) == 0) {
+						$data = array(
+						  'name'        => 'devices_room',
+						  'id'          => 'devices_room',
+						  'value' => 'Keine Räume vorhanden',
+						  'disabled' => 'disabled'
+						);
+						echo form_input($data);
 					}
-					$data = 'id="devices_room"';
-					echo form_dropdown('devices_room', $options,"1",$data);
+					else {
+						foreach ($rooms as $room) {
+							$options[$room->id] = $room->clear_name;
+						}
+						$data = 'id="devices_room"';
+						echo form_dropdown('devices_room', $options,"0",$data);
+					}
 				  ?>
 				  <a  rel="tooltip" title="Neuen Raum anlegen" id="add_room" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i></a>
 				</div>
@@ -526,7 +538,7 @@
 			
 			// Get vendors for selected type
 			var request = {"jsonrpc": "2.0", "method": "getVendorsByType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/vendor","opts":[value]}, "id": 2};
-			$.post("<?= base_url('api/request'); ?>", request, function(data) {
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				
 				$("#devices_vendor option").each(function() {
 					$(this).remove();
@@ -546,7 +558,7 @@
 			// Get options for selected type
 			// Get vendors for selected type
 			var request = {"jsonrpc": "2.0", "method": "getOptionsByDeviceType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/device","opts":[value]}, "id": 3};
-			$.post("<?= base_url('api/request'); ?>", request, function(data) {
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				
 				$("#options option").each(function() {
 					$(this).remove();
@@ -569,7 +581,7 @@
 			
 			// Get vendors for selected type
 			var request = {"jsonrpc": "2.0", "method": "getModelsByVendor", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>" ,"model":"devices/model","opts":[value]}, "id": 2};
-			$.post("<?= base_url('api/request'); ?>", request, function(data) {
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				
 				$("#devices_model option").each(function() {
 					$(this).remove();
@@ -686,7 +698,7 @@
 				$.ajax({
 					url: "<?= base_url('api/request'); ?>",
 					type: "post",
-					data: request,
+					data: JSON.stringify(request),
 					dataType: "json",
 					async: false,
 					success: function(data) {
@@ -714,7 +726,7 @@
 				$.ajax({
 					url: "<?= base_url('api/request'); ?>",
 					type: "post",
-					data: request,
+					data: JSON.stringify(request),
 					dataType: "json",
 					async: false,
 					success: function(data) {

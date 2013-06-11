@@ -33,7 +33,7 @@
 		$data = array(
 		  'name'        => 'gateways_clear_name',
 		  'id'          => 'gateways_clear_name',
-		  'placeholder' => 'Gateway Name'
+		  'placeholder' => '49880'
 		);
 		echo form_input($data);
 	  ?>
