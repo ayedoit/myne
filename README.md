@@ -6,7 +6,7 @@ Installieren
 Voraussetzungen
 ---------------
 * Webserver (Apache, nginx)
-* MySQL Server
+* MySQL Server + fertige Datenbank (UTF-8)
 * 433 MHz Gateway ([ConnAir](http://simple-solutions.de/shop/product_info.php?products_id=87))
 * Für Tasks: eine Cron-Funktion auf dem Webserver
 
@@ -28,7 +28,7 @@ git clone git://github.com/ayedoit/myne.git
 
 Datenbank-Setup
 ---------------
-Die Zugangsdaten zu eurer Datenbank müssen in **/var/www/myne/myne/config/database.php** eingetragen werden.
+Ihr müsst die Datenbank vorher anlegen (zB via phpmyadmin). Die Zugangsdaten zu eurer Datenbank müssen in **/var/www/myne/myne/config/database.php** eingetragen werden.
 
 ```php
 $db['default']['hostname'] = 'DB-HOST';
