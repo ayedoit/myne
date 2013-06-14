@@ -73,7 +73,9 @@
 					}
 					else {
 						$latest_room_id = $_POST['gateways_room'];
-					}	
+					}
+
+					$gateway_data['room'] = $latest_room_id;	
 
 					// Insert!
 					$gateway_id = $this->gateway->addGateway($gateway_data);
