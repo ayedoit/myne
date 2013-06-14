@@ -81,7 +81,7 @@
 					);
 
 					$icons = $this->tools->getIconsByType('device');
-					$count = sizeof($icons);
+					$count = 1;
 					foreach($icons as $icon) {
 						echo '<label class="radio inline iconpicker">';
 							echo '<input type="radio" name="devices_icon" class="devices_icon" value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';
@@ -90,6 +90,7 @@
 						if ($count%4) {
 							echo "<br />";
 						}
+						$count++;
 					}
 					
 				  ?>
