@@ -85,7 +85,7 @@
 					foreach($icons as $icon) {
 						echo '<label class="radio inline iconpicker">';
 							echo '<input type="radio" name="devices_icon" class="devices_icon"';
-							if ($count = 1) {
+							if ($count == 1) {
 								echo "selected='selected'";
 							}
 							echo ' value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';

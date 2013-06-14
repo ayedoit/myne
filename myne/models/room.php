@@ -77,6 +77,22 @@ Class room extends CI_Model {
 		
 		return $room;
 	}
+
+	public function updateRoom($name,$what,$new_value) {
+		$data = array(
+		   $what => $new_value
+		);
+
+		$this->db->where('name', $name);
+		try {
+			$this->db->update('rooms', $data);
+			log_message('debug', 'Updating room with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database');
+			return true;
+		}  catch (Exception $e) {
+			log_message('debug', 'Updating room with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
+			throw new Exception($e->getMessage());
+		}
+	}
 	
 	public function deleteRoom($room) {
 		

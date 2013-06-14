@@ -88,7 +88,19 @@
 		    <?php
 			//~ }
 			//~ ?>
-		    			
+		    
+			<?php
+			// Get Description
+			if (isset($gateway->description) && trim($gateway->description) != '') {
+				?>
+				<tr>
+					<td><b>Beschreibung</b></td>
+					<td><a class="editable" id="<?= $gateway->name ?>-description" data-type="text" data-pk="description" data-url="<?php echo base_url(); ?>gateways/update/<?= $gateway->name ?>" data-original-title="Beschreibung"><?= $gateway->description ?></a></td>
+				</tr>
+		    <?php
+			}
+			?>
+
 			<?php
 			// Get Address
 			if (isset($gateway->address) && trim($gateway->address) != '') {

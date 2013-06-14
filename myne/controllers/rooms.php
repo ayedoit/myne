@@ -16,6 +16,16 @@ class Rooms extends CI_Controller {
 	    $html = $this->load->view('rooms',"",true);
 	    $this->page->show($html);
     }
+
+    public function update($name){
+		$this->load->model('room');
+		try {
+			$this->gateway->updateRoom($name,$_POST['pk'],$_POST['value']);
+			return true;
+		} catch (Exception $e) {
+			show_error($e->getMessage(), 500);
+		}
+	}
     
     public function show($room){
 		// Get room
