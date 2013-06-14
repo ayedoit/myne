@@ -2,6 +2,17 @@
 	<div class="span4">
 		<h3>Geräteinformationen</h3>
 		<table class="table table-striped device_data">
+			<?php
+			// Get Name
+			if (isset($device->clear_name) && trim($device->clear_name) != '') {
+				?>
+				<tr>
+					<td><b>Name</b></td>
+					<td><a class="editable" id="<?= $device->name ?>-clear_name" data-type="text" data-pk="clear_name" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Name"><?= $device->clear_name ?></a></td>
+				</tr>
+		    <?php
+			}
+			?>
 			<tr>
 				<?php
 				// Get description

@@ -2,6 +2,17 @@
 	<div class="span4">
 		<h3>Gatewayinformationen</h3>
 		<table class="table table-striped">
+			<?php
+			// Get Name
+			if (isset($gateway->clear_name) && trim($gateway->clear_name) != '') {
+				?>
+				<tr>
+					<td><b>Name</b></td>
+					<td><a class="editable" id="<?= $gateway->name ?>-clear_name" data-type="text" data-pk="clear_name" data-url="<?php echo base_url(); ?>gateways/update/<?= $gateway->name ?>" data-original-title="Name"><?= $gateway->clear_name ?></a></td>
+				</tr>
+		    <?php
+			}
+			?>
 			<tr>
 				<?php
 				// Get Type-Data
