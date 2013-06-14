@@ -27,13 +27,8 @@ class Dash extends MY_Controller {
     	$should = '* * * * * curl http://192.168.0.107/tasks/run > /dev/null 2>&1';
     	$cronjobs = $this->cron->listJobs();
 
-    	foreach ($cronjobs as $cronjob) {
-    		if ($cronjob == $should) {
-    			echo $cronjob;
-    		}
-    		else {
-    			echo "Fuck you";
-    		}
+    	if (in_array($should,$cronjobs)) {
+    		echo "YAY";
     	}
 	
 	}
