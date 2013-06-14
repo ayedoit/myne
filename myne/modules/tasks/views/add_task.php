@@ -2,7 +2,7 @@
 	<div class="span6">
 		<?php
 			// Check if Cronjob for tasks is set. If not, alert.
-			if ($this->tools->cronIsSet()) {
+			if (!$this->tools->cronIsSet()) {
 				echo '<div class="alert">';
 				  echo '<strong>Achtung!</strong> Der Task-Cronjob ist nicht aktiv! Klicke <a href="'.base_url('settings').'">hier</a> um ihn zu setzen.';
 				echo '</div>';
