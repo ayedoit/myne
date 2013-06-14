@@ -178,7 +178,7 @@ Class tools extends CI_Model {
 			$icons = array();
 		    while (false !== ($file = readdir($handle))) {
 		        if ($file != "." && $file != "..") {
-		            echo explode('_',$file);
+		            var_dump(explode('_',$file));
 		            $icons[] = $file;
 		        }
 		    }
