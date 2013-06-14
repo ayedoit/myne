@@ -41,6 +41,20 @@
 				  	<a class="editable" id="settings-api_key" data-type="text" data-pk="api_key" data-url="<?php echo base_url(); ?>settings/update" data-original-title="API Key"><?= $this->tools->getSettingByName('api_key'); ?></a>
 				</td>
 			</tr>
+
+			<tr>
+				<td><b>Cronjob</b></td>
+				<td>
+				  <?php
+				  if ($this->tools->cronIsSet()) {
+				  	echo "<btn class='btn btn-success btn-medium disabled'>Cron aktiv</btn>";
+				  }
+				  else {
+				  	echo "<btn class='btn btn-primary btn-medium enable_cron'>Cron aktivieren</btn>";
+				  }
+				  ?>
+				</td>
+			</tr>
 		</table>
 	</div>
 </div>

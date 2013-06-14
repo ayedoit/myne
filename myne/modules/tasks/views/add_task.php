@@ -7,14 +7,6 @@
 				  echo '<strong>Achtung!</strong> Der Task-Cronjob ist nicht aktiv! Klicke <a href="'.base_url('settings').'">hier</a> um ihn zu setzen.';
 				echo '</div>';
 			}
-
-	    	$should = '* * * * * curl http://192.168.0.107/tasks/run > /dev/null 2>&1';
-	    	$cronjobs = $this->cron->listJobs();
-
-	    	if (in_array($should,$cronjobs)) {
-	    		echo "YAY";
-	    	}
-
 		?>
 		<?php
 		$this->load->helper('form');
