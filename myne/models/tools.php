@@ -158,6 +158,34 @@ Class tools extends CI_Model {
 	    # remove empty lines
 	    return array_filter($splitter, create_function('$line', 'return !empty($line);'));
 	}
+
+	public function getIcons() {
+		if ($handle = opendir('img/type_icons')) {
+			$icons = array();
+		    while (false !== ($file = readdir($handle))) {
+		        if ($file != "." && $file != "..") {
+		            echo "$file\n";
+		            $icons[] = $file;
+		        }
+		    }
+		    closedir($handle);
+		}
+	}
+
+	public function getIconsByType() {
+		if ($handle = opendir('img/type_icons')) {
+
+			$icons = array();
+		    while (false !== ($file = readdir($handle))) {
+		        if ($file != "." && $file != "..") {
+		            echo "$file\n";
+		            echo explode('_',$file);
+		            $icons[] = $file;
+		        }
+		    }
+		    closedir($handle);
+		}
+	}
 	
 	//~ $this->load->model('cron');
 					//~ $cron = $this->cron->onDayOfWeek('sat,sun');
