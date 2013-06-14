@@ -45,6 +45,19 @@ Class tools extends CI_Model {
 		return $settings;
 	}
 	
+	public function getMyneData($name) {
+		$query = $this->db->get_where('myne_data', array('name' => $name));
+		
+		log_message('debug', 'Polling myne static data with name "'.$name.'" from database');
+		
+		foreach ($query->result() as $row)
+		{
+			$myne_value = $row;
+		}
+		log_message('debug','myne data with name "'.$name.'" has value "'.$myne_value->value.'"');
+		return $myne_value->value;
+	}
+
 	public function getSettingByName($name) {
 		$query = $this->db->get_where('settings', array('name' => $name));
 		

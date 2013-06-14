@@ -1,14 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');class Gateways extends MX_Controller { 
-	function __construct(){
-        parent::__construct();
-        
-        // Check Login
-        if($this->tools->getSettingByName('login') == 'true') {
-			$this->load->model('user');
-			if(!$this->user->is_logged_in()) redirect('login', 'refresh');
-		}
-    }
-	
 	public function index() {  
 	    $this->load->library('page');
 	    $html = $this->load->view('devices/devices_by_gateway',"",true);

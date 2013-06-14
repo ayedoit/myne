@@ -28,12 +28,8 @@ class Dash extends CI_Controller {
         $this->cron->onMinute('*');
         $this->cron->onMonth('*');
         $this->cron->ondayOfMonth('*');
-        $this->cron->doJob('curl http://192.168.0.107/tasks/run > /dev/null 2>&1');
-        $this->cron->listJobs();
-        
+        $this->cron->doJob('curl http://192.168.0.107/tasks/run > /dev/null 2>&1');        
         $this->cron->activate(true);
-        echo $this->cron->listJobs();
-		
 	}
 	
 	public function view($view) {
