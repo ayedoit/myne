@@ -59,6 +59,7 @@
 						'name' => $_POST['gateways_name'],
 						'clear_name' => $_POST['gateways_clear_name'],
 						'description' => $_POST['gateways_description'],
+						'icon' => $_POST['gateways_icon'],
 						'type' => $_POST['gateways_type'],
 						'address' => $_POST['gateways_address'],
 						'port' => $_POST['gateways_port'],

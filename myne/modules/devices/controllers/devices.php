@@ -105,6 +105,7 @@
 						'name' => $_POST['devices_name'],
 						'clear_name' => $_POST['devices_clear_name'],
 						'description' => $_POST['devices_description'],
+						'icon' => $_POST['devices_icon'],
 						'type' => $_POST['devices_type']
 					);
 					

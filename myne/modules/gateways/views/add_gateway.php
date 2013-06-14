@@ -66,6 +66,42 @@
 		$attributes = array(
 			'class' => 'control-label'
 		);
+		echo form_label('Geräte Icon', 'gateways_icon',$attributes);
+	?>
+	<div class="controls">
+	  <?php
+		$data = array(
+		  'name'        => 'gateways_icon',
+		  'placeholder' => 'Gateway Icon'
+		);
+
+		$icons = $this->tools->getIconsByType('gateway');
+		$count = 1;
+		foreach($icons as $icon) {
+			echo '<label class="radio inline iconpicker">';
+				echo '<input type="radio" name="gateways_icon" class="gateways_icon"';
+				if ($count = 1) {
+					echo "selected='selected'";
+				}
+				echo ' value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';
+			echo '</label>';
+
+			if ($count%4 == 0) {
+				echo "<br />";
+			}
+			$count++;
+		}
+		
+	  ?>
+	  <span class="validation_space"></span>
+	</div>
+</div>
+
+<div class="control-group">
+	<?php 
+		$attributes = array(
+			'class' => 'control-label'
+		);
 		echo form_label('Gateway Typ', 'gateways_type',$attributes);
 	?>
 	<div class="controls">

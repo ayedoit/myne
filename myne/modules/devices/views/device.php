@@ -7,7 +7,7 @@
 				// Get description
 				?>
 				<td><b>Beschreibung</b></td>
-				<td><?= $device->description ?></td>
+				<td><a class="editable" id="<?= $device->name ?>-description" data-type="text" data-pk="description" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Description"><?= $device->description ?></a></td>>
 			</tr>
 			<tr>
 				<?php
