@@ -71,6 +71,58 @@ a2enmod rewrite
 service apache2 restart
 ```
 
+**Beispiel vHost**
+
+**vHost anlegen**
+
+```bash
+cd /etc/init.d/apache2/sites-available
+nano myne
+```
+
+**vHost Config**
+
+```bash
+<VirtualHost 192.168.0.107:80>
+        ServerAdmin fpeter@ayedo.de
+
+        DocumentRoot /var/www/myne
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /var/www/myne>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+        <Directory "/usr/lib/cgi-bin">
+                AllowOverride None
+                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+                Order allow,deny
+                Allow from all
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/myne.error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/myne.access.log combined
+</VirtualHost>
+```
+
+**vHost aktivieren**:
+
+```bash
+a2ensite myne
+service apache2 restart
+```
+
 Der Installer
 -------------
 Wenn eure Datenbank-Zugangsdaten eingetragen sind und euer Webserver richtig konfiguriert ist (das überlasse ich mal jedem selbst, da man dafür kein Allgemeinrezept hierhin packen kann), dann ruft den Installer auf: 
