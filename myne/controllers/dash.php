@@ -33,11 +33,11 @@ class Dash extends CI_Controller {
 		$icons = $this->tools->getIconsByType('gateway');
 		echo "<pre>".print_r($icons,true)."</pre>";
 
-		echo "<select>";
-			foreach($icons as $icon) {
-				echo "<option><img src='".base_url('img/type_icons')."/".$icon."' /></option>";
-			}
-		echo "</select>";
+		foreach($icons as $icon) {
+			echo '<label class="radio inline">';
+				echo '<input type="radio" id="icon" value="'.$icon.'"> <img src="'.base_url('img/type_icons')."/".$icon.'" />';
+			echo '</label>';
+		}
 		
 	}
 	
