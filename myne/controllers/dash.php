@@ -34,7 +34,7 @@ class Dash extends CI_Controller {
 		echo "<pre>".print_r($icons,true)."</pre>";
 
 		echo "<select>";
-			for ($icons as $icon) {
+			foreach($icons as $icon) {
 				echo "<option><img src='".base_url('img/type_icons')."/".$icon."' /></option>";
 			}
 		echo "</select>";
