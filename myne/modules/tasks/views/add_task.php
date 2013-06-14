@@ -1,6 +1,22 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?php
+			// Check if Cronjob for tasks is set. If not, alert.
+			if ($this->tools->cronIsSet()) {
+				echo '<div class="alert">';
+				  echo '<strong>Achtung!</strong> Der Task-Cronjob ist nicht aktiv! Klicke <a href="'.base_url('settings').'">hier</a> um ihn zu setzen.';
+				echo '</div>';
+			}
+
+	    	$should = '* * * * * curl http://192.168.0.107/tasks/run > /dev/null 2>&1';
+	    	$cronjobs = $this->cron->listJobs();
+
+	    	if (in_array($should,$cronjobs)) {
+	    		echo "YAY";
+	    	}
+
+		?>
+		<?php
 		$this->load->helper('form');
 		$attributes = array('class' => 'form-horizontal', 'id' => 'add_task');
 		echo form_open('tasks/add/validate',$attributes);

@@ -31,6 +31,16 @@ Class tools extends CI_Model {
 		);
 		$this->db->insert('users',$data);
 	}
+
+	public function cronIsSet($cron='* * * * * curl http://192.168.0.107/tasks/run > /dev/null 2>&1') {
+		$this->load->model('cron');
+    	$cronjobs = $this->cron->listJobs();
+
+    	if (in_array($cron,$cronjobs)) {
+    		return true;
+    	}
+    	return false;
+	}
 	
 	public function getSettings() {
 		$query = $this->db->get('settings');
