@@ -147,9 +147,7 @@ Ihr könnt Räume, Gruppen und Geräte auch im "Gerät anlegen" Dialog mitanlege
 
 WIP
 ---
-* Icons für die Devices können zwar schon festgelegt werden, allerdings gibt es dafür noch keine Frontendfunktion. Ende der Woche!
 * Tasks für Gruppen/Räume/Gerätetypen können ebenfalls festgelegt werden, allerdings gibt es auch dafür keine Frontendfunktion
-* Eine Funktion, die euch initial einen Cronjob für die Tasks anlegt kommt ebenfalls Ende der Woche
 * Der übliche Feinschliff im Frontend
 
 Bug-Reports & Feature-Requests
