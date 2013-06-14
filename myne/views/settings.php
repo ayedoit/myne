@@ -92,7 +92,7 @@
 		$(document).on('click', '#enable_cron', function() {
 			var response = $(this).myne_api({
 			  method: "setCron",
-			  params: {"model": "tools", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":""}
+			  params: {"model": "tools", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":[]}
 			});
 
 			var r_value = jQuery.parseJSON(response.responseText);
@@ -108,6 +108,7 @@
 					"text":"Cron gesetzt",
 					"class":"success"
 				});
+				$(this).removeClass('btn-primary').addClass('success').addClass('disabled');
 			}
 		});
 	});
