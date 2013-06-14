@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start(); //we need to call PHP's session object to access it through CI
-class API extends CI_Controller {
+class API extends MY_Controller {
 	function __construct(){
         parent::__construct();
 
