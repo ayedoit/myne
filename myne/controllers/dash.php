@@ -26,6 +26,17 @@ class Dash extends MY_Controller {
 		echo $this->cron->listJobs();
 	
 	}
+
+	public function setCron() {
+		$this->load->model('cron');
+        $this->cron->onDayOfWeek('*');
+        $this->cron->onHour('*');
+        $this->cron->onMinute('*');
+        $this->cron->onMonth('*');
+        $this->cron->ondayOfMonth('*');
+        $this->cron->doJob('curl http://192.168.0.107/tasks/run > /dev/null 2>&1');        
+        $this->cron->activate(true);
+	}
 	
 	public function view($view) {
 		$this->load->view($view,"");
