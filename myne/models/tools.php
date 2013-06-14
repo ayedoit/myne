@@ -172,14 +172,27 @@ Class tools extends CI_Model {
 		return $icons;
 	}
 
-	public function getIconsByType() {
+	/*
+		Types
+		d_ device
+		g_ gateway
+	*/
+	public function getIconsByType($type) {
+		switch ($type) {
+			case "device": $type="d"; break;
+			case "gateway": $type="g"; break;
+			default: $type="d"; break;
+		}
 		if ($handle = opendir('img/type_icons')) {
 
 			$icons = array();
 		    while (false !== ($file = readdir($handle))) {
 		        if ($file != "." && $file != "..") {
-		            var_dump(explode('_',$file));
-		            $icons[] = $file;
+		            $split = explode('_',$file);
+
+		            if ($split[0] == $type) {
+		            	$icons[] = $file;
+		            }
 		        }
 		    }
 		    closedir($handle);
