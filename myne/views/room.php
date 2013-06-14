@@ -20,7 +20,6 @@
 				?>
 				<tr>
 					<td><b>Beschreibung</b></td>
-					<td><?= $room->description ?></td>
 					<td><a class="editable" id="<?= $room->name ?>-description" data-type="text" data-pk="description" data-url="<?php echo base_url(); ?>rooms/update/<?= $room->name ?>" data-original-title="Beschreibung"><?= $room->description ?></a></td>
 				</tr>
 		    <?php

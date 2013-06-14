@@ -20,7 +20,7 @@ class Rooms extends CI_Controller {
     public function update($name){
 		$this->load->model('room');
 		try {
-			$this->gateway->updateRoom($name,$_POST['pk'],$_POST['value']);
+			$this->room->updateRoom($name,$_POST['pk'],$_POST['value']);
 			return true;
 		} catch (Exception $e) {
 			show_error($e->getMessage(), 500);
