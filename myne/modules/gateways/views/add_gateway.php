@@ -33,7 +33,7 @@
 		$data = array(
 		  'name'        => 'gateways_clear_name',
 		  'id'          => 'gateways_clear_name',
-		  'placeholder' => '49880'
+		  'placeholder' => 'Gateway Name'
 		);
 		echo form_input($data);
 	  ?>
@@ -151,7 +151,7 @@
 		$data = array(
 		  'name'        => 'gateways_port',
 		  'id'          => 'gateways_port',
-		  'placeholder' => 'Gateway Port'
+		  'placeholder' => 'z.B. 49880 (für Connair)'
 		);
 		
 		echo form_input($data);
