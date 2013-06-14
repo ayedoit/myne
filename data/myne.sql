@@ -279,6 +279,28 @@ CREATE TABLE IF NOT EXISTS `modules` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `myne_data`
+--
+
+DROP TABLE IF EXISTS `myne_data`;
+CREATE TABLE IF NOT EXISTS `myne_data` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `models`
+--
+
+INSERT INTO `myne_data` (`id`, `name`, `value`) VALUES
+(1, 'installed', 'yes'),
+(2, 'version', '1.0');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rooms`
 --
 
