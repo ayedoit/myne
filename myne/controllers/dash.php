@@ -23,7 +23,18 @@ class Dash extends MY_Controller {
     
     public function cron() {
     	$this->load->model('cron');
-		echo $this->cron->listJobs();
+
+    	$should = '* * * * * curl http://192.168.0.107/tasks/run > /dev/null 2>&1';
+    	$cronjobs = $this->cron->listJobs();
+
+    	foreach ($cronjobs as $cronjob) {
+    		if ($cronjob == $should) {
+    			echo $cronjob;
+    		}
+    		else {
+    			echo "Fuck you";
+    		}
+    	}
 	
 	}
 

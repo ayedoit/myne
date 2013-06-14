@@ -162,7 +162,7 @@ Class cron extends CI_Model {
 	*/
 	function listJobs() {
 		$crontab = exec($this->crontab.' -l;',$output);
-		var_dump($output);
+		return($output);
 	}
 }
 ?>
