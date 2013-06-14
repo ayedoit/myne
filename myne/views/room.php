@@ -8,7 +8,7 @@
 				?>
 				<tr>
 					<td><b>Name</b></td>
-					<td><?= $room->clear_name ?></td>
+					<td><a class="editable" id="<?= $room->name ?>-clear_name" data-type="text" data-pk="clear_name" data-url="<?php echo base_url(); ?>rooms/update/<?= $room->name ?>" data-original-title="Name"><?= $room->clear_name ?></a></td>
 				</tr>
 		    <?php
 			}
