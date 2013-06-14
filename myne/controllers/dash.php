@@ -21,23 +21,18 @@ class Dash extends CI_Controller {
 	    $this->page->show($html);
     }
     
-    public function icons() {
-		$this->load->model('tools');
-		$icons = $this->tools->getIcons();
-
-		echo "Icons";
-		$icons = $this->tools->getIcons();
-		echo "<pre>".print_r($icons,true)."</pre>";
-
-		echo "Icons by Type";
-		$icons = $this->tools->getIconsByType('device');
-		echo "<pre>".print_r($icons,true)."</pre>";
-
-		foreach($icons as $icon) {
-			echo '<label class="radio inline iconpicker">';
-				echo '<input type="radio" id="icon" value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';
-			echo '</label>';
-		}
+    public function cron() {
+		$this->load->model('cron');
+        $cron = $this->cron->onDayOfWeek('*');
+        $this->cron->onHour('*');
+        $this->cron->onMinute('*');
+        $this->cron->onMonth('*');
+        $this->cron->ondayOfMonth('*');
+        $this->cron->doJob('curl http://192.168.0.107/tasks/run > /dev/null 2>&1');
+        $this->cron->listJobs();
+        
+        $this->cron->activate();
+        $this->cron->listJobs();
 		
 	}
 	

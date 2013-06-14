@@ -199,18 +199,5 @@ Class tools extends CI_Model {
 		}
 		return $icons;
 	}
-	
-	//~ $this->load->model('cron');
-					//~ $cron = $this->cron->onDayOfWeek('sat,sun');
-					//~ $this->cron->onHour(20);
-					//~ $this->cron->onMinute(10);
-					//~ $this->cron->onMonth('*');
-					//~ $this->cron->ondayOfMonth('*');
-					//~ $this->cron->doJob('echo "Hallo"');
-					//~ $this->cron->listJobs();
-					//~ 
-					//~ $this->cron->activate();
-					//~ $this->cron->listJobs();
-					//~ var_dump($cron);
 }
 ?>

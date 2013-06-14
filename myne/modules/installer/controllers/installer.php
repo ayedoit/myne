@@ -24,6 +24,20 @@ class Installer extends CI_Controller {
     	// Add User
     	$this->tools->addUser($_POST['username'],$_POST['password'],$_POST['givenname'],$_POST['surename']);
 
+        // Add Cron for Tasks
+        $this->load->model('cron');
+        $cron = $this->cron->onDayOfWeek('*');
+        $this->cron->onHour('*');
+        $this->cron->onMinute('*');
+        $this->cron->onMonth('*');
+        $this->cron->ondayOfMonth('*');
+        $this->cron->doJob('echo "Hallo"');
+        $this->cron->listJobs();
+        
+        $this->cron->activate();
+        $this->cron->listJobs();
+        var_dump($cron);
+
     	redirect(base_url('devices'), 'refresh');
     }
 
