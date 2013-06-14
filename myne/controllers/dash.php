@@ -35,7 +35,7 @@ class Dash extends CI_Controller {
 
 		foreach($icons as $icon) {
 			echo '<label class="radio inline">';
-				echo '<input type="radio" id="icon" value="'.$icon.'"> <img src="'.base_url('img/type_icons')."/".$icon.'" />';
+				echo '<input type="radio" id="icon" value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';
 			echo '</label>';
 		}
 		
