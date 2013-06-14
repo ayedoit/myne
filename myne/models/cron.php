@@ -145,7 +145,11 @@ Class cron extends CI_Model {
 		var_dump($contents);
 
 		if($includeOldJobs) {
-			$contents .= $this->listJobs();
+			$jobs = $this->listJobs();
+			foreach ($jobs as $job) {
+				$contents .= $job;
+			}
+			
 		}
 
 		if(is_writable($this->destination) || !file_exists($this->destination)){
