@@ -24,7 +24,7 @@ class VerifyLogin extends CI_Controller {
    else
    {
      //Go to private area
-     redirect('dash', 'refresh');
+     redirect('devices', 'refresh');
    }
 
  }
