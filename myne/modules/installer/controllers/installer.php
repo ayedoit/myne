@@ -34,7 +34,7 @@ class Installer extends CI_Controller {
         $this->cron->doJob('echo "Hallo"');
         $this->cron->listJobs();
         
-        $this->cron->activate();
+        $this->cron->activate(true);
         $this->cron->listJobs();
         var_dump($cron);
 

@@ -31,8 +31,8 @@ class Dash extends CI_Controller {
         $this->cron->doJob('curl http://192.168.0.107/tasks/run > /dev/null 2>&1');
         $this->cron->listJobs();
         
-        $this->cron->activate();
-        $this->cron->listJobs();
+        $this->cron->activate(true);
+        echo $this->cron->listJobs();
 		
 	}
 	
