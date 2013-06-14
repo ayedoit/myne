@@ -23,7 +23,10 @@ class Dash extends CI_Controller {
     
     public function icons() {
 		$this->load->model('tools');
-		$this->tools->getIcons();
+		$icons = $this->tools->getIcons();
+
+		echo "Icons";
+		echo "<pre>".print_r($icons,true)."</pre>";
 		
 	}
 	

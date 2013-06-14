@@ -164,12 +164,12 @@ Class tools extends CI_Model {
 			$icons = array();
 		    while (false !== ($file = readdir($handle))) {
 		        if ($file != "." && $file != "..") {
-		            echo "$file\n";
 		            $icons[] = $file;
 		        }
 		    }
 		    closedir($handle);
 		}
+		return $icons;
 	}
 
 	public function getIconsByType() {
@@ -178,13 +178,13 @@ Class tools extends CI_Model {
 			$icons = array();
 		    while (false !== ($file = readdir($handle))) {
 		        if ($file != "." && $file != "..") {
-		            echo "$file\n";
 		            echo explode('_',$file);
 		            $icons[] = $file;
 		        }
 		    }
 		    closedir($handle);
 		}
+		return $icons;
 	}
 	
 	//~ $this->load->model('cron');
