@@ -30,7 +30,7 @@ class Dash extends CI_Controller {
 		echo "<pre>".print_r($icons,true)."</pre>";
 
 		echo "Icons by Type";
-		$icons = $this->tools->getIconsByType('device');
+		$icons = $this->tools->getIconsByType('gateway');
 		echo "<pre>".print_r($icons,true)."</pre>";
 		
 	}
