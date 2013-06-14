@@ -79,29 +79,23 @@
 					  'name'        => 'devices_icon',
 					  'placeholder' => 'Geräte Icon'
 					);
-					
+
 					$icons = $this->tools->getIconsByType('device');
+					$count = sizeof($icons);
 					foreach($icons as $icon) {
 						echo '<label class="radio inline iconpicker">';
 							echo '<input type="radio" name="devices_icon" class="devices_icon" value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';
 						echo '</label>';
+
+						if ($count%4 == 0) {
+							echo "<br />";
+						}
 					}
 					
 				  ?>
 				  <span class="validation_space"></span>
 				</div>
 			</div>
-
-
-			echo "Icons by Type";
-		$icons = $this->tools->getIconsByType('device');
-		echo "<pre>".print_r($icons,true)."</pre>";
-
-		foreach($icons as $icon) {
-			echo '<label class="radio inline iconpicker">';
-				echo '<input type="radio" id="icon" value="'.$icon.'"> <img width="20" height="20" src="'.base_url('img/type_icons')."/".$icon.'" />';
-			echo '</label>';
-		}
 			
 			<div class="control-group">
 				<?php 
