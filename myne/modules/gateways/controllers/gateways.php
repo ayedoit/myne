@@ -1,4 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');class Gateways extends MX_Controller { 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class Gateways extends MY_Controller { 
 	public function index() {  
 	    $this->load->library('page');
 	    $html = $this->load->view('devices/devices_by_gateway',"",true);

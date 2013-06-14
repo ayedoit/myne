@@ -1,14 +1,5 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');class Devices extends MX_Controller { 
-	function __construct(){
-        parent::__construct();
-        
-        // Check Login
-        if($this->tools->getSettingByName('login') == 'true') {
-			$this->load->model('user');
-			if(!$this->user->is_logged_in()) redirect('login', 'refresh');
-		}
-    }
-	
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class Devices extends MY_Controller { 
 	public function index(){
 		$this->load->library('page');
 		
