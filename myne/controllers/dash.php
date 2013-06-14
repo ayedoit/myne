@@ -26,6 +26,11 @@ class Dash extends CI_Controller {
 		$icons = $this->tools->getIcons();
 
 		echo "Icons";
+		$icons = $this->tools->getIcons();
+		echo "<pre>".print_r($icons,true)."</pre>";
+
+		echo "Icons by Type";
+		$icons = $this->tools->getIconsByType();
 		echo "<pre>".print_r($icons,true)."</pre>";
 		
 	}
