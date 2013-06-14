@@ -21,9 +21,9 @@ class Dash extends CI_Controller {
 	    $this->page->show($html);
     }
     
-    public function mac() {
+    public function icons() {
 		$this->load->model('tools');
-		$this->tools->getMacAddress("192.168.0.11");
+		$this->tools->getIcons();
 		
 	}
 	
