@@ -83,7 +83,7 @@ nano myne
 **vHost Config**
 
 ```bash
-<VirtualHost 192.168.0.107:80>
+<VirtualHost *:80>
         ServerAdmin fpeter@ayedo.de
 
         DocumentRoot /var/www/myne
