@@ -46,10 +46,9 @@ class MY_Controller extends CI_Controller {
 		}
 		else {
 			// If installed, second install condition kicks in: b) is data-key "installed" true?
-			echo $this->tools->getMyneData('installed'); die;
-			if ($this->tools->getMyneData('installed') != 'true') {
+			if ($this->tools->getMyneData('installed') != 'yes') {
 				// if not true, redirect to installer
-				// Maybe someone wants a clean re-start and set the key to "false"
+				// Maybe someone wants a clean re-start and set the key to "no"
 				redirect(base_url('installer'), 'refresh');
 			}
 			else {
