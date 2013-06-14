@@ -50,7 +50,7 @@ $db['default']['stricton'] = FALSE;
 
 Webserver-Setup
 ---------------
-**myne** benutzt eine ```.htaccess``` Datei das Rewriting der URLs. Damit diese funktioniert, muss im vHost folgendes angepasst werden:
+**myne** benutzt eine ```.htaccess``` Datei für das Rewriting der URLs. Damit diese funktioniert, muss im vHost folgendes angepasst werden:
 
 **Apache**
 
