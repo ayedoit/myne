@@ -13,6 +13,9 @@ body {
   margin: 0 auto;
   width: 500px;
 }
+.iconpicker {
+  margin-right: 10px;
+}
 #myne_notify {
 	position: fixed;
   padding: 0;
