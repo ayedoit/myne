@@ -8,7 +8,7 @@
 				?>
 				<tr>
 					<td><b>Name</b></td>
-					<td><?= $group->clear_name ?></td>
+					<td><a class="editable" id="<?= $group->name ?>-clear_name" data-type="text" data-pk="clear_name" data-url="<?php echo base_url(); ?>devices/update/group/<?= $group->name ?>" data-original-title="Name"><?= $group->clear_name ?></a></td>
 				</tr>
 		    <?php
 			}
@@ -20,7 +20,7 @@
 				?>
 				<tr>
 					<td><b>Beschreibung</b></td>
-					<td><?= $group->description ?></td>
+					<td><a class="editable" id="<?= $group->name ?>-description" data-type="text" data-pk="description" data-url="<?php echo base_url(); ?>devices/update/group/<?= $group->name ?>" data-original-title="Beschreibung"><?= $group->description ?></a></td>
 				</tr>
 		    <?php
 			}

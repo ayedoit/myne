@@ -34,7 +34,13 @@
 			}
 		}
 		elseif ($type == 'group') {
-			
+			$this->load->model('devices/device');
+			try {
+				$update = $this->device->updateGroup($name,$_POST['pk'],$_POST['value']);
+				return true;
+			} catch (Exception $e) {
+				show_error($e->getMessage(), 500);
+			}
 		}		
 	}
 	

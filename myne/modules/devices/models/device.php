@@ -554,6 +554,22 @@ Class device extends CI_Model {
 			throw new Exception($e->getMessage());
 		} 
 	}
+
+	public function updateGroup($name,$what,$new_value) {
+		$data = array(
+		   $what => $new_value
+		);
+		
+		$this->db->where('name', $name);
+		try {
+			$this->db->update('groups', $data);
+			log_message('debug', 'Updating group with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database');
+			return true;
+		}  catch (Exception $e) {
+			log_message('debug', 'Updating group with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
+			throw new Exception($e->getMessage());
+		} 
+	}
 	
 	public function deleteGroup($name) {
 		log_message('debug', 'Attempting to remove device group with name "'.$name.'" from database...');

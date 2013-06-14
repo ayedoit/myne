@@ -21,7 +21,7 @@ body {
   padding: 0;
   text-align: center;
   width: 100%;
-  z-index: 800;
+  z-index: 999;
   margin: 0;
   color: #fff;
   font-weight: bold;
