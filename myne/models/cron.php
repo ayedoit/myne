@@ -161,7 +161,8 @@ Class cron extends CI_Model {
 	* @return string
 	*/
 	function listJobs() {
-		echo exec($this->crontab.' -l;');
+		$crontab = exec($this->crontab.' -l;',$output);
+		var_dump($output);
 	}
 }
 ?>
