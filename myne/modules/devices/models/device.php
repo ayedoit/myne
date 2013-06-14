@@ -562,7 +562,7 @@ Class device extends CI_Model {
 		
 		$this->db->where('name', $name);
 		try {
-			$this->db->update('groups', $data);
+			$this->db->update('device_groups', $data);
 			log_message('debug', 'Updating group with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database');
 			return true;
 		}  catch (Exception $e) {
