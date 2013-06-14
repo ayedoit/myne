@@ -47,6 +47,30 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 ```
+
+Webserver-Setup
+---------------
+**myne** benutzt eine ```.htaccess``` Datei das Rewriting der URLs. Damit diese funktioniert, muss im vHost folgendes angepasst werden:
+
+**Apache**
+
+```bash
+<Directory /var/www/myne>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+</Directory>
+```
+Wichtig ist der Part "AllowOverride All".
+
+Zusätzlich muss natürlich **mod_rewrite** aktiviert werden.
+
+```bash
+a2enmod rewrite
+service apache2 restart
+```
+
 Der Installer
 -------------
 Wenn eure Datenbank-Zugangsdaten eingetragen sind und euer Webserver richtig konfiguriert ist (das überlasse ich mal jedem selbst, da man dafür kein Allgemeinrezept hierhin packen kann), dann ruft den Installer auf: 
