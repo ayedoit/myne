@@ -62,9 +62,18 @@
 						'icon' => $_POST['gateways_icon'],
 						'type' => $_POST['gateways_type'],
 						'address' => $_POST['gateways_address'],
-						'port' => $_POST['gateways_port'],
-						'room' => $_POST['gateways_room']
-					);			
+						'port' => $_POST['gateways_port']
+					);		
+
+					if ($_POST['gateways_room'] == 'latest') {
+						$this->load->model('room');
+						$latest_room = $this->room->getLatestRoom();
+						
+						$latest_room_id = $latest_room->id;
+					}
+					else {
+						$latest_room_id = $_POST['gateways_room'];
+					}	
 
 					// Insert!
 					$gateway_id = $this->gateway->addGateway($gateway_data);
