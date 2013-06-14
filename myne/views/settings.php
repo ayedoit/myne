@@ -108,7 +108,7 @@
 					"text":"Cron gesetzt",
 					"class":"success"
 				});
-				$(this).removeClass('btn-primary').addClass('success').addClass('disabled');
+				$(this).removeClass('btn-primary').addClass('disabled btn-success');
 			}
 		});
 	});
