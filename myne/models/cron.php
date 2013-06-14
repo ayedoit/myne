@@ -142,6 +142,8 @@ Class cron extends CI_Model {
 		$contents  = implode("\n", $this->jobs);
 		$contents .= "\n";
 
+		var_dump($contents);
+
 		if($includeOldJobs) {
 			$contents .= $this->listJobs();
 		}
