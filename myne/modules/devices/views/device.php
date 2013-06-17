@@ -79,7 +79,14 @@
 		    
 				<script>
 					$(function(){
-						var type = $('#<?= $device->name ?>-type').data('curr');
+						var response = $(this).myne_api({
+						  method: "getDeviceByName",
+						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
+						});
+
+						var return = jQuery.parseJSON(response.responseText);
+						var type = return.result["type"];
+						
 						$('#<?= $device->name ?>-vendor').editable({
 							value: $(this).data('curr'),
 							source: function() {
@@ -128,16 +135,13 @@
 		    
 				<script>
 					$(function(){
-						//var vendor = $('#<?= $device->name ?>-vendor').data('curr');
 						var response = $(this).myne_api({
 						  method: "getDeviceByName",
 						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 						});
 
-						var vendor = jQuery.parseJSON(response.responseText);
-						console.log(vendor);
-						console.log(vendor.result["vendor"]);
-						console.log(vendor["result"]);
+						var return = jQuery.parseJSON(response.responseText);
+						var vendor = return.result["vendor"];
 
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
