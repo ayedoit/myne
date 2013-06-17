@@ -121,7 +121,12 @@ class Tasks extends MY_Controller {
 					$task_id = $this->task->addTask($task_data);
 					
 					// Done!
-					redirect(base_url('devices/show/'.$task_data['target_name']), 'refresh');
+					switch ($task_data['target_type']) {
+						case 'device': $url =
+						case 'group': $url = 'devices/showgroup/'.$task_data['target_name']; break;
+						default: $url = 'devices/show/'.$task_data['target_name']; break;
+					}
+					redirect(base_url($url), 'refresh');
 				}
 				else {
 					log_message('debug', '[Tasks/Add]: Validation requested but no data submitted');
