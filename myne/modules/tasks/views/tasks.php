@@ -47,7 +47,7 @@ if (sizeof($tasks) != 0) {
 								$action = $this->device->getOptionByID($task->action);
 								if ($action->name == 'toggle') {
 									if ($task->action_opt == 'on') {
-										echo "<button data-type='device' id='button-task-".$task->name."' data-name='".$device->name."' class='toggle_on btn btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></button>";
+										echo "<button data-type='".$device_type."' id='button-task-".$task->name."' data-name='".$target->name."' class='toggle_on btn btn-success' title='".$target->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></button>";
 										
 										// Change
 										echo '<button class="btn dropdown-toggle" data-toggle="dropdown">';
@@ -58,7 +58,7 @@ if (sizeof($tasks) != 0) {
 										echo '</ul>';
 									}
 									else {
-										echo "<button data-type='device' id='button-task-".$task->name."' data-name='".$device->name."' class='toggle_off btn btn-danger' title='".$device->clear_name." anschalten.' ><i class='icon-off icon-white'></i></button>";
+										echo "<button data-type='".$device_type."' id='button-task-".$task->name."' data-name='".$target->name."' class='toggle_off btn btn-danger' title='".$target->clear_name." anschalten.' ><i class='icon-off icon-white'></i></button>";
 										// Change
 										echo '<button class="btn dropdown-toggle" data-toggle="dropdown">';
 											echo '<span class="caret"></span>';
