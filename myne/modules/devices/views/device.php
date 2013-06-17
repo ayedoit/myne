@@ -79,12 +79,13 @@
 		    
 				<script>
 					$(function(){
+						var type = $('#<?= $device->name ?>-type').data('curr');
 						$('#<?= $device->name ?>-vendor').editable({
 							value: $(this).data('curr'),
 							source: function() {
 								var gateways = $(this).myne_api({
-								  method: "getVendors",
-								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":[""]}
+								  method: "getVendorsByType",
+								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":["type":type]}
 								});
 								response = jQuery.parseJSON(gateways.responseText);
 								
