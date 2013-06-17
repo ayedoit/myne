@@ -403,7 +403,7 @@
 			}
 
 			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {				
-				$("#tasks_target option").each(function() {
+				$("#tasks_target_name option").each(function() {
 					$(this).remove();
 				});
 				
