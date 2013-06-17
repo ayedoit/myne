@@ -380,6 +380,6 @@
 		</table>
 	</div>
 	<?php
-		$this->load->view('tasks/tasks');	
+		$this->load->view('tasks/tasks',array('device_type' => 'device'));	
 	?>
 </div>
