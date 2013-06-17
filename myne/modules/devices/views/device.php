@@ -263,23 +263,49 @@
 				<script>
 					$(document).ready(function() {
 						$('.remove_group').click(function() {
-							$(this).myne_api({
+							var response = $(this).myne_api({
 							  method: "removeGroupMember",
 							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
 							});
 							$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
 							var value = parseInt($('.group_count').text());
 							$('.group_count').text(value-1);
+
+							if (r_value.hasOwnProperty('error')) {
+								$(this).myne_notify({
+									"text":r_value.error.message,
+									"class":"error"
+								});
+							}
+							else {
+								$(this).myne_notify({
+									"text":"Einstellungen gespeichert",
+									"class":"success"
+								});
+							}
 						});
 						
 						$('.add_group').click(function() {
-							$(this).myne_api({
+							var response = $(this).myne_api({
 							  method: "addGroupMember",
 							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
 							});
 							$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
 							var value = parseInt($('.group_count').text());
 							$('.group_count').text(value+1);
+
+							if (r_value.hasOwnProperty('error')) {
+								$(this).myne_notify({
+									"text":r_value.error.message,
+									"class":"error"
+								});
+							}
+							else {
+								$(this).myne_notify({
+									"text":"Einstellungen gespeichert",
+									"class":"success"
+								});
+							}
 						});
 					});
 				</script>
