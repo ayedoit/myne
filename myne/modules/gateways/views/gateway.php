@@ -147,6 +147,12 @@
 
 <div class="row-fluid">
 	<?php
+		$this->load->view('tasks/tasks',array('device_type' => 'gateway', 'target' => $gateway));	
+	?>
+</div>
+
+<div class="row-fluid">
+	<?php
 	echo "<ul class='inline'>";
 		echo "<li><a class='btn btn-danger' href='".base_url('gateways/delete/'.$gateway->name.'/confirm')."' title='Löschen'><i class='icon-remove-circle icon-white'></i> Löschen</a></li>";
 	echo "</ul>";
