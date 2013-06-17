@@ -383,7 +383,6 @@
 	$(document).ready(function() { 
 		$('#tasks_target_type').change(function() {
 			var value = $('#tasks_target_type').val();
-			console.log(value);
 			var response = "";
 			
 			// Get entries for selected type
