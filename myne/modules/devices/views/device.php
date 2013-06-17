@@ -271,6 +271,7 @@
 							var value = parseInt($('.group_count').text());
 							$('.group_count').text(value-1);
 
+							var r_value = jQuery.parseJSON(response.responseText);
 							if (r_value.hasOwnProperty('error')) {
 								$(this).myne_notify({
 									"text":r_value.error.message,
@@ -294,6 +295,7 @@
 							var value = parseInt($('.group_count').text());
 							$('.group_count').text(value+1);
 
+							var r_value = jQuery.parseJSON(response.responseText);
 							if (r_value.hasOwnProperty('error')) {
 								$(this).myne_notify({
 									"text":r_value.error.message,
