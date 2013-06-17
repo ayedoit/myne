@@ -95,6 +95,7 @@
 		    ?>
 		  </ul>
 		</div>
+		echo "<li><a class='btn btn-primary	' href='".base_url('tasks/add/new/group/'.$group->name)."' title='Neuer Task'><i class='icon-plus icon-white'></i> Task</a></li>";
 	<?php
 	echo "</ul>";
 	?>
