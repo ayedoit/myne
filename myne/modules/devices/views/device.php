@@ -113,6 +113,7 @@
 									"text":"Einstellungen gespeichert",
 									"class":"success"
 								});
+								$(this).data().editable.input.sourceData = null;
 							},
 							error: function(response, newValue) {
 							    $(this).myne_notify({
@@ -170,6 +171,7 @@
 									"text":"Einstellungen gespeichert",
 									"class":"success"
 								});
+								$(this).data().editable.input.sourceData = null;
 							},
 							error: function(response, newValue) {
 							    $(this).myne_notify({
