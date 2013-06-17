@@ -135,7 +135,7 @@
 						});
 
 						var vendor = jQuery.parseJSON(response.responseText);
-						console.log(vendor.response.vendor);
+						console.log(vendor);
 
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
