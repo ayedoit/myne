@@ -131,7 +131,7 @@
 						//var vendor = $('#<?= $device->name ?>-vendor').data('curr');
 						var response = $(this).myne_api({
 						  method: "getDeviceByName",
-						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":[<?= $device->name; ?>]}
+						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 						});
 
 						var vendor = jQuery.parseJSON(response.responseText);
