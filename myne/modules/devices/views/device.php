@@ -28,44 +28,46 @@
 				?>
 				<td><b>Typ</b></td>
 				<td><a class="editable-select" id="<?= $device->name ?>-type" data-type="select" data-curr="<?= $type->id ?>" data-pk="type" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Typ"><?= $type->clear_name ?></a></td>
-			</tr>
-			<script>
-				$(function(){
-					$('#<?= $device->name ?>-type').editable({
-						value: $(this).data('curr'),
-						source: function() {
-							var gateways = $(this).myne_api({
-							  method: "getDeviceTypes",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":[""]}
-							});
-							response = jQuery.parseJSON(gateways.responseText);
-							
-							var data = [];
-							$.each(response.result, function (key,value) {
-								var values = {};
-								values['value'] = value.id;
-								values['text'] = value.clear_name;
+			
+				<script>
+					$(function(){
+						$('#<?= $device->name ?>-type').editable({
+							value: $(this).data('curr'),
+							source: function() {
+								var gateways = $(this).myne_api({
+								  method: "getDeviceTypes",
+								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":[""]}
+								});
+								response = jQuery.parseJSON(gateways.responseText);
 								
-								data.push(values);
-							});
-							
-							return data;
-						},
-						success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
+								var data = [];
+								$.each(response.result, function (key,value) {
+									var values = {};
+									values['value'] = value.id;
+									values['text'] = value.clear_name;
+									
+									data.push(values);
+								});
+								
+								return data;
+							},
+							success: function(response, newValue) {
+							    $(this).myne_notify({
+									"text":"Einstellungen gespeichert",
+									"class":"success"
+								});
+							},
+							error: function(response, newValue) {
+							    $(this).myne_notify({
+									"text":"Einstellungen nicht gespeichert",
+									"class":"error"
+								});
+							}
+						});
 					});
-				});
-			</script>
+				</script>
+			</tr>
+		
 		    <tr>
 				<?php
 				// Get Vendor-Data
@@ -74,44 +76,46 @@
 				?>
 				<td><b>Hersteller</b></td>
 				<td><a class="editable-select" id="<?= $device->name ?>-vendor" data-type="select" data-curr="<?= $vendor->id ?>" data-pk="vendor" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Hersteller"><?= $vendor->clear_name ?></a></td>
-		    </tr>
-		    <script>
-				$(function(){
-					$('#<?= $device->name ?>-vendor').editable({
-						value: $(this).data('curr'),
-						source: function() {
-							var gateways = $(this).myne_api({
-							  method: "getVendors",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":[""]}
-							});
-							response = jQuery.parseJSON(gateways.responseText);
-							
-							var data = [];
-							$.each(response.result, function (key,value) {
-								var values = {};
-								values['value'] = value.id;
-								values['text'] = value.clear_name;
+		    
+				<script>
+					$(function(){
+						$('#<?= $device->name ?>-vendor').editable({
+							value: $(this).data('curr'),
+							source: function() {
+								var gateways = $(this).myne_api({
+								  method: "getVendors",
+								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":[""]}
+								});
+								response = jQuery.parseJSON(gateways.responseText);
 								
-								data.push(values);
-							});
-							
-							return data;
-						},
-						success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
+								var data = [];
+								$.each(response.result, function (key,value) {
+									var values = {};
+									values['value'] = value.id;
+									values['text'] = value.clear_name;
+									
+									data.push(values);
+								});
+								
+								return data;
+							},
+							success: function(response, newValue) {
+							    $(this).myne_notify({
+									"text":"Einstellungen gespeichert",
+									"class":"success"
+								});
+							},
+							error: function(response, newValue) {
+							    $(this).myne_notify({
+									"text":"Einstellungen nicht gespeichert",
+									"class":"error"
+								});
+							}
+						});
 					});
-				});
-			</script>
+				</script>
+		    </tr>
+		    
 		    <tr>
 				<?php
 				// Get Model-Data
@@ -120,44 +124,45 @@
 				?>
 				<td><b>Modell</b></td>
 				<td><a class="editable-select" id="<?= $device->name ?>-model" data-type="select" data-curr="<?= $model->id ?>" data-pk="model" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Modell"><?= $model->clear_name ?></a></td>
-		    </tr>
-		    <script>
-				$(function(){
-					$('#<?= $device->name ?>-model').editable({
-						value: $(this).data('curr'),
-						source: function() {
-							var gateways = $(this).myne_api({
-							  method: "getModels",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/model", "opts":[""]}
-							});
-							response = jQuery.parseJSON(gateways.responseText);
-							
-							var data = [];
-							$.each(response.result, function (key,value) {
-								var values = {};
-								values['value'] = value.id;
-								values['text'] = value.clear_name;
+		    
+				<script>
+					$(function(){
+						$('#<?= $device->name ?>-model').editable({
+							value: $(this).data('curr'),
+							source: function() {
+								var gateways = $(this).myne_api({
+								  method: "getModels",
+								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/model", "opts":[""]}
+								});
+								response = jQuery.parseJSON(gateways.responseText);
 								
-								data.push(values);
-							});
-							
-							return data;
-						},
-						success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
+								var data = [];
+								$.each(response.result, function (key,value) {
+									var values = {};
+									values['value'] = value.id;
+									values['text'] = value.clear_name;
+									
+									data.push(values);
+								});
+								
+								return data;
+							},
+							success: function(response, newValue) {
+							    $(this).myne_notify({
+									"text":"Einstellungen gespeichert",
+									"class":"success"
+								});
+							},
+							error: function(response, newValue) {
+							    $(this).myne_notify({
+									"text":"Einstellungen nicht gespeichert",
+									"class":"error"
+								});
+							}
+						});
 					});
-				});
-			</script>
+				</script>
+		    </tr>
 		    
 		    <?php
 			// Get Room
@@ -179,48 +184,49 @@
 							$room = $this->room->getRoomByID($device->room);
 						?>
 						<td><a class="editable-select" id="<?= $device->name ?>-room" data-type="select" data-curr="<?= $room->id ?>" data-pk="room" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Raum"><?= $room->clear_name ?></a> <a href="<?= base_url('rooms/show/'.$room->name) ?>"><i class="icon-share-alt"></i></a></td>
+					
+						<script>
+							$(function(){
+								$('#<?= $device->name ?>-room').editable({
+									value: $(this).data('curr'),
+									source: function() {
+										var gateways = $(this).myne_api({
+										  method: "getRooms",
+										  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "room", "opts":[""]}
+										});
+										response = jQuery.parseJSON(gateways.responseText);
+										
+										var data = [];
+										$.each(response.result, function (key,value) {
+											var values = {};
+											values['value'] = value.id;
+											values['text'] = value.clear_name;
+											
+											data.push(values);
+										});
+										
+										return data;
+									},
+									success: function(response, newValue) {
+									    $(this).myne_notify({
+											"text":"Einstellungen gespeichert",
+											"class":"success"
+										});
+									},
+									error: function(response, newValue) {
+									    $(this).myne_notify({
+											"text":"Einstellungen nicht gespeichert",
+											"class":"error"
+										});
+									}
+								});
+							});
+						</script>
 					</tr>
 				<?php
 				}
 			}
-			?>
-		    <script>
-				$(function(){
-					$('#<?= $device->name ?>-room').editable({
-						value: $(this).data('curr'),
-						source: function() {
-							var gateways = $(this).myne_api({
-							  method: "getRooms",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "room", "opts":[""]}
-							});
-							response = jQuery.parseJSON(gateways.responseText);
-							
-							var data = [];
-							$.each(response.result, function (key,value) {
-								var values = {};
-								values['value'] = value.id;
-								values['text'] = value.clear_name;
-								
-								data.push(values);
-							});
-							
-							return data;
-						},
-						success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
-					});
-				});
-			</script> 
+			?> 
 		    		    
 		    <tr>
 				<td><b>Gruppe</b></td>
@@ -253,30 +259,31 @@
 						</ul>
 					</li>
 				</td>
+
+				<script>
+					$(document).ready(function() {
+						$('.remove_group').click(function() {
+							$(this).myne_api({
+							  method: "removeGroupMember",
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
+							});
+							$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+							var value = parseInt($('.group_count').text());
+							$('.group_count').text(value-1);
+						});
+						
+						$('.add_group').click(function() {
+							$(this).myne_api({
+							  method: "addGroupMember",
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
+							});
+							$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+							var value = parseInt($('.group_count').text());
+							$('.group_count').text(value+1);
+						});
+					});
+				</script>
 			</tr>
-			<script>
-				$(document).ready(function() {
-					$('.remove_group').click(function() {
-						$(this).myne_api({
-						  method: "removeGroupMember",
-						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
-						});
-						$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
-						var value = parseInt($('.group_count').text());
-						$('.group_count').text(value-1);
-					});
-					
-					$('.add_group').click(function() {
-						$(this).myne_api({
-						  method: "addGroupMember",
-						  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('id'),"device_id":$(this).data('device')}}
-						});
-						$('#group-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
-						var value = parseInt($('.group_count').text());
-						$('.group_count').text(value+1);
-					});
-				});
-			</script>
 			
 			<?php
 			// Get Gateway
@@ -298,48 +305,49 @@
 							$gateway = $this->gateway->getGatewayByID($device->gateway);
 						?>
 						<td><a class="editable-select" id="<?= $device->name ?>-gateway" data-type="select" data-curr="<?= $gateway->id ?>" data-pk="gateway" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Gateway"><?= $gateway->clear_name ?></a> <a href="<?= base_url('gateways/show/'.$gateway->name) ?>"><i class="icon-share-alt"></i></a></td>
+					
+						<script>
+							$(function(){
+								$('#<?= $device->name ?>-gateway').editable({
+									value: $(this).data('curr'),
+									source: function() {
+										var gateways = $(this).myne_api({
+										  method: "getGateways",
+										  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "gateways/gateway", "opts":[""]}
+										});
+										response = jQuery.parseJSON(gateways.responseText);
+										
+										var data = [];
+										$.each(response.result, function (key,value) {
+											var values = {};
+											values['value'] = value.id;
+											values['text'] = value.clear_name;
+											
+											data.push(values);
+										});
+										
+										return data;
+									},
+									success: function(response, newValue) {
+									    $(this).myne_notify({
+											"text":"Einstellungen gespeichert",
+											"class":"success"
+										});
+									},
+									error: function(response, newValue) {
+									    $(this).myne_notify({
+											"text":"Einstellungen nicht gespeichert",
+											"class":"error"
+										});
+									}
+								});
+							});
+						</script>
 					</tr>
 				<?php
 				}
 			}
 			?>
-		    <script>
-				$(function(){
-					$('#<?= $device->name ?>-gateway').editable({
-						value: $(this).data('curr'),
-						source: function() {
-							var gateways = $(this).myne_api({
-							  method: "getGateways",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "gateways/gateway", "opts":[""]}
-							});
-							response = jQuery.parseJSON(gateways.responseText);
-							
-							var data = [];
-							$.each(response.result, function (key,value) {
-								var values = {};
-								values['value'] = value.id;
-								values['text'] = value.clear_name;
-								
-								data.push(values);
-							});
-							
-							return data;
-						},
-						success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
-					});
-				});
-			</script>
 		    
 		    <?php
 			// Get Master DIP
@@ -360,86 +368,87 @@
 				<tr>
 					<td><b>Slave DIP</b></td>
 					<td><a class="slavedip-editable" id="<?= $device->name ?>-slavedip" data-type="text" data-pk="slavedip" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Slave DIP"><?= $device->slavedip ?></a></td>
+					
+					<script>
+						$(document).ready(function() {
+							$('.slavedip-editable').editable({
+							    mode: 'popup',
+							    validate: function(value) {
+							    	var slavedip = value;
+							    	var masterdip = $('.masterdip-editable').text();
+								    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
+									$.ajax({
+										url: "<?= base_url('api/request'); ?>",
+										type: "post",
+										data: JSON.stringify(request),
+										dataType: "json",
+										async: false,
+										success: function(data) {
+											response = data;
+										} 
+									});	
+									if (response.result=="true") {
+										return "";
+									}
+									else {
+										return "Diese Master DIP / Slave DIP Kombination existiert bereits!";
+									}
+								},
+							    success: function(response, newValue) {
+								    $(this).myne_notify({
+										"text":"Einstellungen gespeichert",
+										"class":"success"
+									});
+								},
+								error: function(response, newValue) {
+								    $(this).myne_notify({
+										"text":"Einstellungen nicht gespeichert",
+										"class":"error"
+									});
+								}
+							});
+							$('.masterdip-editable').editable({
+							    mode: 'popup',
+							    validate: function(value) {
+							    	var slavedip = $('.slavedip-editable').text();
+							    	var masterdip = value;
+								    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
+									$.ajax({
+										url: "<?= base_url('api/request'); ?>",
+										type: "post",
+										data: JSON.stringify(request),
+										dataType: "json",
+										async: false,
+										success: function(data) {
+											response = data;
+										} 
+									});	
+									if (response.result=="true") {
+										return "";
+									}
+									else {
+										return "Diese Master DIP / Slave DIP Kombination existiert bereits!";
+									}
+								},
+							    success: function(response, newValue) {
+								    $(this).myne_notify({
+										"text":"Einstellungen gespeichert",
+										"class":"success"
+									});
+								},
+								error: function(response, newValue) {
+								    $(this).myne_notify({
+										"text":"Einstellungen nicht gespeichert",
+										"class":"error"
+									});
+								}
+							});
+						});
+					</script>
 				</tr>
 		    <?php
 			}
 			?>
-			<script>
-				$(document).ready(function() {
-					$('.slavedip-editable').editable({
-					    mode: 'popup',
-					    validate: function(value) {
-					    	var slavedip = value;
-					    	var masterdip = $('.masterdip-editable').text();
-						    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
-							$.ajax({
-								url: "<?= base_url('api/request'); ?>",
-								type: "post",
-								data: JSON.stringify(request),
-								dataType: "json",
-								async: false,
-								success: function(data) {
-									response = data;
-								} 
-							});	
-							if (response.result=="true") {
-								return "";
-							}
-							else {
-								return "Diese Master DIP / Slave DIP Kombination existiert bereits!";
-							}
-						},
-					    success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
-					});
-					$('.masterdip-editable').editable({
-					    mode: 'popup',
-					    validate: function(value) {
-					    	var slavedip = $('.slavedip-editable').text();
-					    	var masterdip = value;
-						    var request = {"jsonrpc": "2.0", "method": "dipIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[masterdip,slavedip]}, "id": 1};
-							$.ajax({
-								url: "<?= base_url('api/request'); ?>",
-								type: "post",
-								data: JSON.stringify(request),
-								dataType: "json",
-								async: false,
-								success: function(data) {
-									response = data;
-								} 
-							});	
-							if (response.result=="true") {
-								return "";
-							}
-							else {
-								return "Diese Master DIP / Slave DIP Kombination existiert bereits!";
-							}
-						},
-					    success: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen gespeichert",
-								"class":"success"
-							});
-						},
-						error: function(response, newValue) {
-						    $(this).myne_notify({
-								"text":"Einstellungen nicht gespeichert",
-								"class":"error"
-							});
-						}
-					});
-				});
-			</script>
 			
 			<?php
 			// Get Address
