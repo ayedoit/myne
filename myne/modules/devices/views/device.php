@@ -79,17 +79,17 @@
 		    
 				<script>
 					$(function(){
-						var response = $(this).myne_api({
-						  method: "getDeviceByName",
-						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
-						});
-
-						var api_response = jQuery.parseJSON(response.responseText);
-						var type = api_response.result["type"];
-
 						$('#<?= $device->name ?>-vendor').editable({
 							value: $(this).data('curr'),
 							source: function() {
+								var response = $(this).myne_api({
+								  method: "getDeviceByName",
+								  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
+								});
+
+								var api_response = jQuery.parseJSON(response.responseText);
+								var type = api_response.result["type"];
+								
 								var gateways = $(this).myne_api({
 								  method: "getVendorsByType",
 								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":[type]}
@@ -135,17 +135,17 @@
 		    
 				<script>
 					$(function(){
-						var response = $(this).myne_api({
-						  method: "getDeviceByName",
-						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
-						});
-
-						var api_response = jQuery.parseJSON(response.responseText);
-						var vendor = api_response.result["vendor"];
-
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
 							source: function() {
+								var response = $(this).myne_api({
+								  method: "getDeviceByName",
+								  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
+								});
+
+								var api_response = jQuery.parseJSON(response.responseText);
+								var vendor = api_response.result["vendor"];
+
 								var gateways = $(this).myne_api({
 								  method: "getModelsByVendor",
 								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/model", "opts":[vendor]}
