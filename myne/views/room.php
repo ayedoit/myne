@@ -43,6 +43,7 @@
 	<?php
 	echo "<ul class='inline'>";
 		echo "<li><a class='btn btn-danger' href='".base_url('rooms/delete/'.$room->name.'/confirm')."' title='Löschen'><i class='icon-remove-circle icon-white'></i> Löschen</a></li>";
+		echo "<li><a class='btn btn-primary' href='".base_url('tasks/add/new/room/'.$room->name)."' title='Neuer Task'><i class='icon-plus icon-white'></i> Task</a></li>";
 	echo "</ul>";
 	?>
 </div>
