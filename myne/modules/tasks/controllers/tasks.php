@@ -122,7 +122,7 @@ class Tasks extends MY_Controller {
 					
 					// Done!
 					switch ($task_data['target_type']) {
-						case 'device': $url =
+						case 'device': $url = 'devices/show/'.$task_data['target_name']; break;
 						case 'group': $url = 'devices/showgroup/'.$task_data['target_name']; break;
 						default: $url = 'devices/show/'.$task_data['target_name']; break;
 					}
