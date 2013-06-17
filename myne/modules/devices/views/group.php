@@ -57,16 +57,18 @@
 			</tr>	
 		</table>
 	</div>
-
-	<?php
-		$this->load->view('tasks/tasks',array('device_type' => 'group', 'target' => $group));	
-	?>
 	
 	<div class="span6">
 		<?php
 			$this->load->view('devices/devices_by_group',array('group' => $group));
 		?>
 	</div>
+</div>
+
+<div class="row-fluid">
+	<?php
+		$this->load->view('tasks/tasks',array('device_type' => 'group', 'target' => $group));	
+	?>
 </div>
 
 <div class="row-fluid">
