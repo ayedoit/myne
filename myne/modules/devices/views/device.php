@@ -36,8 +36,45 @@
 				$vendor = $this->vendor->getVendorByID($device->vendor);
 				?>
 				<td><b>Hersteller</b></td>
-				<td><?= $vendor->clear_name ?></td>
+				<td><a class="editable-select" id="<?= $device->name ?>-vendor" data-type="select" data-curr="<?= $vendor->id ?>" data-pk="vendor" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Hersteller"><?= $vendor->clear_name ?></a></td>
 		    </tr>
+		    <script>
+				$(function(){
+					$('#<?= $device->name ?>-vendor').editable({
+						value: $(this).data('curr'),
+						source: function() {
+							var gateways = $(this).myne_api({
+							  method: "getVendors",
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":[""]}
+							});
+							response = jQuery.parseJSON(gateways.responseText);
+							
+							var data = [];
+							$.each(response.result, function (key,value) {
+								var values = {};
+								values['value'] = value.id;
+								values['text'] = value.clear_name;
+								
+								data.push(values);
+							});
+							
+							return data;
+						},
+						success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						},
+						error: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen nicht gespeichert",
+								"class":"error"
+							});
+						}
+					});
+				});
+			</script>
 		    <tr>
 				<?php
 				// Get Model-Data
