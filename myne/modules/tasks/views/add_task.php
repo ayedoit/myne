@@ -398,9 +398,13 @@
 			else if (value == 'type') {
 				var request = {"jsonrpc": "2.0", "method": "getDeviceTypes", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"devices/device","opts":[""]}, "id": 2};
 			}
+			else if (value == 'gateway') {
+				var request = {"jsonrpc": "2.0", "method": "getGateways", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"gateways/gateway","opts":[""]}, "id": 2};
+			}
 
 			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				response = jQuery.parseJSON(data);
+				console.log(response);
 				
 				$("#tasks_target option").each(function() {
 					$(this).remove();
