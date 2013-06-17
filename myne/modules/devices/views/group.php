@@ -57,6 +57,10 @@
 			</tr>	
 		</table>
 	</div>
+
+	<?php
+		$this->load->view('tasks/tasks',array('device_type' => 'device'));	
+	?>
 	
 	<div class="span6">
 		<?php
