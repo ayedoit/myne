@@ -82,19 +82,19 @@
 						$('#<?= $device->name ?>-vendor').editable({
 							value: $(this).data('curr'),
 							source: function() {
-								var response = $(this).myne_api({
+								var api_type = $(this).myne_api({
 								  method: "getDeviceByName",
 								  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 								});
 
-								var api_response = jQuery.parseJSON(response.responseText);
-								var type = api_response.result["type"];
-								
-								var gateways = $(this).myne_api({
+								var api_type_response = jQuery.parseJSON(api_type.responseText);
+								var type = api_type_response.result["type"];
+
+								var vendors = $(this).myne_api({
 								  method: "getVendorsByType",
 								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":[type]}
 								});
-								response = jQuery.parseJSON(gateways.responseText);
+								response = jQuery.parseJSON(vendors.responseText);
 								
 								var data = [];
 								$.each(response.result, function (key,value) {
@@ -138,19 +138,19 @@
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
 							source: function() {
-								var response = $(this).myne_api({
+								var api_vendor = $(this).myne_api({
 								  method: "getDeviceByName",
 								  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 								});
 
-								var api_response = jQuery.parseJSON(response.responseText);
-								var vendor = api_response.result["vendor"];
+								var api_vendor_response = jQuery.parseJSON(api_vendor.responseText);
+								var vendor = api_vendor_response.result["vendor"];
 
-								var gateways = $(this).myne_api({
+								var models = $(this).myne_api({
 								  method: "getModelsByVendor",
 								  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/model", "opts":[vendor]}
 								});
-								response = jQuery.parseJSON(gateways.responseText);
+								response = jQuery.parseJSON(models.responseText);
 								
 								var data = [];
 								$.each(response.result, function (key,value) {
