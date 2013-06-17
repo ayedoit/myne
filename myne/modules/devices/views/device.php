@@ -128,7 +128,7 @@
 		    
 				<script>
 					$(function(){
-						var vendor = $('#<?= $device->name ?>-vendor').data('curr');
+						//var vendor = $('#<?= $device->name ?>-vendor').data('curr');
 						var response = $(this).myne_api({
 						  method: "toggle",
 						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"off"}}
