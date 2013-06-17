@@ -84,9 +84,9 @@
 						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 						});
 
-						var return = jQuery.parseJSON(response.responseText);
-						var type = return.result["type"];
-						
+						var api_response = jQuery.parseJSON(response.responseText);
+						var type = api_response.result["type"];
+
 						$('#<?= $device->name ?>-vendor').editable({
 							value: $(this).data('curr'),
 							source: function() {
@@ -140,8 +140,8 @@
 						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 						});
 
-						var return = jQuery.parseJSON(response.responseText);
-						var vendor = return.result["vendor"];
+						var api_response = jQuery.parseJSON(response.responseText);
+						var vendor = api_response.result["vendor"];
 
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
