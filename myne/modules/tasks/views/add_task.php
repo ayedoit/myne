@@ -402,23 +402,20 @@
 				var request = {"jsonrpc": "2.0", "method": "getGateways", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"gateways/gateway","opts":[""]}, "id": 2};
 			}
 
-			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
-				//response = jQuery.parseJSON(data);
-				console.log(data);
-				
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {				
 				$("#tasks_target option").each(function() {
 					$(this).remove();
 				});
 				
-				// Udate vendors
+				// Udate targets
 				$.each(data.result, function (key,val) {
-					$('#tasks_target')
+					$('#tasks_target_name')
 					 .append($("<option></option>")
 					 .attr("value",val.id)
 					 .text(val.clear_name)); 
 				});
 				
-				$('#tasks_target').trigger('change');
+				$('#tasks_target_name').trigger('change');
 			});	
 		});
 		  		
