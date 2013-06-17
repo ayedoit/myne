@@ -45,7 +45,7 @@
 						source: function() {
 							var gateways = $(this).myne_api({
 							  method: "getVendors",
-							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":[""]}
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/vendor", "opts":[""]}
 							});
 							response = jQuery.parseJSON(gateways.responseText);
 							
