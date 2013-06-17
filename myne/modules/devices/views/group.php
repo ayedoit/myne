@@ -59,7 +59,7 @@
 	</div>
 
 	<?php
-		$this->load->view('tasks/tasks',array('device_type' => 'group'));	
+		$this->load->view('tasks/tasks',array('device_type' => 'group', 'target' => $group));	
 	?>
 	
 	<div class="span6">

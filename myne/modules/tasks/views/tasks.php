@@ -1,6 +1,6 @@
 <?php
 $this->load->model('tasks/task');
-$tasks = $this->task->getTasksByDevice($device->name,$device_type);
+$tasks = $this->task->getTasksByDevice($target->name,$device_type);
 
 if (sizeof($tasks) != 0) {
 ?>
