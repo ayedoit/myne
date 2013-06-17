@@ -411,7 +411,7 @@
 				});
 				
 				// Udate vendors
-				$.each(response.result, function (key,val) {
+				$.each(data.result, function (key,val) {
 					$('#tasks_target')
 					 .append($("<option></option>")
 					 .attr("value",val.id)
