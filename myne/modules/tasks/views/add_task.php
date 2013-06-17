@@ -278,16 +278,7 @@
 				<div class="controls">
 					<?php
 						$this->load->model('devices/device');
-
-						if (!isset($device_type) || trim($device_type) != '') {
-							$device_type = $this->device->getTypeByName('device');
-						}
-						else {
-							$device_type = $this->device->getTypeByName($device_type);
-						}
-
-						$actions = $this->device->getOptionsByDeviceType($device_type->id)
-						//$actions = $this->device->getOptions();
+						$actions = $this->device->getOptions();
 						
 						$options = array();
 						foreach ($actions as $action) {
