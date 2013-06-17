@@ -124,7 +124,9 @@ class Tasks extends MY_Controller {
 					switch ($task_data['target_type']) {
 						case 'device': $url = 'devices/show/'.$task_data['target_name']; break;
 						case 'group': $url = 'devices/showgroup/'.$task_data['target_name']; break;
-						default: $url = 'devices/show/'.$task_data['target_name']; break;
+						case 'gateway': $url = 'gatways/show/'.$task_data['target_name']; break;
+						case 'room': $url = 'rooms/show/'.$task_data['target_name']; break;
+						default: $url = 'devices'; break;
 					}
 					redirect(base_url($url), 'refresh');
 				}
