@@ -81,6 +81,7 @@
 					$(function(){
 						$('#<?= $device->name ?>-vendor').editable({
 							value: $(this).data('curr'),
+							sourceCache: false,
 							source: function() {
 								var api_type = $(this).myne_api({
 								  method: "getDeviceByName",
@@ -137,6 +138,7 @@
 					$(function(){
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
+							sourceCache: false,
 							source: function() {
 								var api_vendor = $(this).myne_api({
 								  method: "getDeviceByName",
