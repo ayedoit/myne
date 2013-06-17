@@ -403,7 +403,7 @@
 			}
 
 			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
-				response = jQuery.parseJSON(data);
+				//response = jQuery.parseJSON(data);
 				console.log(data);
 				
 				$("#tasks_target option").each(function() {
