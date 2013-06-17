@@ -27,8 +27,45 @@
 				$type = $this->device->getTypeByID($device->type);
 				?>
 				<td><b>Typ</b></td>
-				<td><?= $type->clear_name ?></td>
+				<td><a class="editable-select" id="<?= $device->name ?>-type" data-type="select" data-curr="<?= $type->id ?>" data-pk="type" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Typ"><?= $type->clear_name ?></a></td>
 			</tr>
+			<script>
+				$(function(){
+					$('#<?= $device->name ?>-type').editable({
+						value: $(this).data('curr'),
+						source: function() {
+							var gateways = $(this).myne_api({
+							  method: "getDeviceTypes",
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":[""]}
+							});
+							response = jQuery.parseJSON(gateways.responseText);
+							
+							var data = [];
+							$.each(response.result, function (key,value) {
+								var values = {};
+								values['value'] = value.id;
+								values['text'] = value.clear_name;
+								
+								data.push(values);
+							});
+							
+							return data;
+						},
+						success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						},
+						error: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen nicht gespeichert",
+								"class":"error"
+							});
+						}
+					});
+				});
+			</script>
 		    <tr>
 				<?php
 				// Get Vendor-Data
@@ -82,8 +119,45 @@
 				$model = $this->model->getModelByID($device->model);
 				?>
 				<td><b>Modell</b></td>
-				<td><?= $model->clear_name ?></td>
+				<td><a class="editable-select" id="<?= $device->name ?>-model" data-type="select" data-curr="<?= $model->id ?>" data-pk="model" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Modell"><?= $model->clear_name ?></a></td>
 		    </tr>
+		    <script>
+				$(function(){
+					$('#<?= $device->name ?>-model').editable({
+						value: $(this).data('curr'),
+						source: function() {
+							var gateways = $(this).myne_api({
+							  method: "getModels",
+							  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/model", "opts":[""]}
+							});
+							response = jQuery.parseJSON(gateways.responseText);
+							
+							var data = [];
+							$.each(response.result, function (key,value) {
+								var values = {};
+								values['value'] = value.id;
+								values['text'] = value.clear_name;
+								
+								data.push(values);
+							});
+							
+							return data;
+						},
+						success: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen gespeichert",
+								"class":"success"
+							});
+						},
+						error: function(response, newValue) {
+						    $(this).myne_notify({
+								"text":"Einstellungen nicht gespeichert",
+								"class":"error"
+							});
+						}
+					});
+				});
+			</script>
 		    
 		    <?php
 			// Get Room
