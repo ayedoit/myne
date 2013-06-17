@@ -134,8 +134,8 @@
 						  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":["<?= $device->name; ?>"]}
 						});
 
-						var vendor = jQuery.parseJSON(response.responseText.result);
-						console.log(vendor);
+						var vendor = jQuery.parseJSON(response.responseText);
+						console.log(vendor.response.vendor);
 
 						$('#<?= $device->name ?>-model').editable({
 							value: $(this).data('curr'),
