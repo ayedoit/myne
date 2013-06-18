@@ -268,7 +268,7 @@ class Devices extends MY_Controller {
 
 						// Tasks / Options
 						foreach($_POST['groups_actions'] as $action_id) {
-							$this->load->mode('action')
+							$this->load->mode('action');
 							$this->device->addGroupActions($group_id,$action_id);
 						}
 						
