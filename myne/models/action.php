@@ -113,7 +113,7 @@ Class action extends CI_Model {
 		$actions = array();
 		foreach ($query->result() as $row)
 		{
-			$action_data = $this->getActionsByID($row->action_id);
+			$action_data = $this->getActionByID($row->action_id);
 			$actions[$action_data->name] = $action_data;
 			
 		}
@@ -128,7 +128,7 @@ Class action extends CI_Model {
 		$actions = array();
 		foreach ($query->result() as $row)
 		{
-			$action_data = $this->getActionsByID($row->action_id);
+			$action_data = $this->getActionByID($row->action_id);
 			$actions[$action_data->name] = $action_data;
 			
 		}
