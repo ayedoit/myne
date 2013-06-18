@@ -482,7 +482,8 @@ Class device extends CI_Model {
 				log_message('debug', '['.$device->clear_name.'] Checking permissions');
 				
 				// If device has option "toggle", toggle it
-				if ($this->deviceHasAction($device->name,"set_status")) {	
+				$this->load->model('action');
+				if ($this->action->deviceHasAction($device->name,"set_status")) {	
 					log_message('debug', '['.$device->clear_name.'] Has option "toggle"');
 						
 					// Get Vendor
