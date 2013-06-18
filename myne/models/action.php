@@ -94,7 +94,7 @@ Class action extends CI_Model {
 		// Check actions by device type
 		$actions = $this->getActionsByDeviceType($device->type);
 
-		if (array_key_exists($action_name,$action)) {
+		if (array_key_exists($action_name,$actions)) {
 			// Checking if action is revoked for this device specifically
 			if (array_key_exists($action_name, $this->getRevokedActions($device->id))) {
 				log_message('debug', 'Device with name "'.$device_name.'" has revoked action "'.$action_name.'".');
