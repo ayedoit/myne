@@ -32,22 +32,23 @@
 					<li class="dropdown group_dropdown">
 					<?php
 						$this->load->model('devices/device');
-						$group_options = $this->device->getOptionsByGroup($group->id);
-						$option_count = sizeof($group_options);
+						$this->load->model('action');
+						$group_actions = $this->action->getActionsByGroup($group->id);
+						$action_count = sizeof($group_actions);
 						
-						$options = $this->device->getOptions();
+						$actions = $this->action->getActions();
 					?>
-					<a class="dropdown-toggle" data-toggle="dropdown"><span class="option_count"><?= $option_count ?></span> Aktion(en) <b class="caret"></b></a>
+					<a class="dropdown-toggle" data-toggle="dropdown"><span class="action_count"><?= $action_count ?></span> Aktion(en) <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li class="nav-header">Mögl. Aktionen</li>
 							<?php
-								foreach ($options as $option) {
-									// Check if device already has this option
-									if ($this->device->groupHasOption($group->name,$option->name)) {
-										echo '<li><a id="option-'.$option->id.'" data-group="'.$group->id.'" data-id="'.$option->id.'" class="remove_option"><i class="indicator icon-ok"></i> '.$option->clear_name.'</a></li>';
+								foreach ($actions as $action) {
+									// Check if device already has this action
+									if ($this->action->groupHasAction($group->name,$action->name)) {
+										echo '<li><a id="action-'.$action->id.'" data-group="'.$group->id.'" data-id="'.$action->id.'" class="remove_action"><i class="indicator icon-ok"></i> '.$action->clear_name.'</a></li>';
 									}
 									else {
-										echo '<li><a id="option-'.$option->id.'" data-group="'.$group->id.'" data-id="'.$option->id.'" class="add_option"><i class="indicator"></i> '.$option->clear_name.'</a></li>';
+										echo '<li><a id="action-'.$action->id.'" data-group="'.$group->id.'" data-id="'.$action->id.'" class="add_action"><i class="indicator"></i> '.$action->clear_name.'</a></li>';
 									}
 								}
 							?>
@@ -83,14 +84,14 @@
 		  </a>
 		  <ul class="dropdown-menu">
 		    <?php
-		    	$g_options = $this->device->getOptionsByGroup($group->id);
+		    	$g_actions = $this->action->getActionsByGroup($group->id);
 
-		    	$options = array();
-		    	foreach ($g_options as $option) {
-		    		$options[] = $option->id;
+		    	$actions = array();
+		    	foreach ($g_actions as $action) {
+		    		$actions[] = $action->id;
 		    	}
 
-		    	$devices = $this->device->getDevicesByOptions($options);
+		    	$devices = $this->device->getDevicesByActions($actions);
 
 		    	foreach ($devices as $device) {
 		    		// Check if device already has this group
@@ -108,24 +109,24 @@
 </div>
 <script>
 	$(document).ready(function() {
-		$('.remove_option').click(function() {
+		$('.remove_action').click(function() {
 			$(this).myne_api({
-			  method: "removeGroupOption",
-			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group'),"option_id":$(this).data('id')}}
+			  method: "removeGroupAction",
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group'),"action_id":$(this).data('id')}}
 			});
-			$('#option-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
-			var value = parseInt($('.option_count').text());
-			$('.option_count').text(value-1);
+			$('#action-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+			var value = parseInt($('.action_count').text());
+			$('.action_count').text(value-1);
 		});
 		
-		$('.add_option').click(function() {
+		$('.add_action').click(function() {
 			$(this).myne_api({
-			  method: "addGroupOption",
-			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group'),"option_id":$(this).data('id')}}
+			  method: "addGroupAction",
+			  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":{"group_id":$(this).data('group'),"action_id":$(this).data('id')}}
 			});
-			$('#option-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
-			var value = parseInt($('.option_count').text());
-			$('.option_count').text(value+1);
+			$('#action-'+$(this).data('id')+' i.indicator').toggleClass('icon-ok');
+			var value = parseInt($('.action_count').text());
+			$('.action_count').text(value+1);
 		});
 
 		$(document).on('click', '.add_group_member', function() {

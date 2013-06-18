@@ -24,7 +24,7 @@
 							echo '<div class="ui-block-a" style="text-align:left">'.$device->clear_name.'</div>';
 							echo '<div class="ui-block-b" style="text-align:right">';
 							
-							if ($this->device->deviceHasOption($device->name,"toggle")) {
+							if ($this->device->deviceHasAction($device->name,"set_status")) {
 								echo '<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-inline="true" data-mini="true" data-disabled="false" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all ui-mini ui-btn-inline" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">An</span></span><button data-theme="a" data-mini="true" data-inline="true" data-type="device" data-name="'.$device->name.'" class="toggle_on ui-btn-hidden" data-disabled="false">Ein</button></div>';
 								echo '<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-inline="true" data-mini="true" data-disabled="false" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all ui-mini ui-btn-inline" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">Aus</span></span><button data-theme="a" data-mini="true" data-inline="true" data-type="device" data-name="'.$device->name.'" class="toggle_off ui-btn-hidden" data-disabled="false">Aus</button></div>';
 							}
@@ -57,7 +57,7 @@
 							echo '<div class="ui-block-a" style="text-align:left">'.$device->clear_name.'</div>';
 							echo '<div class="ui-block-b" style="text-align:right">';
 							
-							if ($this->device->deviceHasOption($device->name,"toggle")) {
+							if ($this->device->deviceHasAction($device->name,"set_status")) {
 								echo '<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-inline="true" data-mini="true" data-disabled="false" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all ui-mini ui-btn-inline" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">An</span></span><button data-theme="a" data-mini="true" data-inline="true" data-type="device" data-name="'.$device->name.'" class="toggle_on ui-btn-hidden" data-disabled="false">Ein</button></div>';
 								echo '<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-inline="true" data-mini="true" data-disabled="false" class="ui-btn ui-btn-up-a ui-shadow ui-btn-corner-all ui-mini ui-btn-inline" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">Aus</span></span><button data-theme="a" data-mini="true" data-inline="true" data-type="device" data-name="'.$device->name.'" class="toggle_off ui-btn-hidden" data-disabled="false">Aus</button></div>';
 							}

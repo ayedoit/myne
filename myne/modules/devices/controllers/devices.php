@@ -267,8 +267,9 @@ class Devices extends MY_Controller {
 						$group_id = $this->device->addGroup($group_data);
 
 						// Tasks / Options
-						foreach($_POST['groups_options'] as $option_id) {
-							$this->device->addGroupOption($group_id,$option_id);
+						foreach($_POST['groups_actions'] as $action_id) {
+							$this->load->mode('action')
+							$this->device->addGroupActions($group_id,$action_id);
 						}
 						
 						// Add Device ID & Group ID to mapping table
@@ -324,8 +325,9 @@ class Devices extends MY_Controller {
 					$group_id = $this->device->addGroup($group_data);
 
 					// Tasks / Options
-					foreach($_POST['groups_options'] as $option_id) {
-						$this->device->addGroupOption($group_id,$option_id);
+					foreach($_POST['groups_actionss'] as $action_id) {
+						$this->load->model('action');
+						$this->action->addGroupAction($group_id,$action_id);
 					}
 
 					// Members

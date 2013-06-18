@@ -277,8 +277,8 @@
 				?>
 				<div class="controls">
 					<?php
-						$this->load->model('devices/device');
-						$actions = $this->device->getOptions();
+						$this->load->model('action');
+						$actions = $this->action->getActions();
 						
 						$options = array();
 						foreach ($actions as $action) {
@@ -301,8 +301,8 @@
 					?>
 					<div class="controls">
 						<?php
-							$this->load->model('devices/device');
-							$actions = $this->device->getOptions();
+							$this->load->model('action');
+							$actions = $this->action->getActions();
 							
 							$options = array("off" => "Aus", "on" => "An");
 							$data = 'id="tasks_action_opt"';

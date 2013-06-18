@@ -457,6 +457,8 @@
 				</div>
 			</div>
 			
+			<?php
+			/*
 			<div class="control-group">
 				<?php 
 					$attributes = array(
@@ -470,18 +472,21 @@
 					$this->load->model('devices/device');
 
 					// Inherit Options from Device type
-					$device_options = $this->device->getOptionsByDeviceType('1');
+					$this->load->model('action');
+					$device_actions = $this->action->getActionsByDeviceType('1');
 					
 					$selected = array();
-					foreach ($device_options as $option) {
-						$selected = $option->id;
-						$options[$option->id] = $option->clear_name;
+					foreach ($device_actions as $action) {
+						$selected = $action->id;
+						$options[$action->id] = $action->clear_name;
 					}
-					$data = 'id="options"';
-					echo form_multiselect('options[]', $options,$selected,$data);
+					$data = 'id="actions"';
+					echo form_multiselect('actions[]', $action,$selected,$data);
 				  ?>
 				</div>
 			</div>
+			*/
+			?>
 			
 			 <div class="control-group">
 				<div class="controls">
@@ -593,16 +598,16 @@
 
 			// Get options for selected type
 			// Get vendors for selected type
-			var request = {"jsonrpc": "2.0", "method": "getOptionsByDeviceType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/device","opts":[value]}, "id": 3};
+			var request = {"jsonrpc": "2.0", "method": "getActionsByDeviceType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"action","opts":[value]}, "id": 3};
 			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				
-				$("#options option").each(function() {
+				$("#actions option").each(function() {
 					$(this).remove();
 				});
 
 				// Udate vendors
 				$.each(data.result, function (key,val) {
-					$('#options')
+					$('#actions')
 					 .append($("<option></option>")
 					 .attr("value",val.id)
 					 .attr("selected","selected")

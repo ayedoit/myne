@@ -4,7 +4,8 @@
 			echo '<div class="span12 group">';
 				echo '<span class="groupname">';	
 					echo '<li class="dropdown">';
-						if ($this->device->deviceTypeHasOption($type->name,'toggle')) {	
+						$this->load->model('action');
+						if ($this->action->deviceTypeHasAction($type->name,'set_status')) {	
 							echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$type->clear_name.' <b class="caret"></b></a>';
 							echo '<ul class="dropdown-menu">';
 								echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
@@ -27,7 +28,7 @@
 								echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 								echo "<div class='pull-right'>";	
 									// Options
-									if ($this->device->deviceHasOption($device->name,"toggle")) {
+									if ($this->action->deviceHasAction($device->name,"set_status")) {
 									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
 									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
 									}
@@ -52,7 +53,8 @@
 					echo '<div class="span5 group">';
 						echo '<span class="groupname">';
 							echo '<li class="dropdown">';
-								if ($this->device->deviceTypeHasOption($type->name,'toggle')) {	
+								$this->load->model('action');
+								if ($this->action->deviceTypeHasAction($type->name,'set_status')) {	
 									echo '<a class="dropdown-toggle" role="button" data-toggle="dropdown">'.$type->clear_name.' <b class="caret"></b></a>';
 									echo '<ul class="dropdown-menu">';
 										echo "<li><a data-type='type' data-name='".$type->name."' class='toggle_on' title='An'><i class='icon-ok'></i> An</a></li>";
@@ -76,7 +78,7 @@
 										echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 										echo "<div class='pull-right'>";	
 											// Options
-											if ($this->device->deviceHasOption($device->name,"toggle")) {
+											if ($this->action->deviceHasAction($device->name,"set_status")) {
 											  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
 											  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
 											}

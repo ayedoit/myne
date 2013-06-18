@@ -69,11 +69,11 @@ CREATE TABLE IF NOT EXISTS `device_group_members` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `device_options`
+-- Table structure for table `actions`
 --
 
-DROP TABLE IF EXISTS `device_options`;
-CREATE TABLE IF NOT EXISTS `device_options` (
+DROP TABLE IF EXISTS `actions`;
+CREATE TABLE IF NOT EXISTS `actions` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `clear_name` varchar(255) NOT NULL,
@@ -83,22 +83,22 @@ CREATE TABLE IF NOT EXISTS `device_options` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `device_options`
+-- Dumping data for table `actions`
 --
 
-INSERT INTO `device_options` (`id`, `name`, `clear_name`, `description`) VALUES
-(1, 'toggle', 'Schalten', 'An- und Ausschaltbar');
+INSERT INTO `actions` (`id`, `name`, `clear_name`, `description`) VALUES
+(1, 'set_status', 'Status setzen', 'An- und Ausschaltbar');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `device_revoke_option`
+-- Table structure for table `device_revoke_action`
 --
 
-DROP TABLE IF EXISTS `device_revoke_option`;
-CREATE TABLE IF NOT EXISTS `device_revoke_option` (
+DROP TABLE IF EXISTS `device_revoke_action`;
+CREATE TABLE IF NOT EXISTS `device_revoke_action` (
   `device_id` int(10) NOT NULL,
-  `option_id` int(10) NOT NULL
+  `action_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -128,20 +128,20 @@ INSERT INTO `device_types` (`id`, `name`, `clear_name`, `description`, `icon`) V
 -- --------------------------------------------------------
 
 --
--- Table structure for table `device_type_has_option`
+-- Table structure for table `device_type_has_action`
 --
 
-DROP TABLE IF EXISTS `device_type_has_option`;
-CREATE TABLE IF NOT EXISTS `device_type_has_option` (
+DROP TABLE IF EXISTS `device_type_has_action`;
+CREATE TABLE IF NOT EXISTS `device_type_has_action` (
   `device_type_id` int(10) NOT NULL,
-  `option_id` int(10) NOT NULL
+  `action_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `device_type_has_option`
 --
 
-INSERT INTO `device_type_has_option` (`device_type_id`, `option_id`) VALUES
+INSERT INTO `device_type_has_option` (`device_type_id`, `action_id`) VALUES
 (1, 1);
 
 -- --------------------------------------------------------
@@ -226,13 +226,13 @@ INSERT INTO `gateway_types` (`id`, `name`, `clear_name`, `description`, `icon`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group_has_option`
+-- Table structure for table `group_has_action`
 --
 
-DROP TABLE IF EXISTS `group_has_option`;
-CREATE TABLE IF NOT EXISTS `group_has_option` (
+DROP TABLE IF EXISTS `group_has_action`;
+CREATE TABLE IF NOT EXISTS `group_has_action` (
   `group_id` int(10) NOT NULL,
-  `option_id` int(10) NOT NULL
+  `action_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

@@ -53,9 +53,10 @@ class Tasks extends MY_Controller {
 					if ($now == $timer->time) {
 						// Get action
 						$this->load->model('devices/device');
-						$option = $this->device->getOptionByID($task->action);
+						$this->load->model('action');
+						$action = $this->action->getActionByID($task->action);
 
-						if ($option->name == 'toggle') {
+						if ($action->name == 'set_status') {
 							try {
 								$this->device->toggle($task->target_type,$task->target_name,$task->action_opt);
 								log_message('debug', '[Gateways/Run]: Task with ID "'.$task->id.'" successfully executed');

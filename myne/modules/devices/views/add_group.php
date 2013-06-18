@@ -66,23 +66,23 @@
 		$attributes = array(
 			'class' => 'control-label'
 		);
-		echo form_label('Aktionen', 'groups_options',$attributes);
+		echo form_label('Aktionen', 'groups_actions',$attributes);
 	?>
 	<div class="controls">
 	  <?php
 		$options = array();
-		$this->load->model('devices/device');
+		$this->load->model('action');
 
-		// Get options
-		$group_options = $this->device->getOptions();
+		// Get actions
+		$group_actions = $this->action->getActions();
 		
 		$selected = "1";
-		foreach ($group_options as $option) {
-			$options[$option->id] = $option->clear_name;
+		foreach ($group_actions as $action) {
+			$options[$action->id] = $action->clear_name;
 		}
 
-		$data = 'id="groups_options"';
-		echo form_multiselect('groups_options[]', $options,$selected,$data);
+		$data = 'id="groups_actions"';
+		echo form_multiselect('groups_actions[]', $options,$selected,$data);
 	  ?>
 	</div>
 </div>
@@ -99,8 +99,8 @@
 		$options = array();
 		$this->load->model('devices/device');
 
-		// Get devices, start with option "toggle"
-		$devices = $this->device->getDevicesByOptions(array(0 => "1"));
+		// Get devices, start with option "set_status"
+		$devices = $this->device->getDevicesByActions(array(0 => "1"));
 
 		$selected = "";
 		foreach ($devices as $device) {
@@ -113,20 +113,20 @@
 </div>
 <script>
 	$(document).ready(function() {
-		$('#groups_options').change(function() {
-			var options = $(this).val();
+		$('#groups_actions').change(function() {
+			var actions = $(this).val();
 			var i = 0;
-			var n_options = {};
+			var n_actions = {};
 
-			$.each(options, function(key,value) {
-			  n_options[i] = value;
+			$.each(actions, function(key,value) {
+			  n_actions[i] = value;
 			  i++;
 			});
 
 			var response = "";
 			
 			// Get devices with selected options
-			var request = {"jsonrpc": "2.0", "method": "getDevicesByOptions", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/device","opts":[n_options]}, "id": 2};
+			var request = {"jsonrpc": "2.0", "method": "getDevicesByOptions", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>","model":"devices/device","opts":[n_actions]}, "id": 2};
 			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {
 				
 				$("#groups_devices option").each(function() {

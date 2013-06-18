@@ -15,7 +15,8 @@
 				$type = $this->device->getTypeByID($device->type);
 
 				// Options
-				$options = $this->device->getOptionsByDeviceID($device->id);	
+				$this->load->model('action');
+				$actions = $this->action->getActionsByDeviceID($device->id);	
 					
 					echo "<td><p class='lead'><a href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a></p></td>";
 					echo "<td>";

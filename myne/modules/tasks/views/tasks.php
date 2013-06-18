@@ -44,8 +44,9 @@ if (sizeof($tasks) != 0) {
 						echo "<td>";
 							echo '<div class="btn-group">';
 								// Get Action
-								$action = $this->device->getOptionByID($task->action);
-								if ($action->name == 'toggle') {
+								$this->load->model('action');
+								$action = $this->device->getActionByID($task->action);
+								if ($action->name == 'set_status') {
 									if ($task->action_opt == 'on') {
 										echo "<button data-type='".$device_type."' id='button-task-".$task->name."' data-name='".$target->name."' class='toggle_on btn btn-success' title='".$target->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></button>";
 										
