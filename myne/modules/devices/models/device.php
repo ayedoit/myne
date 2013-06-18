@@ -248,7 +248,8 @@ Class device extends CI_Model {
 		foreach($devices as $device) {
 			$device_has_actions = true;
 			foreach($actions as $action) {
-				$r_action = $this->getActionByID($action);
+				$this->load->model('action');
+				$r_action = $this->action->getActionByID($action);
 
 				// Check if device has option
 				if (!$this->deviceHasAction($device->name,$r_action->name)) {
