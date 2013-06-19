@@ -41,15 +41,6 @@ CREATE TABLE `action_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `action_list`
---
-
-LOCK TABLES `action_list` WRITE;
-/*!40000 ALTER TABLE `action_list` DISABLE KEYS */;
-/*!40000 ALTER TABLE `action_list` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `actions`
 --
 
@@ -70,11 +61,9 @@ CREATE TABLE `actions` (
 -- Dumping data for table `actions`
 --
 
-LOCK TABLES `actions` WRITE;
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
 INSERT INTO `actions` VALUES (1,'set_status','Status setzen','Ein- / Ausschalten','devices/device');
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `device_group_members`
@@ -122,10 +111,8 @@ CREATE TABLE `device_revoke_action` (
 -- Dumping data for table `device_revoke_action`
 --
 
-LOCK TABLES `device_revoke_action` WRITE;
 /*!40000 ALTER TABLE `device_revoke_action` DISABLE KEYS */;
 /*!40000 ALTER TABLE `device_revoke_action` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `device_type_has_action`
@@ -144,11 +131,9 @@ CREATE TABLE `device_type_has_action` (
 -- Dumping data for table `device_type_has_action`
 --
 
-LOCK TABLES `device_type_has_action` WRITE;
 /*!40000 ALTER TABLE `device_type_has_action` DISABLE KEYS */;
 INSERT INTO `device_type_has_action` VALUES (1,1);
 /*!40000 ALTER TABLE `device_type_has_action` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `device_types`
@@ -171,11 +156,9 @@ CREATE TABLE `device_types` (
 -- Dumping data for table `device_types`
 --
 
-LOCK TABLES `device_types` WRITE;
 /*!40000 ALTER TABLE `device_types` DISABLE KEYS */;
 INSERT INTO `device_types` VALUES (1,'funksteckdose','Funksteckdose','Funksteckdose','d_funksteckdose.png'),(2,'xbmc','XBMC','XBMC','d_xbmc.png');
 /*!40000 ALTER TABLE `device_types` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `devices`
@@ -226,15 +209,6 @@ CREATE TABLE `event_list` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `event_list`
---
-
-LOCK TABLES `event_list` WRITE;
-/*!40000 ALTER TABLE `event_list` DISABLE KEYS */;
-/*!40000 ALTER TABLE `event_list` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `events`
 --
 
@@ -256,11 +230,9 @@ CREATE TABLE `events` (
 -- Dumping data for table `events`
 --
 
-LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
 INSERT INTO `events` VALUES (1,'timer','Timer',1,'Timerfunktion','events/timer');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `gateway_groups`
@@ -298,11 +270,9 @@ CREATE TABLE `gateway_types` (
 -- Dumping data for table `gateway_types`
 --
 
-LOCK TABLES `gateway_types` WRITE;
 /*!40000 ALTER TABLE `gateway_types` DISABLE KEYS */;
 INSERT INTO `gateway_types` VALUES (1,'connair','Connair','433 MHz Gateway','connair.png');
 /*!40000 ALTER TABLE `gateway_types` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `gateways`
@@ -360,11 +330,9 @@ CREATE TABLE `models` (
 -- Dumping data for table `models`
 --
 
-LOCK TABLES `models` WRITE;
 /*!40000 ALTER TABLE `models` DISABLE KEYS */;
 INSERT INTO `models` VALUES (1,'itr1500','ITR-1500','ITR-1500',1),(2,'xbmc-frodo','XBMC Frodo','',2),(3,'ab440sc','AB 440SC','AB 440SC Wireless Switch Unit',3),(5,'2605','2605','Funksteckdosen-Set 2605',5);
 /*!40000 ALTER TABLE `models` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `myne_data`
@@ -385,11 +353,9 @@ CREATE TABLE `myne_data` (
 -- Dumping data for table `myne_data`
 --
 
-LOCK TABLES `myne_data` WRITE;
 /*!40000 ALTER TABLE `myne_data` DISABLE KEYS */;
 INSERT INTO `myne_data` VALUES (1,'installed','yes'),(2,'version','1.0');
 /*!40000 ALTER TABLE `myne_data` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `rooms`
@@ -426,11 +392,9 @@ CREATE TABLE `settings` (
 -- Dumping data for table `settings`
 --
 
-LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` VALUES (1,'login','false'),(2,'api','true'),(3,'api_key','');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tasks`
@@ -481,11 +445,9 @@ CREATE TABLE `vendor_types` (
 -- Dumping data for table `vendor_types`
 --
 
-LOCK TABLES `vendor_types` WRITE;
 /*!40000 ALTER TABLE `vendor_types` DISABLE KEYS */;
 INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1);
 /*!40000 ALTER TABLE `vendor_types` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `vendors`
@@ -507,11 +469,9 @@ CREATE TABLE `vendors` (
 -- Dumping data for table `vendors`
 --
 
-LOCK TABLES `vendors` WRITE;
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
 INSERT INTO `vendors` VALUES (1,'intertechno','Intertechno','IT'),(2,'xbmc','XBMC','XBMC Software Foundation'),(3,'elro','Elro','Elro'),(4,'brennenstuhl','Brennenstuhl','Brennt im Stuhl'),(5,'pollin','Pollin','Pollin');
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

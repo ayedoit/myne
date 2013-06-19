@@ -1,12 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 session_start(); //we need to call PHP's session object to access it through CI
-class Installer extends MY_Controller {    
+class Installer extends CI_Controller {    
 	public function index() {  	
         if (!$this->db->table_exists('myne_data')) {
             $this->load->view('installer/installer');
         }
         else {
             redirect(base_url('devices'), 'refresh');
+            echo "WTF?";
         }
 	    
     }
