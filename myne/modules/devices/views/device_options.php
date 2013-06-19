@@ -9,7 +9,8 @@
 		echo "<hr>";
 		
 		// If "toggle" is set
-		if ($this->device->deviceHasAction($device->name,"set_status")) {
+		$this->load->model('action');
+		if ($this->action->deviceHasAction($device->name,"set_status")) {
 		echo "<li>";
 		  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a> ";
 		  echo "<a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-danger' title='".$device->clear_name." anschalten.' ><i class='icon-off icon-white'></i></a>";
