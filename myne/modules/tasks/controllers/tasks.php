@@ -48,7 +48,7 @@ class Tasks extends MY_Controller {
     				// Trigger the action
     				$this->load->model('action');
 
-    				foreach ($tasks as $task) {
+    				foreach ($tasks as $task) {	
     					log_message('debug', 'Triggering action with ID "'.$task->action_item_id.'" for event item with ID "'.$event_item->id.'"');
     					$this->action->triggerAction($task->action_item_id);
     				}

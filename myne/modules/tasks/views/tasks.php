@@ -7,13 +7,6 @@ if (sizeof($tasks) != 0) {
 	<div class="span5">
 		<h3>Tasks</h3>
 		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Event</th>
-					<th>Event Daten</th>
-					<th>Controls</th>
-				</tr>
-			</thead>
 			<tbody>
 			<?php
 				foreach($tasks as $task) {

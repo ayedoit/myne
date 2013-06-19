@@ -36,7 +36,7 @@
 </div>
 <div class="row-fluid">
 	<?php
-		$this->load->view('tasks/tasks',array('device_type' => 'room', 'target' => $room));	
+		$this->load->view('tasks/tasks',array('target_type' => 'room', 'target' => $room));	
 	?>
 </div>
 <div class="row-fluid">

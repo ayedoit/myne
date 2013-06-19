@@ -68,7 +68,7 @@
 
 <div class="row-fluid">
 	<?php
-		$this->load->view('tasks/tasks',array('device_type' => 'group', 'target' => $group));	
+		$this->load->view('tasks/tasks',array('target_type' => 'group', 'target' => $group));	
 	?>
 </div>
 

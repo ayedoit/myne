@@ -147,7 +147,7 @@
 
 <div class="row-fluid">
 	<?php
-		$this->load->view('tasks/tasks',array('device_type' => 'gateway', 'target' => $gateway));	
+		$this->load->view('tasks/tasks',array('target_type' => 'gateway', 'target' => $gateway));	
 	?>
 </div>
 
