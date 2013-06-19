@@ -1,24 +1,190 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
+-- MySQL dump 10.13  Distrib 5.5.31, for debian-linux-gnu (i686)
+--
+-- Host: localhost    Database: myne
+-- ------------------------------------------------------
+-- Server version	5.5.31-0+wheezy1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Database: `myne`
+-- Current Database: `myne`
 --
 
--- --------------------------------------------------------
+/*!40000 DROP DATABASE IF EXISTS `myne`*/;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `myne` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `myne`;
+
+--
+-- Table structure for table `action_list`
+--
+
+DROP TABLE IF EXISTS `action_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `action_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_id` int(11) NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `action_list`
+--
+
+LOCK TABLES `action_list` WRITE;
+/*!40000 ALTER TABLE `action_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `action_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `actions`
+--
+
+DROP TABLE IF EXISTS `actions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `actions` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `clear_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `actions`
+--
+
+LOCK TABLES `actions` WRITE;
+/*!40000 ALTER TABLE `actions` DISABLE KEYS */;
+INSERT INTO `actions` VALUES (1,'set_status','Status setzen','Ein- / Ausschalten','devices/device');
+/*!40000 ALTER TABLE `actions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device_group_members`
+--
+
+DROP TABLE IF EXISTS `device_group_members`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_group_members` (
+  `group_id` int(10) NOT NULL,
+  `device_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `device_groups`
+--
+
+DROP TABLE IF EXISTS `device_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_groups` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `clear_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `device_revoke_action`
+--
+
+DROP TABLE IF EXISTS `device_revoke_action`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_revoke_action` (
+  `device_id` int(10) NOT NULL,
+  `action_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_revoke_action`
+--
+
+LOCK TABLES `device_revoke_action` WRITE;
+/*!40000 ALTER TABLE `device_revoke_action` DISABLE KEYS */;
+/*!40000 ALTER TABLE `device_revoke_action` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device_type_has_action`
+--
+
+DROP TABLE IF EXISTS `device_type_has_action`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_type_has_action` (
+  `device_type_id` int(10) NOT NULL,
+  `action_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_type_has_action`
+--
+
+LOCK TABLES `device_type_has_action` WRITE;
+/*!40000 ALTER TABLE `device_type_has_action` DISABLE KEYS */;
+INSERT INTO `device_type_has_action` VALUES (1,1);
+/*!40000 ALTER TABLE `device_type_has_action` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `device_types`
+--
+
+DROP TABLE IF EXISTS `device_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `device_types` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `clear_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `device_types`
+--
+
+LOCK TABLES `device_types` WRITE;
+/*!40000 ALTER TABLE `device_types` DISABLE KEYS */;
+INSERT INTO `device_types` VALUES (1,'funksteckdose','Funksteckdose','Funksteckdose','d_funksteckdose.png'),(2,'xbmc','XBMC','XBMC','d_xbmc.png');
+/*!40000 ALTER TABLE `device_types` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `devices`
 --
 
 DROP TABLE IF EXISTS `devices`;
-CREATE TABLE IF NOT EXISTS `devices` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `devices` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `clear_name` varchar(255) NOT NULL,
@@ -41,140 +207,111 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `password` varchar(255) DEFAULT NULL,
   `icon` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `device_groups`
+-- Table structure for table `event_list`
 --
 
-DROP TABLE IF EXISTS `device_groups`;
-CREATE TABLE IF NOT EXISTS `device_groups` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `clear_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
+DROP TABLE IF EXISTS `event_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `data` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
-
---
--- Table structure for table `device_group_members`
---
-
-DROP TABLE IF EXISTS `device_group_members`;
-CREATE TABLE IF NOT EXISTS `device_group_members` (
-  `group_id` int(10) NOT NULL,
-  `device_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `actions`
---
-
-DROP TABLE IF EXISTS `actions`;
-CREATE TABLE IF NOT EXISTS `actions` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `clear_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `actions`
+-- Dumping data for table `event_list`
 --
 
-INSERT INTO `actions` (`id`, `name`, `clear_name`, `description`) VALUES
-(1, 'set_status', 'Status setzen', 'An- und Ausschaltbar');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `device_revoke_action`
---
-
-DROP TABLE IF EXISTS `device_revoke_action`;
-CREATE TABLE IF NOT EXISTS `device_revoke_action` (
-  `device_id` int(10) NOT NULL,
-  `action_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `device_types`
---
-
-DROP TABLE IF EXISTS `device_types`;
-CREATE TABLE IF NOT EXISTS `device_types` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `clear_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `device_types`
---
-
-INSERT INTO `device_types` (`id`, `name`, `clear_name`, `description`, `icon`) VALUES
-(1, 'funksteckdose', 'Funksteckdose', 'Funksteckdose', 'd_funksteckdose.png'),
-(2, 'xbmc', 'XBMC', 'XBMC', 'd_xbmc.png');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `device_type_has_action`
---
-
-DROP TABLE IF EXISTS `device_type_has_action`;
-CREATE TABLE IF NOT EXISTS `device_type_has_action` (
-  `device_type_id` int(10) NOT NULL,
-  `action_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `device_type_has_option`
---
-
-INSERT INTO `device_type_has_option` (`device_type_id`, `action_id`) VALUES
-(1, 1);
-
--- --------------------------------------------------------
+LOCK TABLES `event_list` WRITE;
+/*!40000 ALTER TABLE `event_list` DISABLE KEYS */;
+/*!40000 ALTER TABLE `event_list` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `events`
 --
 
 DROP TABLE IF EXISTS `events`;
-CREATE TABLE IF NOT EXISTS `events` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `events` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `clear_name` varchar(255) NOT NULL,
   `active` int(1) NOT NULL,
   `description` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `name`, `clear_name`, `active`, `description`) VALUES
-(1, 'timer', 'Timer', 1, 'Timerfunktion');
+LOCK TABLES `events` WRITE;
+/*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (1,'timer','Timer',1,'Timerfunktion','events/timer');
+/*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `gateway_groups`
+--
+
+DROP TABLE IF EXISTS `gateway_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gateway_groups` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `gateway_types`
+--
+
+DROP TABLE IF EXISTS `gateway_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gateway_types` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `clear_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `icon` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `gateway_types`
+--
+
+LOCK TABLES `gateway_types` WRITE;
+/*!40000 ALTER TABLE `gateway_types` DISABLE KEYS */;
+INSERT INTO `gateway_types` VALUES (1,'connair','Connair','433 MHz Gateway','connair.png');
+/*!40000 ALTER TABLE `gateway_types` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `gateways`
 --
 
 DROP TABLE IF EXISTS `gateways`;
-CREATE TABLE IF NOT EXISTS `gateways` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `gateways` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `clear_name` varchar(255) NOT NULL,
@@ -186,258 +323,203 @@ CREATE TABLE IF NOT EXISTS `gateways` (
   `group` int(10) NOT NULL,
   `icon` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Table structure for table `gateway_groups`
---
-
-DROP TABLE IF EXISTS `gateway_groups`;
-CREATE TABLE IF NOT EXISTS `gateway_groups` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `gateway_types`
---
-
-DROP TABLE IF EXISTS `gateway_types`;
-CREATE TABLE IF NOT EXISTS `gateway_types` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `clear_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `gateway_types`
---
-
-INSERT INTO `gateway_types` (`id`, `name`, `clear_name`, `description`, `icon`) VALUES
-(1, 'connair', 'Connair', '433 MHz Gateway', 'connair.png');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `group_has_action`
 --
 
 DROP TABLE IF EXISTS `group_has_action`;
-CREATE TABLE IF NOT EXISTS `group_has_action` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_has_action` (
   `group_id` int(10) NOT NULL,
   `action_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `models`
 --
 
 DROP TABLE IF EXISTS `models`;
-CREATE TABLE IF NOT EXISTS `models` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `models` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `clear_name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `vendor_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `models`
 --
 
-INSERT INTO `models` (`id`, `name`, `clear_name`, `description`, `vendor_id`) VALUES
-(1, 'itr1500', 'ITR-1500', 'ITR-1500', 1),
-(2, 'xbmc-frodo', 'XBMC Frodo', '', 2),
-(3, 'ab440sc', 'AB 440SC', 'AB 440SC Wireless Switch Unit', 3),
-(5, '2605', '2605', 'Funksteckdosen-Set 2605', 5);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `modules`
---
-
-DROP TABLE IF EXISTS `modules`;
-CREATE TABLE IF NOT EXISTS `modules` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `active` int(1) NOT NULL,
-  `description` varchar(1024) NOT NULL,
-  `author` varchar(255) NOT NULL,
-  `author_mail` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+LOCK TABLES `models` WRITE;
+/*!40000 ALTER TABLE `models` DISABLE KEYS */;
+INSERT INTO `models` VALUES (1,'itr1500','ITR-1500','ITR-1500',1),(2,'xbmc-frodo','XBMC Frodo','',2),(3,'ab440sc','AB 440SC','AB 440SC Wireless Switch Unit',3),(5,'2605','2605','Funksteckdosen-Set 2605',5);
+/*!40000 ALTER TABLE `models` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `myne_data`
 --
 
 DROP TABLE IF EXISTS `myne_data`;
-CREATE TABLE IF NOT EXISTS `myne_data` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `myne_data` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `models`
+-- Dumping data for table `myne_data`
 --
 
-INSERT INTO `myne_data` (`id`, `name`, `value`) VALUES
-(1, 'installed', 'yes'),
-(2, 'version', '1.0');
-
--- --------------------------------------------------------
+LOCK TABLES `myne_data` WRITE;
+/*!40000 ALTER TABLE `myne_data` DISABLE KEYS */;
+INSERT INTO `myne_data` VALUES (1,'installed','yes'),(2,'version','1.0');
+/*!40000 ALTER TABLE `myne_data` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `rooms`
 --
 
 DROP TABLE IF EXISTS `rooms`;
-CREATE TABLE IF NOT EXISTS `rooms` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rooms` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `clear_name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `settings`
 --
 
 DROP TABLE IF EXISTS `settings`;
-CREATE TABLE IF NOT EXISTS `settings` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `name`, `value`) VALUES
-(1, 'login', 'false'),
-(2, 'api', 'true'),
-(3, 'api_key', '12345678');
-
--- --------------------------------------------------------
+LOCK TABLES `settings` WRITE;
+/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
+INSERT INTO `settings` VALUES (1,'login','false'),(2,'api','true'),(3,'api_key','');
+/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tasks`
 --
 
 DROP TABLE IF EXISTS `tasks`;
-CREATE TABLE IF NOT EXISTS `tasks` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tasks` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `clear_name` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `active` int(1) NOT NULL,
-  `description` varchar(1024) NOT NULL,
-  `event` int(10) NOT NULL,
-  `event_opt` varchar(255) NOT NULL,
-  `action` int(10) NOT NULL,
-  `action_opt` varchar(255) NOT NULL,
-  `target_type` varchar(255) NOT NULL,
-  `target_name` varchar(255) NOT NULL,
+  `event_list_id` int(11) NOT NULL,
+  `action_list_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `timer`
---
-
-DROP TABLE IF EXISTS `timer`;
-CREATE TABLE IF NOT EXISTS `timer` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `mon` int(1) NOT NULL,
-  `tue` int(1) NOT NULL,
-  `wed` int(1) NOT NULL,
-  `thu` int(1) NOT NULL,
-  `fri` int(1) NOT NULL,
-  `sat` int(1) NOT NULL,
-  `sun` int(1) NOT NULL,
-  `time` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `users`
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `surename` varchar(255) NOT NULL,
   `givenname` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Table structure for table `vendors`
---
-
-DROP TABLE IF EXISTS `vendors`;
-CREATE TABLE IF NOT EXISTS `vendors` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `clear_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `vendors`
---
-
-INSERT INTO `vendors` (`id`, `name`, `clear_name`, `description`) VALUES
-(1, 'intertechno', 'Intertechno', 'IT'),
-(2, 'xbmc', 'XBMC', 'XBMC Software Foundation'),
-(3, 'elro', 'Elro', 'Elro'),
-(4, 'brennenstuhl', 'Brennenstuhl', 'Brennt im Stuhl'),
-(5, 'pollin', 'Pollin', 'Pollin');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `vendor_types`
 --
 
 DROP TABLE IF EXISTS `vendor_types`;
-CREATE TABLE IF NOT EXISTS `vendor_types` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendor_types` (
   `vendor_id` int(10) NOT NULL,
   `type_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `vendor_types`
 --
 
-INSERT INTO `vendor_types` (`vendor_id`, `type_id`) VALUES
-(1, 1),
-(3, 1),
-(2, 2),
-(5, 1);
+LOCK TABLES `vendor_types` WRITE;
+/*!40000 ALTER TABLE `vendor_types` DISABLE KEYS */;
+INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1);
+/*!40000 ALTER TABLE `vendor_types` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `vendors`
+--
+
+DROP TABLE IF EXISTS `vendors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendors` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `clear_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vendors`
+--
+
+LOCK TABLES `vendors` WRITE;
+/*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
+INSERT INTO `vendors` VALUES (1,'intertechno','Intertechno','IT'),(2,'xbmc','XBMC','XBMC Software Foundation'),(3,'elro','Elro','Elro'),(4,'brennenstuhl','Brennenstuhl','Brennt im Stuhl'),(5,'pollin','Pollin','Pollin');
+/*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2013-06-19  9:23:17
