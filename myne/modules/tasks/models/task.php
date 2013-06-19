@@ -26,24 +26,37 @@ Class task extends CI_Model {
 		}
 		return $task;
 	}
-	
-	public function getTaskByName($name) {
-		$query = $this->db->get_where('tasks', array('name' => $name));
+
+	public function getTasksByEventItem($event_item_id) {
+		$query = $this->db->get_where('tasks', array('event_item_id' => $event_item_id));
 		
-		log_message('debug', 'Polling task with name "'.$name.'" from database');
+		log_message('debug', 'Polling task including event item with ID "'.$event_item_id.'" from database');
 		
-		$task = "";
+		$tasks = array();
 		foreach ($query->result() as $row)
 		{
-			$task = $row;
+			$tasks[] = $row;
 		}
-		return $task;
+		return $tasks;
 	}
 	
-	public function getTasksByDevice($device_name,$device_type) {
-		$query = $this->db->get_where('tasks', array('target_name' => $device_name,'target_type' => $device_type));
+	public function getTasksByTargetName($target_type,$target_name) {
+		$query = $this->db->get_where('tasks', array('target_name' => $target_name,'target_type' => $target_type));
 		
-		log_message('debug', 'Polling tasks of device type "'.$device_type.'" with name "'.$device_name.'" from database');
+		log_message('debug', 'Polling tasks for target of type "'.$target_type.'" with name "'.$target_name.'" from database');
+		
+		$tasks = array();
+		foreach ($query->result() as $row)
+		{
+			$tasks[] = $row;
+		}
+		return $tasks;
+	}
+
+	public function getTasksByTargetType($target_type) {
+		$query = $this->db->get_where('tasks', array('target_type' => $target_type));
+		
+		log_message('debug', 'Polling tasks for target of type "'.$target_type.'" from database');
 		
 		$tasks = array();
 		foreach ($query->result() as $row)
@@ -56,12 +69,12 @@ Class task extends CI_Model {
 	public function addTask($data) {
 		$this->db->insert('tasks', $data); 
 		
-		log_message('debug', 'Adding task with name "'.$data['name'].'" to database');
+		log_message('debug', 'Adding new task to database');
 		
 		return $this->db->insert_id();
 	}
 	
-	public function updateTask($name,$what,$new_value) {
+	/*public function updateTask($name,$what,$new_value) {
 		$data = array(
 		   $what => $new_value
 		);
@@ -104,6 +117,6 @@ Class task extends CI_Model {
 		// Delete task
 		log_message('debug', 'Removing task with name "'.$task->clear_name.'" from database');
 		$this->db->delete('tasks', array('name' => $name)); 
-	}
+	}*/
 }
 ?>

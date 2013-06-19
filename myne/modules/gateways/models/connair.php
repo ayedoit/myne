@@ -19,8 +19,9 @@ Class connair extends CI_Model {
 		$ip = trim((string)$gateway->address);
 		if(!filter_var($ip, FILTER_VALIDATE_IP)) {
 			$ipCheck = @gethostbyname(trim((string)$gateway->address));
+
 			if($ip == $ipCheck) {
-				continue;
+				throw new Exception("Could not determine IP address from hostname for gateway '".$gateway->clear_name."'. Is it offline?");
 			} else {
 				$ip = $ipCheck;
 			}

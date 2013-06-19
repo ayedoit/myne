@@ -482,10 +482,10 @@ Class device extends CI_Model {
 				log_message('debug', '['.$device->clear_name.'] Attempting to set status "'.$status.'"');
 				log_message('debug', '['.$device->clear_name.'] Checking permissions');
 				
-				// If device has option "toggle", toggle it
+				// If device has option "set_status", set the status it
 				$this->load->model('action');
 				if ($this->action->deviceHasAction($device->name,"set_status")) {	
-					log_message('debug', '['.$device->clear_name.'] Has option "toggle"');
+					log_message('debug', '['.$device->clear_name.'] Has option "set_status"');
 						
 					// Get Vendor
 					$vendor = $this->getVendorByID($device->vendor);

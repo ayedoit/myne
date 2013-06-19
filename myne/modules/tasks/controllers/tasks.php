@@ -24,7 +24,47 @@ class Tasks extends MY_Controller {
 	}
     
     public function run() {
-		$this->load->model('tasks/task');
+    	// Get current event items and loop over them
+    	// Parse every event to see if it occurs
+    	// If yes, check if there's a tasked mapped to the event
+    	// If yes, trigger the action
+
+    	$this->load->model('events/event');
+    	$events = $this->event->getEvents();
+
+    	log_message('debug', 'Starting Cron, checking for occuring events');
+
+    	foreach($events as $event_item) {
+    		if($this->event->parseEvent($event_item->id)) {
+    			log_message('debug', 'Event with ID "'.$event_item->id.'" occurs. Checking if there is a task associated to this event');
+
+    			// Check if there's a task with that event
+    			$this->load->model('tasks/task');
+    			$tasks = $this->task->getTasksByEventItem($event_item->id);
+
+    			if (sizeof($tasks) != 0) {
+    				log_message('debug', 'Found '.sizeof($tasks).' tasks associated with event item with ID "'.$event_item->id.'"');
+
+    				// Trigger the action
+    				$this->load->model('action');
+
+    				foreach ($tasks as $task) {
+    					log_message('debug', 'Triggering action with ID "'.$task->action_item_id.'" for event item with ID "'.$event_item->id.'"');
+    					$this->action->triggerAction($task->action_item_id);
+    				}
+    			}
+    			else {
+    				log_message('debug', 'No tasks associated with event item with ID "'.$event_item->id.'" found');
+    				return false;
+    			}
+    		}
+    		else {
+    			log_message('debug', 'Event item with ID "'.$event_item->id.'" is not occuring right now');
+    		}
+    	}
+
+
+		/*$this->load->model('tasks/task');
 		$tasks = $this->task->getTasks();
 		
 		foreach ($tasks as $task) {					
@@ -67,8 +107,7 @@ class Tasks extends MY_Controller {
 					} # Is the time right?
 				} # DOW set?
 			}
-		}
-		
+		}*/
 	}
 	
 	public function add($status,$device_type='',$device_name='') {

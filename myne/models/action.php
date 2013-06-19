@@ -148,4 +148,138 @@ Class action extends CI_Model {
 		}
 		return $actions;
 	}
+
+	public function getActionItemByID($id) {
+		$query = $this->db->get_where('action_items', array('id' => $id));
+		
+		foreach ($query->result() as $row)
+		{
+			$action_item = $row;
+		}
+		log_message('debug', 'Polling action with id "'.$id.'" from actionlist');
+		return $action_item;
+	}
+
+	public function getActionItems() {
+		$query = $this->db->get('action_items');
+		
+		log_message('debug', 'Polling actionlist from database');
+		
+		$action_items = array();
+		foreach ($query->result() as $row)
+		{
+			$action_items[] = $row;
+			
+		}
+		return $action_items;
+	}
+
+	/*
+		correct action data will look as follows (just like the JSON format for the API calls):
+
+		$data = array(
+			'method' => 'toggle',
+			'params' => array(
+				'model' => 'devices/device',
+				'opts' => array(
+					0 => 'Opt 1',
+					1 => 'Opt 2',
+					...
+				)
+			)
+		);
+	
+	*/
+	public function triggerAction($id="",$data="") {
+		log_message('debug', 'Action triggered.');
+		if (isset($id) && trim($id)!='') {
+			// $id is set, so pull action from database
+			$action_item = $this->getActionItemByID($id);
+
+			log_message('debug', 'Action ID "'.$action_item->action_id.'"');
+
+			// Get action data
+			$data = $this->decodeAction($action_item->data);
+
+			log_message('debug', 'Action data: '.print_r($data,true));
+
+			// Get action method
+			$method = $data->method;
+
+			log_message('debug', 'Action method: '.$method);
+
+			// Get action data
+			$opts = $data->params->opts;
+
+			log_message('debug', 'Action opts: '.print_r($opts,true));
+
+			// Determine action type
+			$action = $this->getActionByID($action_item->action_id);
+
+			// Get action model
+			$action_model = $action->model;
+
+			log_message('debug', 'Action model: '.$action_model);
+
+			$model = $this->load->model($action_model);
+			try {
+				log_message('debug', 'Executing action');
+				$result = call_user_func_array(array($model,$method), $opts);
+				
+				return $result;
+			} catch (Exception $e) {
+				log_message('debug', 'Execution of action failed');
+				show_error($e->getMessage());
+			}
+		}
+		else {
+			// Parse data
+			$data = $this->decodeAction($data);
+
+			log_message('debug', 'Action data: '.print_r($data,true));
+
+			// Get action method
+			$method = $data->method;
+
+			log_message('debug', 'Action method: '.$method);
+
+			// Get action data
+			$opts = $data->params->opts;
+
+			log_message('debug', 'Action opts: '.print_r($opts,true));
+
+			// Get model from data
+			$action_model = $data->params->model;
+
+			log_message('debug', 'Action model: '.$action_model);
+
+			$model = $this->load->model($action_model);
+			try {
+				log_message('debug', 'Executing action');
+				$result = call_user_func_array(array($model,$method), $opts);
+				
+				return $result;
+			} catch (Exception $e) {
+				log_message('debug', 'Execution of action failed');
+				show_error($e->getMessage());
+			}
+		}
+		return false;
+	}
+
+	public function encodeAction($data) {
+		return json_encode($data);
+	}
+
+	public function decodeAction($data) {
+		return json_decode($data);
+	}
+
+	public function addActionItem($action_id,$data) {
+		$query = $this->db->insert('action_items',array('action_id' => $action_id,'data' => $data));
+		
+		log_message('debug', 'Adding action item with action-ID "'.$action_id.'" to action items');
+		
+		return $this->db->insert_id();
+	}
 }

@@ -26,13 +26,13 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `myne` /*!40100 DEFAULT CHARACTER SET u
 USE `myne`;
 
 --
--- Table structure for table `action_list`
+-- Table structure for table `action_items`
 --
 
-DROP TABLE IF EXISTS `action_list`;
+DROP TABLE IF EXISTS `action_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `action_list` (
+CREATE TABLE `action_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_id` int(11) NOT NULL,
   `data` text NOT NULL,
@@ -194,13 +194,13 @@ CREATE TABLE `devices` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `event_list`
+-- Table structure for table `event_items`
 --
 
-DROP TABLE IF EXISTS `event_list`;
+DROP TABLE IF EXISTS `event_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `event_list` (
+CREATE TABLE `event_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
   `data` text NOT NULL,
@@ -405,8 +405,10 @@ DROP TABLE IF EXISTS `tasks`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tasks` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `event_list_id` int(11) NOT NULL,
-  `action_list_id` int(11) NOT NULL,
+  `event_item_id` int(11) NOT NULL,
+  `action_item_id` int(11) NOT NULL,
+  `target_type` varchar(255) NOT NULL,
+  `target_name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

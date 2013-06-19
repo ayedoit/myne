@@ -42,31 +42,31 @@ Class event extends CI_Model {
 	}
 
 	public function getEvents() {
-		$query = $this->db->get('event_list');
+		$query = $this->db->get('event_items');
 		
-		$event_list = array();
+		$event_items = array();
 		foreach ($query->result() as $row)
 		{
-			$event_list[] = $row;
+			$event_items[] = $row;
 		}
 		log_message('debug', 'Polling eventlist from database');
-		return $event_list;
+		return $event_items;
 	}
 
 	public function getEventByID($id) {
-		$query = $this->db->get_where('event_list', array('id' => $id));
+		$query = $this->db->get_where('event_items', array('id' => $id));
 		
 		foreach ($query->result() as $row)
 		{
-			$event_list = $row;
+			$event = $row;
 		}
-		log_message('debug', 'Polling event with id "'.$id.'" from eventlist');
-		return $event_list;
+		log_message('debug', 'Polling event item with id "'.$id.'" from eventlist');
+		return $event;
 	}
 	
-	public function addEvent($data) {
-		$this->db->insert('events', $data); 
-		log_message('debug', 'Add event to Database');
+	public function addEvent($event_id,$data) {
+		$this->db->insert('event_items', array('event_id' => $event_id,'data' => $data)); 
+		log_message('debug', 'Adding event with event-ID "'.$event_id.'" to event items');
 		return $this->db->insert_id();
 	}
 

@@ -548,6 +548,6 @@
 		</table>
 	</div>
 	<?php
-		$this->load->view('tasks/tasks',array('device_type' => 'device','target' => $device));	
+		$this->load->view('tasks/tasks',array('target_type' => 'device','target' => $device));	
 	?>
 </div>
