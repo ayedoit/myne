@@ -65,3 +65,18 @@ refreshTime();
 setInterval(refreshTime, 1000);
 
 };
+$(document).ready(function (){
+	$("#task-list tr").mouseenter(function() {
+    	$(this).find('.control_wrapper').show();
+  	}).mouseleave(function() {
+  		$(this).find('.control_wrapper').hide();
+  });
+
+  // Edti task overlay
+  $('.edit_task').on('click', function() {
+  	var id = $(this).data('id');
+
+  	$('#edit_task').load("/tasks/edit/"+id).modal('show');
+  	$('#edit_task').modal('show');
+  });
+});

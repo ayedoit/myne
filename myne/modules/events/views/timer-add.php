@@ -257,6 +257,8 @@ $(document).ready(function() {
 	    minView: 2,
 	    language: 'de',
 	    autoclose: true,
+	    todayBtn: true,
+	    todayHighlight: true
 	});
 	$('.timer_day').click(function() {				
 		var day = $(this).data('day');
@@ -272,7 +274,6 @@ $(document).ready(function() {
 		var value = $('#timer_type').val();
 		var response = "";
 
-		// If type == funksteckdose, hide all div's of class "type-specific" without class "funksteckdose"
 		if (value != "recurring") {
 			$('#timer_recurring').addClass('hide');
 			$('#timer_time_space').show();
@@ -287,7 +288,6 @@ $(document).ready(function() {
 		var value = $('#timer_iteration_period').val();
 		var response = "";
 
-		// If type == funksteckdose, hide all div's of class "type-specific" without class "funksteckdose"
 		if (value == "minute") {
 			$('#interval_params').hide();
 			$('#timer_time_space').hide();

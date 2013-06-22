@@ -45,6 +45,10 @@
 		elseif ($event_data->params->iteration_period == 'hour') {
 			echo "<span class='label'>T +".$event_data->params->minute." Minuten</span> ";
 		}
+		// Recurring: Day
+		elseif ($event_data->params->iteration_period == 'day') {
+			echo "<span class='label label-info'>".$event_data->params->time."</span> ";
+		}
 		// Recurring: Month
 		elseif ($event_data->params->iteration_period == 'month') {
 			echo "<span class='label'>".$event_data->params->dom.". Tag des Monats</span> ";

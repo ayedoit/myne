@@ -13,6 +13,19 @@ Class action extends CI_Model {
 		return $action;
 	}
 
+	public function getActionByName($name) {
+		$query = $this->db->get_where('actions',array('name' => $name));
+		
+		log_message('debug', 'Polling action with name "'.$name.'" from database');
+		
+		$action = "";	
+		foreach ($query->result() as $row)
+		{
+			$action = $row;
+		}
+		return $action;
+	}
+
 	public function addGroupAction($group_id,$action_id) {
 		$query = $this->db->insert('group_has_action',array('group_id' => $group_id,'action_id' => $action_id));
 		
@@ -179,6 +192,12 @@ Class action extends CI_Model {
 		}
 		log_message('debug', 'Polling action with id "'.$id.'" from actionlist');
 		return $action_item;
+	}
+
+	public function deleteActionItem($action_item_id) {
+		log_message('debug', 'Remvoving action item with ID "'.$action_item_id.'" from database');
+		
+		$this->db->delete('action_items', array('id' => $action_item_id));
 	}
 
 	public function getActionItems() {

@@ -279,7 +279,6 @@ Class timer extends CI_Model {
 		log_message('debug', print_r($data,true));
 
 		$today = date('w',time());
-		$now = date('H:i',time());
 
 		// Either the timer is recurring...
 		if ($data->params->type == 'recurring') {
@@ -300,18 +299,31 @@ Class timer extends CI_Model {
 			}
 			elseif ($data->params->iteration_period == 'hour') {
 				log_message('debug', '[Timer/parseEvent] Iteration period is "hour"');
+				
 				// Minutes Needed
 				$now_min = date('i',time());
+				log_message('debug', '[Timer/parseEvent] Minute now: '.$now_min);
+
 				if ($data->params->minute == $now_min) {
+					log_message('debug', '[Timer/parseEvent] Minute now fits minute set in timer: '.$data->params->minute);
 					return true;
 				}
+				log_message('debug', '[Timer/parseEvent] Minute now unequal minute set in timer: '.$data->params->minute);
+				return false;
 			}
 			elseif ($data->params->iteration_period == 'day') {
 				log_message('debug', '[Timer/parseEvent] Iteration period is "day"');
 				// Time Needed
+				$now = date('H:i',time());
+				log_message('debug', '[Timer/parseEvent] Time now: '.$now);
+
 				if ($data->params->time == $now) {
+					log_message('debug', '[Timer/parseEvent] Time now fits time set in timer: '.$data->params->time);
+					log_message('debug', '[Timer/parseEvent] Event occurs!');
 					return true;
 				}
+				log_message('debug', '[Timer/parseEvent] Time now unequal time set in timer: '.$data->params->time);
+				return false;
 			}
 			elseif ($data->params->iteration_period == 'month') {
 				log_message('debug', '[Timer/parseEvent] Iteration period is "month"');
@@ -418,19 +430,30 @@ Class timer extends CI_Model {
 		}
 		// ...or targets a single date
 		else {
+			log_message('debug', '[Timer/parseEvent] Timer is "single"');
 			$today = date('d.m.Y',time());
+			log_message('debug', '[Timer/parseEvent] Today: '.$today);
 
 			if ($today == $data->params->date) {
+				log_message('debug', '[Timer/parseEvent] Date fits current date: '.$data->params->date);
 
 				// Now check if it's the right time
 				$now = date('H:i',time());
+				log_message('debug', '[Timer/parseEvent] Time now: '.$now);
+
+
 				if ($now == $data->params->time) {
 					// This is the right moment for the timer
+					log_message('debug', '[Timer/parseEvent] Time now fits time set in timer: '.$data->params->time);
+					log_message('debug', '[Timer/parseEvent] Event occurs!');
 					return true;
 				} # Is the time right?
+				log_message('debug', '[Timer/parseEvent] Time now unequal time set in timer: '.$data->params->time);
 				return false;
 			} # Is ist the right date?
+			return false;
 		}
+		return false;
 	}
 }
 ?>

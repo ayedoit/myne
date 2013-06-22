@@ -70,6 +70,28 @@ Class event extends CI_Model {
 		return $this->db->insert_id();
 	}
 
+	public function updateEvent($event_item_id,$what,$new_value) {
+		$data = array(
+		   $what => $new_value
+		);
+		
+		$this->db->where('id', $event_item_id);
+		try {
+			$this->db->update('event_items', $data);
+			log_message('debug', 'Updating event item with ID "'.$event_item_id.'", setting "'.$what.'" to "'.$new_value.'" in database');
+			return true;
+		}  catch (Exception $e) {
+			log_message('debug', 'Updating event item with ID "'.$event_item_id.'", setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
+			throw new Exception($e->getMessage());
+		} 
+	}
+
+	public function deleteEvent($event_item_id) {
+		log_message('debug', 'Remvoving event item with ID "'.$event_item_id.'" from database');
+		
+		$this->db->delete('event_items', array('id' => $event_item_id));
+	}
+
 	/*
 	 * This function parses and validates an event either by ID or the submitted data
 	 */

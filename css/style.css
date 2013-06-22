@@ -16,6 +16,14 @@ body {
 .iconpicker {
   margin-right: 10px;
 }
+#task-list tr td.task-controls {
+  width: 150px;
+  height: 22px;
+  text-align: right;
+}
+#task_edit {
+  margin: 0;
+}
 #myne_notify {
 	position: fixed;
   padding: 0;

@@ -74,12 +74,12 @@ Class task extends CI_Model {
 		return $this->db->insert_id();
 	}
 	
-	/*public function updateTask($name,$what,$new_value) {
+	public function updateTask($id,$what,$new_value) {
 		$data = array(
 		   $what => $new_value
 		);
 		
-		$this->db->where('name', $name);
+		$this->db->where('id', $id);
 		try {
 			$this->db->update('tasks', $data);
 			log_message('debug', 'Updating task with name "'.$name.'", setting "'.$what.'" to "'.$new_value.'" in database');
@@ -89,34 +89,24 @@ Class task extends CI_Model {
 			throw new Exception($e->getMessage());
 		} 
 	}
-	
-	public function deleteTask($name) {
+
+	public function deleteTask($task_id) {
 		// Delete task data to delete events
-		$task = $this->getTaskByName($name);
-		
-		log_message('debug', 'Attempting to remove task with name "'.$task->clear_name.'" from database...');
-		
-		// What kind of event is the task bound to?
-		log_message('debug', 'Determining event type of task');
-		$this->load->model('event');
-		$event = $this->event->getEventByID($task->event);	
-		
-		// Timer
-		if ($event->name == 'timer') {
-			log_message('debug', 'Event is of type "timer"');
-			$this->load->model('timers/timer');
-			
-			// Get concrete timer to current task
-			log_message('debug', 'Polling specific timer for task "'.$task->clear_name.'" from database');
-			$timer = $this->timer->getTimerByID($task->event_opt);
-			
-			// Delete timer
-			$this->timer->deleteTimer($timer->id);
-		}
+		$task = $this->getTaskByID($task_id);
+
+		log_message('debug', 'Attempting to remove task with ID "'.$task->id.'" from database...');
+
+		// Delete action item
+		$this->load->model('action');
+		$this->action->deleteActionItem($task->action_item_id);
+
+		//Delete event item
+		$this->load->model('events/event');
+		$this->event->deleteEvent($task->event_item_id);
 			
 		// Delete task
-		log_message('debug', 'Removing task with name "'.$task->clear_name.'" from database');
-		$this->db->delete('tasks', array('name' => $name)); 
-	}*/
+		log_message('debug', 'Removing task with ID "'.$task->id.'" from database');
+		$this->db->delete('tasks', array('id' => $task_id)); 
+	}
 }
 ?>

@@ -12,7 +12,10 @@
 			// Check if current device has any action
 			if (isset($device_name) && trim($device_name) != '') {
 				$this->load->model('action');
-				$actions = $this->action->getActionsByDevice($device_name);
+				$this->load->model('devices/device');
+
+				$device = $this->device->getDeviceByName($device_name);
+				$actions = $this->action->getActionsByDevice($device->id);
 
 				if (sizeof($actions) == 0) {
 					$actions_defined = false;
@@ -144,7 +147,10 @@
 							$this->load->model('action');
 							if ($actions_defined) {
 								if (isset($device_name) && trim($device_name) != '') {
-									$actions = $this->action->getActionsByDevice($device_name);
+									$this->load->model('devices/device');
+
+									$device = $this->device->getDeviceByName($device_name);
+									$actions = $this->action->getActionsByDevice($device->id);
 								}
 								else {
 									$actions = $this->action->getActions();
@@ -208,6 +214,7 @@
 						$submit = array(
 							"class" => "btn btn-primary btn-medium",
 							"name" => "tasks_submit",
+							"id" => "tasks_submit",
 							"value" => "Anlegen",
 							"disabled" => true
 						);
@@ -216,6 +223,7 @@
 						$submit = array(
 							"class" => "btn btn-primary btn-medium",
 							"name" => "tasks_submit",
+							"id" => "tasks_submit",
 							"value" => "Anlegen"
 						);
 					}
@@ -312,6 +320,8 @@
 		});
 
 		$('#tasks_target_name').on('change',function() {
+			$('#tasks_submit').removeAttr('disabled');
+
 			var value = $('#tasks_target_name').val();
 			var target_type = $('#tasks_target_type').val();
 			var response = "";
@@ -339,6 +349,7 @@
 				});
 				if (data.result.length === 0) {
 					// No actions defined for device
+					$('#tasks_submit').attr('disabled',true);
 					$('#tasks_action')
 						 .attr('disabled','disabled')
 						 .append($("<option></option>")
@@ -399,66 +410,25 @@
 				}
 			}
 		});
-		  		
-		// Validator
-		$.validator.addMethod(
-			"regex",
-			function(value, element, regexp) {
-				var check = false;
-				var re = new RegExp(regexp);
-				return this.optional(element) || re.test(value);
-			},
-			"Nur Kleinbuchstaben und Zahlen sowie '-' und '_' erlaubt."
-		);
-		
-		$.validator.addMethod(
-			"unique",
-			function(value, element, id_type) {
-				var response = null;
-				// Check ID against API
-				var request = {"jsonrpc": "2.0", "method": "idIsUnique", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"tools","opts":[value,id_type]}, "id": 1};
-				$.ajax({
-					url: "<?= base_url('api/request'); ?>",
-					type: "post",
-					data: JSON.stringify(request),
-					dataType: "json",
-					async: false,
-					success: function(data) {
-						response = data;
-						console.log(response.result);
-					} 
-				});	
-				if (response.result=="true") {
-					return true;
-				}
-				else {
-					return false;
-				}
-			},
-			"Diese ID existiert bereits. Die ID muss eindeutig sein."
-		);
 		
 		$('#add_task').validate(
 		{
 		rules: {
-			tasks_name: {
-			  minlength: 3,
-			  maxlength: 200,
-			  required: true,
-			  regex: /^[a-z\d_-]+$/,
-			  unique: "tasks"
-			},
-			tasks_clear_name: {
-			  required: true,
-			  maxlength: 200
-			},
-			tasks_description: {
-			  required: true,
-			  maxlength: 200
-			},
-			timer_time: {
+			time: {
 			  required: true
-			}
+			},
+			data: {
+			  required: true
+			},
+			dom: {
+			  required: true
+			},
+			mon: {
+			  required: true
+			},
+			minute: {
+			  required: true
+			},
 		},
 		highlight: function(element) {
 			$(element).closest('.control-group').removeClass('success').addClass('error');

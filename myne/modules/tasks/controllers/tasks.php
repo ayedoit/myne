@@ -22,6 +22,75 @@ class Tasks extends MY_Controller {
 			}			
 		}
 	}
+
+	public function edit($task_id="") {
+		if (empty($task_id) || trim($task_id) == '') {
+			log_message('debug', '[Tasks/Edit]: No task ID given');
+			redirect(base_url('devices'), 'refresh');
+		}
+		else {
+			// Load task
+			$this->load->model('tasks/task');
+			$task = $this->task->getTaskByID($task_id);
+
+			// Get Event Item data
+			$this->load->model('events/event');
+			$event_item = $this->event->getEventByID($task->event_item_id);
+
+			// Get Event Type data
+			$event_type = $this->event->getEventTypeByID($event_item->event_id);
+
+			// Load event EDIT view
+			$this->load->view('events/'.$event_type->name.'-edit',array('task_id' => $task_id, 'event_data' => $this->event->decodeEvent($event_item->data)));
+		}
+	}
+
+	public function updateTask($task_id) {
+		if (empty($task_id) || trim($task_id) == '') {
+			log_message('debug', '[Tasks/Edit]: No task ID given');
+			redirect(base_url('devices'), 'refresh');
+		}
+		else {
+			// Determine task
+			$this->load->model('tasks/task');
+			$task = $this->task->getTaskByID($task_id);
+
+			// Determine event item
+			$this->load->model('events/event');
+			$event_item = $this->event->getEventByID($task->event_item_id);
+
+			// Get event tyoe
+			$event_type = $this->event->getEventTypeByID($event_item->event_id);
+			
+			// Load event model
+			$this->load->model($event_type->model,'e_model');
+
+			// Make an event from the given data
+			try {
+				$params = $this->e_model->makeEvent($_POST);
+				$event_data = array(
+					'model' => $event_type->model,
+					'params' => $params
+				);
+
+				// Add event to database event_items
+				$event_data = $this->event->encodeEvent($event_data);
+			} catch (Exception $e) {
+				show_error($e->getMessage(), 500);
+			}
+
+			// Update the event
+			$this->event->updateEvent($event_item->id,'data',$event_data);
+
+			if ($this->agent->is_referral()){
+			    redirect($this->agent->referrer(), 'refresh');
+			}
+			else {
+				redirect(base_url('devices'), 'refresh');
+			}
+		}
+
+	}
     
     public function run() {
     	// Get current event items and loop over them
@@ -34,33 +103,38 @@ class Tasks extends MY_Controller {
 
     	log_message('debug', 'Starting Cron, checking for occuring events');
 
-    	foreach($events as $event_item) {
-    		if($this->event->parseEvent($event_item->id)) {
-    			log_message('debug', 'Event with ID "'.$event_item->id.'" occurs. Checking if there is a task associated to this event');
+    	if (sizeof($events) == 0) {
+    		log_message('debug', 'No events queued. Nothing to do here.');
+    	}
+    	else {
+	    	foreach($events as $event_item) {
+	    		if($this->event->parseEvent($event_item->id)) {
+	    			log_message('debug', 'Event with ID "'.$event_item->id.'" occurs. Checking if there is a task associated to this event');
 
-    			// Check if there's a task with that event
-    			$this->load->model('tasks/task');
-    			$tasks = $this->task->getTasksByEventItem($event_item->id);
+	    			// Check if there's a task with that event
+	    			$this->load->model('tasks/task');
+	    			$tasks = $this->task->getTasksByEventItem($event_item->id);
 
-    			if (sizeof($tasks) != 0) {
-    				log_message('debug', 'Found '.sizeof($tasks).' tasks associated with event item with ID "'.$event_item->id.'"');
+	    			if (sizeof($tasks) != 0) {
+	    				log_message('debug', 'Found '.sizeof($tasks).' tasks associated with event item with ID "'.$event_item->id.'"');
 
-    				// Trigger the action
-    				$this->load->model('action');
+	    				// Trigger the action
+	    				$this->load->model('action');
 
-    				foreach ($tasks as $task) {	
-    					log_message('debug', 'Triggering action with ID "'.$task->action_item_id.'" for event item with ID "'.$event_item->id.'"');
-    					$this->action->triggerAction($task->action_item_id);
-    				}
-    			}
-    			else {
-    				log_message('debug', 'No tasks associated with event item with ID "'.$event_item->id.'" found');
-    				return false;
-    			}
-    		}
-    		else {
-    			log_message('debug', 'Event item with ID "'.$event_item->id.'" is not occuring right now');
-    		}
+	    				foreach ($tasks as $task) {	
+	    					log_message('debug', 'Triggering action with ID "'.$task->action_item_id.'" for event item with ID "'.$event_item->id.'"');
+	    					$this->action->triggerAction($task->action_item_id);
+	    				}
+	    			}
+	    			else {
+	    				log_message('debug', 'No tasks associated with event item with ID "'.$event_item->id.'" found');
+	    				return false;
+	    			}
+	    		}
+	    		else {
+	    			log_message('debug', 'Event item with ID "'.$event_item->id.'" is not occuring right now');
+	    		}
+	    	}
     	}
 	}
 	
@@ -110,14 +184,8 @@ class Tasks extends MY_Controller {
 					$this->load->model('action');
 					$action = $this->action->getActionByID($_POST['tasks_action']);
 
-					// Currently, "set_status" is called toggle; in the future, this will be arranged like the timer model for more flexibility
-					// For now, here's a hardcoded switch
-					if ($action->name == 'set_status') {
-						$method = 'toggle';
-					}
-
 					$data = array(
-						'method' => $method,
+						'method' => $action->name,
 						'params' => array(
 							'model' => $action->model,
 							'opts' => array(
