@@ -1,12 +1,27 @@
 <div class="row-fluid">
 	<div class="span6">
 		<?php
+			$actions_defined = true;
 			// Check if Cronjob for tasks is set. If not, alert.
 			if (!$this->tools->cronIsSet()) {
 				echo '<div class="alert">';
 				  echo '<strong>Achtung!</strong> Der Task-Cronjob ist nicht aktiv! Klicke <a href="'.base_url('settings').'">hier</a> um ihn zu setzen.';
 				echo '</div>';
 			}
+
+			// Check if current device has any action
+			if (isset($device_name) && trim($device_name) != '') {
+				$this->load->model('action');
+				$actions = $this->action->getActionsByDevice($device_name);
+
+				if (sizeof($actions) == 0) {
+					$actions_defined = false;
+					echo '<div class="alert">';
+					  echo '<strong>Achtung!</strong> Für dieses Gerät sind keine Aktionen möglich.';
+					echo '</div>';
+				}
+			}
+			
 		?>
 		<?php
 		$this->load->helper('form');
@@ -78,87 +93,10 @@
 
 						$options = array();
 						foreach ($items as $item) {
-							$options[$item->name] = $item->clear_name;
+							$options[$item->id] = $item->clear_name;
 						}
 						$data = 'id="tasks_target_name"';
 						echo form_dropdown('tasks_target_name', $options,$selected,$data); 
-					?>
-				  <span class="validation_space"></span>
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<?php 
-					$attributes = array(
-						'class' => 'control-label'
-					);
-					echo form_label('Task-ID', 'tasks_name',$attributes);
-				?>
-				<div class="controls">
-				  <?php
-					$data = array(
-					  'name'        => 'tasks_name',
-					  'id'          => 'tasks_name',
-					  'placeholder' => 'Task-ID'
-					);
-					echo form_input($data);
-				  ?>
-				  <span class="validation_space"></span>
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<?php 
-					$attributes = array(
-						'class' => 'control-label'
-					);
-					echo form_label('Task Name', 'tasks_clear_name',$attributes);
-				?>
-				<div class="controls">
-				  <?php
-					$data = array(
-					  'name'        => 'tasks_clear_name',
-					  'id'          => 'tasks_clear_name',
-					  'placeholder' => 'Task Name'
-					);
-					echo form_input($data);
-				  ?>
-				  <span class="validation_space"></span>
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<?php 
-					$attributes = array(
-						'class' => 'control-label'
-					);
-					echo form_label('Task Beschreibung', 'tasks_description',$attributes);
-				?>
-				<div class="controls">
-				  <?php
-					$data = array(
-					  'name'        => 'tasks_description',
-					  'id'          => 'tasks_description',
-					  'placeholder' => 'Task Beschreibung'
-					);
-					echo form_input($data);
-				  ?>
-				  <span class="validation_space"></span>
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<?php 
-					$attributes = array(
-						'class' => 'control-label'
-					);
-					echo form_label('Aktiv', 'tasks_active',$attributes);
-				?>
-				<div class="controls">
-					<?php						
-						$options = array(0 => "Nein","1" => "Ja");
-						$data = 'id="tasks_active"';
-						echo form_dropdown('tasks_active', $options,"1",$data); 
 					?>
 				  <span class="validation_space"></span>
 				</div>
@@ -173,8 +111,8 @@
 				?>
 				<div class="controls">
 					<?php
-						$this->load->model('event');
-						$events = $this->event->getEvents();
+						$this->load->model('events/event');
+						$events = $this->event->getEventTypes();
 						
 						$options = array();
 						foreach ($events as $event) {
@@ -188,127 +126,72 @@
 			</div>
 			
 			<div id="event_space">
-				<div class="control-group">
-					<?php 
-						$attributes = array(
-							'class' => 'control-label'
-						);
-						echo form_label('Tage', 'timer_days',$attributes);
-					?>
-					<div class="controls">
-						<div class="btn-group" data-toggle="buttons-checkbox">
-						<?php
-							// Mon
-								echo '<button type="button" data-day="timer_mon" class="btn btn-medium timer_day">M</button>';
-								echo form_hidden('timer_mon', '0');
-							// Tue
-								echo '<button type="button" data-day="timer_tue" class="btn btn-medium timer_day">D</button>';
-								echo form_hidden('timer_tue', '0');
-							// Wed
-								echo '<button type="button" data-day="timer_wed" class="btn btn-medium timer_day">M</button>';
-								echo form_hidden('timer_wed', '0');
-							// Thu
-								echo '<button type="button" data-day="timer_thu" class="btn btn-medium timer_day">D</button>';
-								echo form_hidden('timer_thu', '0');
-							// Fri
-								echo '<button type="button" data-day="timer_fri" class="btn btn-medium timer_day">F</button>';
-								echo form_hidden('timer_fri', '0');
-							// Sat
-								echo '<button type="button" data-day="timer_sat" class="btn btn-medium timer_day">S</button>';
-								echo form_hidden('timer_sat', '0');
-							// Sun
-								echo form_hidden('timer_sun', '0');
-								echo '<button type="button" data-day="timer_sun" class="btn btn-medium timer_day">S</button>';
-								
-						?>
-						</div>
-						
-						<script>
-							$(document).ready(function() { 
-								$('.timer_day').click(function() {
-									
-									var day = $(this).data('day');
-									if ($('input[name="'+day+'"]').val() == "0") {
-										$('input[name="'+day+'"]').val("1");
-									}
-									else {
-										$('input[name="'+day+'"]').val("0");
-									}
-								});
-							});
-						</script>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<?php 
-						$attributes = array(
-							'class' => 'control-label'
-						);
-						echo form_label('Uhrzeit', 'timer_time',$attributes);
-					?>
-					<div class="controls">
-						
-						<div id="timer_time" class="input-append date">
-						  <input name="timer_time" type="text"></input>
-						  <span class="add-on">
-							<i data-time-icon="icon-time"></i>
-						  </span>
-						</div>
-						
-						<script type="text/javascript">
-							$('#timer_time').datetimepicker({
-								format: 'hh:mm',
-								language: 'de-DE',
-								pickDate: false,
-								pickSeconds: false
-							});
-						</script>
-					</div>
-				</div>
-			 </div>
-			 
-			 <div class="control-group">
-				<?php 
-					$attributes = array(
-						'class' => 'control-label'
-					);
-					echo form_label('Aktion', 'tasks_action',$attributes);
-				?>
-				<div class="controls">
-					<?php
-						$this->load->model('action');
-						$actions = $this->action->getActions();
-						
-						$options = array();
-						foreach ($actions as $action) {
-							$options[$action->id] = $action->clear_name;
-						}
-						$data = 'id="tasks_action"';
-						echo form_dropdown('tasks_action', $options,"1",$data); 
-					?>
-				  <span class="validation_space"></span>
-				</div>
+				<?php
+					$this->load->view('events/timer-add');
+				?>	
 			</div>
-			
+			 
 			<div id="action_space">
 				<div class="control-group">
 					<?php 
 						$attributes = array(
 							'class' => 'control-label'
 						);
-						echo form_label('Status', 'tasks_action_opt',$attributes);
+						echo form_label('Aktion', 'tasks_action',$attributes);
 					?>
 					<div class="controls">
 						<?php
 							$this->load->model('action');
-							$actions = $this->action->getActions();
-							
-							$options = array("off" => "Aus", "on" => "An");
-							$data = 'id="tasks_action_opt"';
-							echo form_dropdown('tasks_action_opt', $options,"1",$data); 
+							if ($actions_defined) {
+								if (isset($device_name) && trim($device_name) != '') {
+									$actions = $this->action->getActionsByDevice($device_name);
+								}
+								else {
+									$actions = $this->action->getActions();
+								}
+								$options = array();
+								foreach ($actions as $action) {
+									$options[$action->id] = $action->clear_name;
+								}
+								$data = 'id="tasks_action"';
+								echo form_dropdown('tasks_action', $options,"1",$data);
+							}
+							else {
+								$options = array(
+									'0' => "Keine Aktion möglich"
+								);
+								$data = 'id="tasks_action" disabled';
+								echo form_dropdown('tasks_action', $options,"0",$data);
+							}	 
 						?>
 					  <span class="validation_space"></span>
+					</div>
+				</div>
+				
+				<div id="action_space">
+					<div class="control-group">
+						<?php 
+							$attributes = array(
+								'class' => 'control-label'
+							);
+							echo form_label('Status', 'tasks_action_opt',$attributes);
+						?>
+						<div class="controls">
+							<?php
+								if ($actions_defined) {
+									$options = array("off" => "Aus", "on" => "An");
+									$data = 'id="tasks_action_opt"';
+									echo form_dropdown('tasks_action_opt', $options,"1",$data); 
+								}
+								else {
+									$options = array(0 => "Keine Aktion möglich");
+									$data = 'id="tasks_action_opt" disabled';
+									echo form_dropdown('tasks_action_opt', $options,"0",$data); 
+								}
+								
+							?>
+						  <span class="validation_space"></span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -317,17 +200,26 @@
 				<div class="controls">
 				  <?php 
 					$data = array(
-					  'add_event'  => '1',
-					  'add_timer'  => '1',
 					  'form' => '1'
 					);		
 					echo form_hidden($data);	
 					
-					$submit = array(
-						"class" => "btn btn-primary btn-medium",
-						"name" => "tasks_submit",
-						"value" => "Anlegen"
-					);
+					if (!$actions_defined) {
+						$submit = array(
+							"class" => "btn btn-primary btn-medium",
+							"name" => "tasks_submit",
+							"value" => "Anlegen",
+							"disabled" => true
+						);
+					}
+					else {
+						$submit = array(
+							"class" => "btn btn-primary btn-medium",
+							"name" => "tasks_submit",
+							"value" => "Anlegen"
+						);
+					}
+					
 					echo form_submit($submit);	
 				?>
 				</div>
@@ -417,6 +309,95 @@
 				
 				$('#tasks_target_name').trigger('change');
 			});	
+		});
+
+		$('#tasks_target_name').on('change',function() {
+			var value = $('#tasks_target_name').val();
+			var target_type = $('#tasks_target_type').val();
+			var response = "";
+			
+			// Get entries for selected type
+			if (target_type == 'group') {
+				var request = {"jsonrpc": "2.0", "method": "getActionsByGroup", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"action","opts":[value]}, "id": 2};
+			}
+			else if (target_type == 'device') {
+				var request = {"jsonrpc": "2.0", "method": "getActionsByDevice", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"action","opts":[value]}, "id": 2};
+			}
+			else if (target_type == 'room') {
+				var request = {"jsonrpc": "2.0", "method": "getActions", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"action","opts":[value]}, "id": 2};
+			}
+			else if (target_type == 'gateway') {
+				var request = {"jsonrpc": "2.0", "method": "getActions", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"action","opts":[value]}, "id": 2};
+			}
+			else if (target_type == 'type') {
+				var request = {"jsonrpc": "2.0", "method": "getActionsByDeviceType", "params": {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model":"action","opts":[value]}, "id": 2};
+			}
+
+			$.post("<?= base_url('api/request'); ?>", JSON.stringify(request), function(data) {				
+				$("#tasks_action option").each(function() {
+					$(this).remove();
+				});
+				if (data.result.length === 0) {
+					// No actions defined for device
+					$('#tasks_action')
+						 .attr('disabled','disabled')
+						 .append($("<option></option>")
+						 .attr("value","0")
+						 .text("Keine Aktion möglich"));
+				}
+				else {
+					// Udate targets
+					$.each(data.result, function (key,val) {
+						$('#tasks_action')
+						 .removeAttr('disabled')
+						 .append($("<option></option>")
+						 .attr("value",val.id)
+						 .text(val.clear_name)); 
+					});
+				}
+				
+				$('#tasks_action_opt').trigger('change');
+			});	
+		});
+
+		$('#tasks_action_opt').on('change',function() {
+			var value = $('#tasks_target_name').val();
+			var tasks_action = $('#tasks_action').val();
+			var response = "";
+
+			$("#tasks_action_opt option").each(function() {
+				$(this).remove();
+			});
+			
+			if (tasks_action == "0") {
+				$(this)
+				 .attr('disabled','disabled')
+				 .append($("<option></option>")
+				 .attr("value","0")
+				 .text("Keine Aktion möglich"));
+			}
+			else {
+				if (tasks_action == "1") {
+					// If "set_status"
+					var status_values = {
+						0: {
+							"clear_name": "An",
+							"item_value": "on"
+						},
+						1: {
+							"clear_name": "Aus",
+							"item_value": "off"
+						}
+					};
+					$.each(status_values, function (key,val) {
+						$('#tasks_action_opt')
+						 .removeAttr('disabled')
+						 .append($("<option></option>")
+						 .attr("value",val.item_value)
+						 .text(val.clear_name)); 
+					});
+				}
+			}
 		});
 		  		
 		// Validator

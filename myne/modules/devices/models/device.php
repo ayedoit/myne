@@ -212,6 +212,19 @@ Class device extends CI_Model {
 		return $device;
 	}
 
+	public function getDeviceByID($id) {
+		$query = $this->db->get_where('devices',array('id' => $id));
+				
+		log_message('debug', 'Polling device with id "'.$id.'" from database');
+		
+		$device = "";
+		foreach ($query->result() as $row)
+		{
+			$device = $row;
+		}
+		return $device;
+	}
+
 	public function getDeviceTypeByName($name) {
 		$query = $this->db->get_where('device_types',array('name' => $name));
 				

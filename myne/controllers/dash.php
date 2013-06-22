@@ -31,7 +31,7 @@ class Dash extends MY_Controller {
 				'model' => 'devices/device',
 				'opts' => array(
 					0 => 'device',
-					1 => 'test1',
+					1 => 'desk',
 					2 => 'on'
 				)
 			)
@@ -41,7 +41,7 @@ class Dash extends MY_Controller {
 		$action_data = $this->action->encodeAction($data);
 		echo $action_data;
 
-		// $this->action->addActionItem('1',$action_data);
+		$this->action->addActionItem('1',$action_data);
 
 		// var_dump($this->action->triggerAction('',$action_data));
 
@@ -55,13 +55,13 @@ class Dash extends MY_Controller {
 				'dow' => array(
 					'mon' => 0,
 					'tue' => 1,
-					'wed' => 0,
+					'wed' => 1,
 					'thu' => 0,
 					'fri' => 0,
-					'sat' => 0,
+					'sat' => 1,
 					'sun' => 0 
 				),
-				'time' => '21:55'
+				'time' => '11:35'
 			)
 		);
 
@@ -97,7 +97,7 @@ class Dash extends MY_Controller {
 			'params' => array(
 				'type' => 'recurring', // or 'single'
 				'iteration_period' => 'hour',
-				'minute' => '4'
+				'minute' => '45'
 			)
 		);
 
@@ -111,6 +111,7 @@ class Dash extends MY_Controller {
 		);
 
 		// $parsed_data = $this->event->encodeEvent($event_data);
+		$id1 = $this->event->addEvent('1',$this->event->encodeEvent($event_data1));
 		$id2 = $this->event->addEvent('1',$this->event->encodeEvent($event_data2));
 		$id3 = $this->event->addEvent('1',$this->event->encodeEvent($event_data3));
 		$id4 = $this->event->addEvent('1',$this->event->encodeEvent($event_data4));
@@ -119,36 +120,77 @@ class Dash extends MY_Controller {
 
 		$this->load->model('tasks/task');
 		$this->task->addTask(array(
+			'event_item_id' => $id1,
+			'action_item_id' => "1",
+			'target_type' => 'device',
+			'target_name' => 'desk'
+		));
+		$this->task->addTask(array(
 			'event_item_id' => $id2,
 			'action_item_id' => "1",
 			'target_type' => 'device',
-			'target_name' => 'test1'
+			'target_name' => 'desk'
 		));
 
 		$this->task->addTask(array(
 			'event_item_id' => $id3,
 			'action_item_id' => "1",
 			'target_type' => 'device',
-			'target_name' => 'test1'
+			'target_name' => 'desk'
 		));
 		$this->task->addTask(array(
 			'event_item_id' => $id4,
 			'action_item_id' => "1",
 			'target_type' => 'device',
-			'target_name' => 'test1'
+			'target_name' => 'desk'
 		));
 		$this->task->addTask(array(
 			'event_item_id' => $id5,
 			'action_item_id' => "1",
 			'target_type' => 'device',
-			'target_name' => 'test1'
+			'target_name' => 'desk'
 		));
 		$this->task->addTask(array(
 			'event_item_id' => $id6,
 			'action_item_id' => "1",
 			'target_type' => 'device',
-			'target_name' => 'test1'
+			'target_name' => 'desk'
 		));
+	}
+
+	public function makeEvent() {
+		$this->load->model('events/timer');
+
+		$data = array(
+		    "tasks_target_type" => "device",
+		    "tasks_target_name" => "1",
+		    "tasks_event" => "1",
+		    "type" => "recurring",
+		    "iteration_period" => "day",
+		    "dom" => "",
+		    "minute" => "",
+		    "mon" => "",
+		    "dow" => array
+		        (
+		            "mon" => "0",
+		            "tue" => "0",
+		            "wed" => "0",
+		            "thu" => "0",
+		            "fri" => "0",
+		            "sat" => "0",
+		            "sun" => "0",
+		        ),
+
+		    "date" => "",
+		    "time" => "14:50",
+		    "tasks_action" => "1",
+		    "tasks_action_opt" => "off",
+		    "form" => "1",
+		    "tasks_submit" => "Anlegen"
+		);
+
+		$event_data = $this->timer->makeEvent($data);
+		echo "<pre>".print_r($event_data,true)."</pre>";
 	}
 
 	public function setCron() {

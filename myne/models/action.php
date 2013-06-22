@@ -134,6 +134,27 @@ Class action extends CI_Model {
 		}
 		return $actions;
 	}
+
+	public function getActionsByDevice($device_id) {
+		// Get device
+		$this->load->model('devices/device');
+		$device = $this->device->getDeviceByID($device_id);
+
+		log_message('debug', 'Polling possible actions for device with name "'.$device->name.'"');
+
+		// Get Actions
+		$actions = $this->getActions();
+
+		$device_actions = array();
+
+		foreach ($actions as $action) {
+			if ($this->deviceHasAction($device->name,$action->name)) {
+				$device_actions[] = $action;
+			}
+		}
+		
+		return $device_actions;
+	}
 	
 	public function getActions() {
 		$query = $this->db->get('actions');

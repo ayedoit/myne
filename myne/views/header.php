@@ -9,6 +9,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="<?= base_url() ?>css/bootstrap-datetimepicker.min.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/style.css">
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/bootstrap-editable.css">
+        <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/datetimepicker.css">
 <!--
         <link rel="stylesheet" type="text/css" href="<?= base_url() ?>css/bootstrap.DataTable.css">
         
@@ -21,6 +22,8 @@
         <script src="<?= base_url() ?>js/bootstrap.js"></script>
         <script src="<?= base_url() ?>js/bootstrap-datetimepicker.min.js"></script>
         <script src="<?= base_url() ?>js/bootstrap-editable.js"></script>
+        <script src="<?= base_url() ?>js/bootstrap-datetimepicker.js"></script>
+        <script src="<?= base_url() ?>js/locales/bootstrap-datetimepicker.de.js"></script>
 <!--
         <script src="<?= base_url() ?>js/jquery.dataTables.js"></script>
         <script src="<?= base_url() ?>js/jquery.dataTables.plugins.js"></script>

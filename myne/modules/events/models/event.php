@@ -95,7 +95,7 @@ Class event extends CI_Model {
 		}
 		else {
 			// Parse data
-			$parsed_data = json_decode($data);
+			$parsed_data = $this->decodeEvent($data);
 
 			// Get model from data
 			$event_model = $parsed_data->model;

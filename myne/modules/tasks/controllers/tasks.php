@@ -62,55 +62,9 @@ class Tasks extends MY_Controller {
     			log_message('debug', 'Event item with ID "'.$event_item->id.'" is not occuring right now');
     		}
     	}
-
-
-		/*$this->load->model('tasks/task');
-		$tasks = $this->task->getTasks();
-		
-		foreach ($tasks as $task) {					
-			$this->load->model('event');
-			$event = $this->event->getEventByID($task->event);
-			if ($event->name == 'timer') {
-				// Get timer
-				$this->load->model('timers/timer');
-				$timer = $this->timer->getTimerByID($task->event_opt);
-					
-				// Get current weekday
-				$today = date('w',time());
-				switch($today) {
-					case '1': $dow = 'mon'; break;
-					case '2': $dow = 'tue'; break;
-					case '3': $dow = 'wed'; break;
-					case '4': $dow = 'thu'; break;
-					case '5': $dow = 'fri'; break;
-					case '6': $dow = 'sat'; break;
-					case '0': $dow = 'sun'; break;
-					default: return 0; break;
-				}
-				if ($timer->{$dow} == '1') {
-					// Check time
-					$now = date('H:i',time());
-					if ($now == $timer->time) {
-						// Get action
-						$this->load->model('devices/device');
-						$this->load->model('action');
-						$action = $this->action->getActionByID($task->action);
-
-						if ($action->name == 'set_status') {
-							try {
-								$this->device->toggle($task->target_type,$task->target_name,$task->action_opt);
-								log_message('debug', '[Gateways/Run]: Task with ID "'.$task->id.'" successfully executed');
-							} catch (Exception $e) {
-								log_message('debug', '[Gateways/Run]: Error. Task with ID "'.$task->id.'" not executed: "'.$e->getMessage().'"');
-							}
-						} # Action is toggle?
-					} # Is the time right?
-				} # DOW set?
-			}
-		}*/
 	}
 	
-	public function add($status,$device_type='',$device_name='') {
+	public function add($status="",$device_type='',$device_name='') {
 		if (empty($status) || trim($status) == '') {
 			log_message('debug', '[Tasks/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('tasks/add/new'), 'refresh');
@@ -119,44 +73,64 @@ class Tasks extends MY_Controller {
 			if ($status == 'validate') {
 				$this->load->model('tasks/task');
 				if (isset($_POST['form']) && $_POST['form']=='1') {
-					// Take form input and validate
+
+					// Resolve device data
+					$this->load->model('devices/device');
+					$device = $this->device->getDeviceByID($_POST['tasks_target_name']);
+
+					// Overall task data
 					$task_data = array(
-						'name' => $_POST['tasks_name'],
-						'clear_name' => $_POST['tasks_clear_name'],
-						'description' => $_POST['tasks_description'],
-						'active' => $_POST['tasks_active'],
-						'event' => $_POST['tasks_event'],
-						'action' => $_POST['tasks_action'],
-						'action_opt' => $_POST['tasks_action_opt'],
 						'target_type' => $_POST['tasks_target_type'],
-						'target_name' => $_POST['tasks_target_name']
+						'target_name' => $device->name
 					);
-					
-					// Event
-					if (isset($_POST['add_event']) && $_POST['add_event'] == '1') {
-						// Check if it's a timer
-						if (isset($_POST['add_timer']) && $_POST['add_timer'] == '1') {
-							// Add timer
-							// Add Vendor
-							$timer_data = array(
-								'mon' => $_POST['timer_mon'],
-								'tue' => $_POST['timer_tue'],
-								'wed' => $_POST['timer_wed'],
-								'thu' => $_POST['timer_thu'],
-								'fri' => $_POST['timer_fri'],
-								'sat' => $_POST['timer_sat'],
-								'sun' => $_POST['timer_sun'],
-								'time' => $_POST['timer_time']
-							);
-							
-							// Add timer to DB
-							$this->load->model('timers/timer');
-							$timer_id = $this->timer->addTimer($timer_data);
-							
-							// Add timer ID to task Data
-							$task_data['event_opt'] = $timer_id;
-						}
+
+					// Event data
+					// What type of event is it?
+					$this->load->model('events/event');
+					$event_type = $this->event->getEventTypeByID($_POST['tasks_event']);
+
+					// Load event model
+					$this->load->model($event_type->model,'e_model');
+
+					// Make an event from the given data
+					try {
+						$params = $this->e_model->makeEvent($_POST);
+						$event_data = array(
+							'model' => $event_type->model,
+							'params' => $params
+						);
+
+						// Add event to database event_items
+						$task_data['event_item_id'] = $this->event->addEvent($event_type->id,$this->event->encodeEvent($event_data));
+					} catch (Exception $e) {
+						show_error($e->getMessage(), 500);
 					}
+					
+					// Action Data
+					$this->load->model('action');
+					$action = $this->action->getActionByID($_POST['tasks_action']);
+
+					// Currently, "set_status" is called toggle; in the future, this will be arranged like the timer model for more flexibility
+					// For now, here's a hardcoded switch
+					if ($action->name == 'set_status') {
+						$method = 'toggle';
+					}
+
+					$data = array(
+						'method' => $method,
+						'params' => array(
+							'model' => $action->model,
+							'opts' => array(
+								0 => $task_data['target_type'],
+								1 => $device->name,
+								2 => $_POST['tasks_action_opt']
+							)
+						)
+					);
+
+					$action_data = $this->action->encodeAction($data);
+					$task_data['action_item_id'] = $this->action->addActionItem($action->id,$action_data);
+
 					// Insert!
 					$task_id = $this->task->addTask($task_data);
 					

@@ -62,6 +62,214 @@ Class timer extends CI_Model {
 		$this->db->delete('timer', array('id' => $id)); 
 	}
 
+	public function makeEvent($data) {
+		$event_data = array();
+		
+		// Check type of timer
+		$types = array(
+			0 => 'recurring',
+			1 => 'single'
+		);
+		if (isset($data['type']) && trim($data['type']) != '') {
+			if (in_array($data['type'],$types)) {
+				$event_data['type'] = $data['type'];
+			}
+			else {
+				throw new Exception("Unknown timer type '".$data['type']."'");
+			}
+		}
+		else {
+			throw new Exception("'Timer type' not set.");
+		}
+
+		if ($event_data['type'] == 'single') {
+			// Check for date + time
+			if (isset($data['date']) && trim($data['date']) != '') {
+				$event_data['date'] = $data['date'];
+			}
+			else {
+				throw new Exception("'Date' not set.");
+			}
+
+			if (isset($data['time']) && trim($data['time']) != '') {
+				$event_data['time'] = $data['time'];
+			}
+			else {
+				throw new Exception("'Time' not set.");
+			}
+
+			return $event_data;
+		}
+		elseif ($event_data['type'] == 'recurring') {
+			// Check iteration_period
+			if (isset($data['iteration_period']) && trim($data['iteration_period']) != '') {
+				$event_data['iteration_period'] = $data['iteration_period'];
+
+				// Check intervals
+				// Minute
+				if ($event_data['iteration_period'] == 'minute') {
+					// No further values needed
+					return $event_data;
+				} 
+				// Hour
+				elseif ($event_data['iteration_period'] == 'hour') {
+					// Need at least the minute of the hour
+					if (isset($data['minute']) && trim($data['minute']) != '') {
+						$event_data['minute'] = $data['minute'];
+
+						return $event_data;
+					}
+					else {
+						throw new Exception("'Minute' not set.");
+					}
+				}
+				// Day
+				elseif ($event_data['iteration_period'] == 'day') {
+					// Need at least a time
+					if (isset($data['time']) && trim($data['time']) != '') {
+						$event_data['time'] = $data['time'];
+
+						return $event_data;
+					}
+					else {
+						throw new Exception("'Time' not set.");
+					}
+				}
+				// Weekdays
+				elseif ($event_data['iteration_period'] == 'weekdays') {
+					// Need the weekdays and the time
+					// Check for array "dow"
+					if (isset($data['dow']) && sizeof($data['dow']) != 0) {
+						$event_data['dow'] = array();
+						
+						// Check each weekday
+
+						// Mon
+						if (isset($data['dow']['mon']) && trim($data['dow']['mon']) != '') {
+							$event_data['dow']['mon'] = $data['dow']['mon'];
+						}
+						else {
+							throw new Exception("'Monday' not set.");
+						}
+
+						// Tue
+						if (isset($data['dow']['tue']) && trim($data['dow']['tue']) != '') {
+							$event_data['dow']['tue'] = $data['dow']['tue'];
+						}
+						else {
+							throw new Exception("'Tuesday' not set.");
+						}
+
+						// Wed
+						if (isset($data['dow']['wed']) && trim($data['dow']['wed']) != '') {
+							$event_data['dow']['wed'] = $data['dow']['wed'];
+						}
+						else {
+							throw new Exception("'Wednesday' not set.");
+						}
+
+						// Thu
+						if (isset($data['dow']['thu']) && trim($data['dow']['thu']) != '') {
+							$event_data['dow']['thu'] = $data['dow']['thu'];
+						}
+						else {
+							throw new Exception("'Thursday' not set.");
+						}
+
+						// Fri
+						if (isset($data['dow']['fri']) && trim($data['dow']['fri']) != '') {
+							$event_data['dow']['fri'] = $data['dow']['fri'];
+						}
+						else {
+							throw new Exception("'Friday' not set.");
+						}
+
+						// Sat
+						if (isset($data['dow']['sat']) && trim($data['dow']['sat']) != '') {
+							$event_data['dow']['sat'] = $data['dow']['sat'];
+						}
+						else {
+							throw new Exception("'Saturday' not set.");
+						}
+
+						// Sun
+						if (isset($data['dow']['sun']) && trim($data['dow']['sun']) != '') {
+							$event_data['dow']['sun'] = $data['dow']['sun'];
+						}
+						else {
+							throw new Exception("'Sunday' not set.");
+						}
+					}
+					else {
+						throw new Exception("'Weekdays' not set.");
+					}
+
+					if (isset($data['time']) && trim($data['time']) != '') {
+						$event_data['time'] = $data['time'];
+					}
+					else {
+						throw new Exception("'Time' not set.");
+					}
+
+					return $event_data;
+				}
+				// Month
+				elseif ($event_data['iteration_period'] == 'month') {
+					// Need at least a day of month and time
+					if (isset($data['dom']) && trim($data['dom']) != '') {
+						$event_data['dom'] = $data['dom'];
+					}
+					else {
+						throw new Exception("'Day of Month' not set.");
+					}
+
+					// Need at least a day of month and time
+					if (isset($data['time']) && trim($data['time']) != '') {
+						$event_data['time'] = $data['time'];
+					}
+					else {
+						throw new Exception("'Time' not set.");
+					}
+
+					return $event_data;
+				}
+				// Year
+				elseif ($event_data['iteration_period'] == 'year') {
+					// Need at least month, day of month and time
+					if (isset($data['mon']) && trim($data['mon']) != '') {
+						$event_data['mon'] = $data['mon'];
+					}
+					else {
+						throw new Exception("'Month' not set.");
+					}
+
+					if (isset($data['dom']) && trim($data['dom']) != '') {
+						$event_data['dom'] = $data['dom'];
+					}
+					else {
+						throw new Exception("'Day of Month' not set.");
+					}
+
+					// Need at least a day of month and time
+					if (isset($data['time']) && trim($data['time']) != '') {
+						$event_data['time'] = $data['time'];
+					}
+					else {
+						throw new Exception("'Time' not set.");
+					}
+
+					return $event_data;
+				}
+			}
+			else {
+				throw new Exception("'Iteration period' not set.");
+			}
+		}
+		else {
+			throw new Exception("Unknown timer type '".$event_data['type']."'");
+		}
+	}
+
 	public function parseEvent($data) {
 		// Parse timer data and return "true" if the event occurs at the moment, "false" if not
 		$this->load->model('events/event');
