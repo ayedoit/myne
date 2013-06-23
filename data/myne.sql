@@ -394,7 +394,7 @@ CREATE TABLE `settings` (
 --
 
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'login','false'),(2,'api','true'),(3,'api_key','');
+INSERT INTO `settings` VALUES (1,'login','false'),(2,'api','true'),(3,'api_key',''),(4,'weather_location','0');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 --

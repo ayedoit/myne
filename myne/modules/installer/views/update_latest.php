@@ -1,6 +1,7 @@
 <?php
 	$version = "1.0.1";
 	$sql = "ALTER TABLE devices ADD parent int(10);";
+	$sql .= "INSERT INTO `settings` VALUES (4,'weather_location','0');"
 
 	// Change version
 	try {
