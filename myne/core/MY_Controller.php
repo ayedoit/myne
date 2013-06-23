@@ -58,6 +58,16 @@ class MY_Controller extends CI_Controller {
 					$this->load->model('user');
 					if(!$this->user->is_logged_in()) redirect('login', 'refresh');
 				}
+
+				// B. Check for updates
+				$this->config->load('myne_config');
+
+				$curr_version = $this->tools->getMyneData('version');
+				$update_version = $this->config->item('myne_update_version');
+
+				if ($curr_version != $update_version) {
+					redirect(base_url('installer/update'), 'refresh');
+				}
 			}
 		}
 	}
