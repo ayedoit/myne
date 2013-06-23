@@ -282,9 +282,11 @@ $(document).ready(function() {
 		else {
 			$('#timer_recurring').removeClass('hide');
 		}
+
+		$('#timer_iteration_period').trigger('change');
 	});
 
-	$('#timer_iteration_period').change(function() {
+	$('#timer_iteration_period').on('change',function() {
 		var value = $('#timer_iteration_period').val();
 		var response = "";
 
