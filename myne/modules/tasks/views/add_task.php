@@ -243,40 +243,13 @@
 			<dd>Bezieht sich der Task auf ein einzelnes Gerät, einen Raum, einen Gerätetyp, alle Geräte eines Gateways oder eine Gerätegruppe?</dd>
 			<dt>Ziel</dt>
 			<dd>Das konkrete Ziel des Tasks.</dd>
-			<dt>Task-ID</dt>
-			<dd>Eindeutige Gerätebezeichnung. Nur Kleinbuchstaben, Zahlen sowie "<b>-</b>" und "<b>_</b>" als Sonderzeichen.</dd>
-			<dt>Task Name</dt>
-			<dd>Klarname des Tasks für die Darstellung im Frontend.</dd>
-			<dt>Task Beschreibung</dt>
-			<dd>Beschreibung des Tasks.</dd>
-			<dt>Aktiv</dt>
-			<dd>Ist der Task aktiv?</dd>
 			<dt>Event</dt>
 			<dd>Welches Event soll die Aktion des Tasks auslösen (z.B. Timer)?</dd>
-			<dt>Tage</dt>
-			<dd>Timer: An welchen Wochentagen soll der Timer auslösen?</dd>
-			<dt>Uhrzeit</dt>
-			<dd>Timer: Zu welcher Uhrzeit soll der Timer auslösen?</dd>
 			<dt>Aktion</dt>
 			<dd>Welche Aktion soll ausgeführt werden?</dd>
 			<dt>Status</dt>
 			<dd>Status des Gerätes den der Task setzen soll.</dd>	
-		</dl>
-			<h3>Beispiel</h3>
-			<p>Ein möglicher Task könnte zum Beispiel so aussehen:</p>
-			<ul>
-				<li><b>Ziel-Typ</b>: Gerät</li>
-				<li><b>Ziel</b>: Lampe im Bücherregal</li>
-				<li><b>Task-ID</b>: lampe_books_on</li>
-				<li><b>Task Name</b>: Lampe Bücherregal an</li>
-				<li><b>Task Beschreibung</b>: Schaltet die Lampe im Bücherregal jeden Tag um 19 Uhr an.</li>
-				<li><b>Aktiv</b>: Ja</li>
-				<li><b>Event</b>: Timer</li>
-				<li><b>Tage</b>: M,D,M,D,F,S,S</li>
-				<li><b>Uhrzeit</b>: 19:00</li>
-				<li><b>Aktion</b>: Schalten</li>
-				<li><b>Status</b>: An</li>
-			</ul>	
+		</dl>	
 	</div>
 </div>
 <script>
