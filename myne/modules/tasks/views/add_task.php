@@ -185,9 +185,9 @@
 						<div class="controls">
 							<?php
 								if ($actions_defined) {
-									$options = array("off" => "Aus", "on" => "An");
+									$options = array("on" => "An", "off" => "Aus");
 									$data = 'id="tasks_action_opt"';
-									echo form_dropdown('tasks_action_opt', $options,"1",$data); 
+									echo form_dropdown('tasks_action_opt', $options,"on",$data); 
 								}
 								else {
 									$options = array(0 => "Keine Aktion möglich");
