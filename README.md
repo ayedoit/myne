@@ -5,6 +5,13 @@ ACHTUNG
 
 Wir suchen Android-Entwickler, die Interesse haben, für **myne** eine Android-App zu entwickeln. Für Infos, mailt einfach kurz an [hello@fabianpeter.de](mailto:hello@fabianpeter.de).
 
+Updaten
+=======
+
+Wenn **myne** schon installiert habt, reicht es, die Sourcen zu updaten (git pull). **myne** wird merken, ob es Unterschiede in der Version der Sourcen und der Datenbank gibt und euch den Update aufrufen.
+
+Idealerweise macht ihr natürlich vor jedem Update eine Sicherung eurer Datenbak & des Codes.
+
 Installieren
 ============
 
