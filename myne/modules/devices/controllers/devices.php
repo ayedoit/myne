@@ -103,7 +103,8 @@ class Devices extends MY_Controller {
 						'clear_name' => $_POST['devices_clear_name'],
 						'description' => $_POST['devices_description'],
 						'icon' => $_POST['devices_icon'],
-						'type' => $_POST['devices_type']
+						'type' => $_POST['devices_type'],
+						'parent' => $_POST['devices_parent']
 					);
 					
 					// Vendor

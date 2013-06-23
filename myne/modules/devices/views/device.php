@@ -185,7 +185,7 @@
 		    </tr>
 
 		    <?php
-			// Get Room
+			// Get Parent
 			if (isset($device->parent) && trim($device->parent) != '' && $device->parent != "0") {
 			?>
 				<tr>
