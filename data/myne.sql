@@ -355,7 +355,7 @@ CREATE TABLE `myne_data` (
 --
 
 /*!40000 ALTER TABLE `myne_data` DISABLE KEYS */;
-INSERT INTO `myne_data` VALUES (1,'installed','yes'),(2,'version','1.0');
+INSERT INTO `myne_data` VALUES (1,'installed','yes'),(2,'version','1.0.1');
 /*!40000 ALTER TABLE `myne_data` ENABLE KEYS */;
 
 --
