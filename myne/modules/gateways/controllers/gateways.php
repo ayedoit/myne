@@ -36,7 +36,7 @@ class Gateways extends MY_Controller {
 		$this->page->show($html);
 	}
 	
-	public function add($status) {
+	public function add($status="") {
 		if (empty($status) || trim($status) == '') {
 			log_message('debug', '[Gateways/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('gateways/add/new'), 'refresh');

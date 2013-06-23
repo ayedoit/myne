@@ -7,7 +7,6 @@ class Installer extends CI_Controller {
         }
         else {
             redirect(base_url('devices'), 'refresh');
-            echo "WTF?";
         }
 	    
     }

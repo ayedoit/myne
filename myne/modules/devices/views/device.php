@@ -183,6 +183,60 @@
 					});
 				</script>
 		    </tr>
+
+		    <?php
+			// Get Room
+			if (isset($device->parent) && trim($device->parent) != '' && $device->parent != "0") {
+			?>
+				<tr>
+					<td><b>Eltern-Gerät</b></td>
+					<?php
+						$this->load->model('devices/device');
+						$parent_device = $this->device->getDeviceByID($device->parent);
+					?>
+					<td><a class="editable-select" id="<?= $device->name ?>-parent" data-type="select" data-curr="<?= $device->parent ?>" data-pk="parent" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Eltern-Gerät"><?= $parent_device->clear_name ?></a> <a href="<?= base_url('devices/show/'.$parent_device->name) ?>"><i class="icon-share-alt"></i></a></td>
+				
+					<script>
+						$(function(){
+							$('#<?= $device->name ?>-parent').editable({
+								value: $(this).data('curr'),
+								source: function() {
+									var gateways = $(this).myne_api({
+									  method: "getDevices",
+									  params: {"api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "model": "devices/device", "opts":[""]}
+									});
+									response = jQuery.parseJSON(gateways.responseText);
+									
+									var data = [];
+									$.each(response.result, function (key,value) {
+										var values = {};
+										values['value'] = value.id;
+										values['text'] = value.clear_name;
+										
+										data.push(values);
+									});
+									
+									return data;
+								},
+								success: function(response, newValue) {
+								    $(this).myne_notify({
+										"text":"Einstellungen gespeichert",
+										"class":"success"
+									});
+								},
+								error: function(response, newValue) {
+								    $(this).myne_notify({
+										"text":"Einstellungen nicht gespeichert",
+										"class":"error"
+									});
+								}
+							});
+						});
+					</script>
+				</tr>
+			<?php
+			}
+			?>
 		    
 		    <?php
 			// Get Room

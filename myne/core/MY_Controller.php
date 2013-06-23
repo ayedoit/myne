@@ -37,7 +37,6 @@ class MY_Controller extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		// Check if "myne" has already been installed
 		// myne is considered installed when a) table "myne_data" exists
 		if (!$this->db->table_exists('myne_data')) {
