@@ -1,14 +1,14 @@
 <?php
 Class weather extends CI_Model {
-	public function get_city($city) {
+	public function get_weather_by_city($city) {
 		// Check if curl is available
 		if (!function_exists('curl_init')){
 	        throw new Exception('Sorry, cURL is not installed! On linux hosts, install "curl" & "php5-curl"');
 	    }
 
-		// Get City from API
+		// Get weather from API
 		// jSON URL which should be requested
-		$url = 'http://api.openweathermap.org/data/2.1/find/name?q='.urlencode($city).'&lang=de&type=like';
+		$url = 'http://api.openweathermap.org/data/2.5/weather?q='.urlencode($city).'&lang=de&units=metric';
 		 
 		$curl = curl_init();
 
@@ -23,16 +23,9 @@ Class weather extends CI_Model {
 	    $json = curl_exec($curl);
 
 	    $data = json_decode($json);
-
-	    $cities = array();
-	    if (!empty($data)) {
-		    foreach($data->list as $city) {
-		    	$cities[] = $city->name;
-		    }
-		}
-
-		return json_encode($cities);
 	    curl_close($curl);
+
+	    return $data;
 	}
 }
 ?>
