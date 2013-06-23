@@ -11,17 +11,35 @@
 
 			// Check if current device has any action
 			if (isset($device_name) && trim($device_name) != '') {
-				$this->load->model('action');
-				$this->load->model('devices/device');
+				if (isset($device_type) && trim($device_type) != '') {
+					if ($device_type == 'device') {
+						$this->load->model('action');
+						$this->load->model('devices/device');
 
-				$device = $this->device->getDeviceByName($device_name);
-				$actions = $this->action->getActionsByDevice($device->id);
+						$device = $this->device->getDeviceByName($device_name);
+						$actions = $this->action->getActionsByDevice($device->id);
 
-				if (sizeof($actions) == 0) {
-					$actions_defined = false;
-					echo '<div class="alert">';
-					  echo '<strong>Achtung!</strong> Für dieses Gerät sind keine Aktionen möglich.';
-					echo '</div>';
+						if (sizeof($actions) == 0) {
+							$actions_defined = false;
+							echo '<div class="alert">';
+							  echo '<strong>Achtung!</strong> Für dieses Gerät sind keine Aktionen möglich.';
+							echo '</div>';
+						}
+					}
+					elseif ($device_type == 'group') {
+						$this->load->model('action');
+						$this->load->model('devices/device');
+
+						$group = $this->device->getGroupByName($device_name);
+						$actions = $this->action->getActionsByGroup($group->id);
+
+						if (sizeof($actions) == 0) {
+							$actions_defined = false;
+							echo '<div class="alert">';
+							  echo '<strong>Achtung!</strong> Für dieser Gruppe sind keine Aktionen möglich.';
+							echo '</div>';
+						}
+					}
 				}
 			}
 			
@@ -147,10 +165,21 @@
 							$this->load->model('action');
 							if ($actions_defined) {
 								if (isset($device_name) && trim($device_name) != '') {
-									$this->load->model('devices/device');
 
-									$device = $this->device->getDeviceByName($device_name);
-									$actions = $this->action->getActionsByDevice($device->id);
+									if (isset($device_type) && trim($device_type) != '') {
+										if ($device_type == 'device') {
+											$this->load->model('devices/device');
+
+											$device = $this->device->getDeviceByName($device_name);
+											$actions = $this->action->getActionsByDevice($device->id);
+										}
+										elseif ($device_type == 'group') {
+											$this->load->model('devices/device');
+
+											$group = $this->device->getGroupByName($device_name);
+											$actions = $this->action->getActionsByGroup($group->id);
+										}
+									}
 								}
 								else {
 									$actions = $this->action->getActions();
