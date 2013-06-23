@@ -1,5 +1,10 @@
 ![myne](https://raw.github.com/ayedoit/myne/master/img/myne_logo.png)
 
+ACHTUNG
+=======
+
+Wir suchen Android-Entwickler, die Interesse haben, für **myne** eine Android-App zu entwickeln. Für Infos, mailt einfach kurz an [hello@fabianpeter.de](mailto:hello@fabianpeter.de).
+
 Installieren
 ============
 
