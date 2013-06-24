@@ -159,7 +159,6 @@ Ihr könnt Räume, Gruppen und Geräte auch im "Gerät anlegen" Dialog mitanlege
 
 WIP
 ---
-* Tasks für Gruppen/Räume/Gerätetypen können ebenfalls festgelegt werden, allerdings gibt es auch dafür keine Frontendfunktion
 * Der übliche Feinschliff im Frontend
 
 Bug-Reports & Feature-Requests
