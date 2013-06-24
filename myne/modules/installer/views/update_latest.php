@@ -32,5 +32,6 @@
 	    show_error($e->getMessage());
 	} 
 
-	redirect('installer/update_successful',refresh);
+	// Todo: Changelog
+	redirect('installer/update',refresh);
 ?>
