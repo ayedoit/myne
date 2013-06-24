@@ -206,6 +206,7 @@ von Herstellern wie z.B.
 * Elro
 * Brennenstuhl
 * Pollin
+* Dario (DMV-7008)
 * vermutlich vielen mehr - **da ist es an euch, zu testen**
 
 eine offene API
