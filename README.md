@@ -19,6 +19,7 @@ Voraussetzungen
 ---------------
 * Webserver (Apache, nginx)
 * MySQL Server + fertige Datenbank (UTF-8)
+* curl & php5-curl
 * 433 MHz Gateway ([ConnAir](http://simple-solutions.de/shop/product_info.php?products_id=87))
 * Für Tasks: eine Cron-Funktion auf dem Server
 
