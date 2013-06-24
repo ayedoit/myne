@@ -9,5 +9,9 @@
 
 		<p><b><?= $weather_data->name; ?></b> <img src="<?= base_url('img/weather_icons')."/".$weather_data->weather[0]->icon; ?>" title="<?= $weather_data->weather[0]->description; ?>" /> <b><?= $weather_data->main->temp; ?> °C</b></p>
 		<p>Temperatur: <b><?= $weather_data->main->temp; ?> °C</b></p>
+
+		<?php
+			echo "<pre>".print_r($weather_data,true)."</pre>";
+		?>
 	</div>
 </div>
