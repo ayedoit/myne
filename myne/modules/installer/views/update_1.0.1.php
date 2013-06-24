@@ -32,5 +32,5 @@
 	    show_error($e->getMessage());
 	} 
 
-	redirect('installer/update_successful',refresh);
+	redirect('installer/update',refresh);
 ?>
