@@ -332,7 +332,7 @@ CREATE TABLE `models` (
 --
 
 /*!40000 ALTER TABLE `models` DISABLE KEYS */;
-INSERT INTO `models` VALUES (1,'itr1500','ITR-1500','ITR-1500',1),(2,'xbmc-frodo','XBMC Frodo','',2),(3,'ab440sc','AB 440SC','AB 440SC Wireless Switch Unit',3),(5,'2605','2605','Funksteckdosen-Set 2605',5);
+INSERT INTO `models` VALUES (1,'itr1500','ITR-1500','ITR-1500',1),(2,'xbmc-frodo','XBMC Frodo','',2),(3,'ab440sc','AB 440SC','AB 440SC Wireless Switch Unit',3),(5,'2605','2605','Funksteckdosen-Set 2605',5),(6,'dmv-7008','DMV-7008','DMV-7008',6),(7,'cmr1000','CMR-1000','CMR-1000',1),(8,'cmr300','CMR-300','CMR-300',1),(9,'cmr500','CMR-500','CMR-500',1),(10,'itl500','ITL-500','ITL-500',1),(11,'itlr300','ITLR-300','ITLR-300',1),(12,'itlr3500','ITLR-3500','ITLR-3500',1),(13,'pa31000','PA3-1000','PA3-1000',1),(14,'ab440s','AB 440S','AB 440S',3);
 /*!40000 ALTER TABLE `models` ENABLE KEYS */;
 
 --
@@ -449,7 +449,7 @@ CREATE TABLE `vendor_types` (
 --
 
 /*!40000 ALTER TABLE `vendor_types` DISABLE KEYS */;
-INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1);
+INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1),(6,1);
 /*!40000 ALTER TABLE `vendor_types` ENABLE KEYS */;
 
 --
@@ -473,7 +473,7 @@ CREATE TABLE `vendors` (
 --
 
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
-INSERT INTO `vendors` VALUES (1,'intertechno','Intertechno','IT'),(2,'xbmc','XBMC','XBMC Software Foundation'),(3,'elro','Elro','Elro'),(4,'brennenstuhl','Brennenstuhl','Brennt im Stuhl'),(5,'pollin','Pollin','Pollin');
+INSERT INTO `vendors` VALUES (1,'intertechno','Intertechno','IT'),(2,'xbmc','XBMC','XBMC Software Foundation'),(3,'elro','Elro','Elro'),(4,'brennenstuhl','Brennenstuhl','Brennt im Stuhl'),(5,'pollin','Pollin','Pollin'),(6,'dario','Dario','Dario');
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
