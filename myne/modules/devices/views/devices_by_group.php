@@ -37,7 +37,7 @@
 						}
 					} 
 					else {
-						echo "<p class='lead'>Keine Geräte gefunden</p>";
+						echo "<p>Keine Geräte gefunden</p>";
 					}
 				echo '</ul>';
 			echo "</div>";
@@ -87,14 +87,14 @@
 								}
 							} 
 							else {
-								echo "<p class='lead'>Keine Geräte gefunden</p>";
+								echo "<p>Keine Geräte gefunden</p>";
 							}
 						echo '</ul>';
 					echo "</div>";
 				}
 			}
 			else {
-				echo "<div class='span3'><p class='lead'>Keine Gruppen angelegt</p></div>";
+				echo "<div class='span3'><a class='btn btn-primary' href='/devices/addgroup/new' title='Gruppe anlegen'><i class='icon-plus icon-white'></i> Gruppe</a></div>";			
 			}
 		}
 	?>

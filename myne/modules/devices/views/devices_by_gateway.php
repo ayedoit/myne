@@ -35,7 +35,7 @@
 						}
 					} 
 					else {
-						echo "<p class='lead'>Keine Geräte gefunden</p>";
+						echo "<p>Keine Geräte gefunden</p>";
 					}
 				echo '</ul>';
 			echo "</div>";
@@ -83,14 +83,14 @@
 								}
 							} 
 							else {
-								echo "<p class='lead'>Keine Geräte gefunden</p>";
+								echo "<p>Keine Geräte gefunden</p>";
 							}
 						echo '</ul>';
 					echo "</div>";
 				}
 			}
 			else {
-				echo "<div class='span3'><p class='lead'>Keine Gateways angelegt</p></div>";
+				echo "<div class='span3'><a class='btn btn-primary' href='/gateways/add/new' title='Gruppe anlegen'><i class='icon-plus icon-white'></i> Gateway</a></div>";
 			}
 			
 			// Devices without a gateway (gateway = 0)

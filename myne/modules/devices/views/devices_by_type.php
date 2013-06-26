@@ -37,7 +37,7 @@
 						}
 					} 
 					else {
-						echo "<p class='lead'>Keine Geräte gefunden</p>";
+						echo "<p>Keine Geräte gefunden</p>";
 					}
 				echo '</ul>';
 			echo "</div>";
@@ -87,14 +87,14 @@
 								}
 							} 
 							else {
-								echo "<p class='lead'>Keine Geräte gefunden</p>";
+								echo "<p>Keine Geräte gefunden</p>";
 							}
 						echo '</ul>';
 					echo "</div>";
 				}
 			}
 			else {
-				echo "<div class='span3'><p class='lead'>Keine Gerätetypen angelegt</p></div>";
+				echo "<div class='span3'><p>Keine Gerätetypen angelegt</p></div>";
 			}
 		}
 	?>

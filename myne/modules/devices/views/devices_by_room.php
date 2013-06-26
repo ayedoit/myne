@@ -35,7 +35,7 @@
 						}
 					} 
 					else {
-						echo "<p class='lead'>Keine Geräte gefunden</p>";
+						echo "<p>Keine Geräte gefunden</p>";
 					}
 				echo '</ul>';
 			echo "</div>";
@@ -90,7 +90,7 @@
 				}
 			}
 			else {
-				echo "<div class='span3'><p class='lead'>Keine Räume angelegt</p></div>";
+				echo "<div class='span3'><a class='btn btn-primary' href='/rooms/add/new' title='Gruppe anlegen'><i class='icon-plus icon-white'></i> Raum</a></div>";
 			}
 			
 			// Devices without a room
