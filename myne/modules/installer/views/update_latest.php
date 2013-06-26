@@ -35,7 +35,39 @@
 	} catch (Exception $e) {
 	    show_error($e->getMessage());
 	} 
+	?>
 
-	// Todo: Changelog
-	redirect('installer/update',refresh);
+	<div class="span6">
+		<div class="alert alert-info">
+			<h4>Update  erfolgreich!</h4>
+			<br>
+			<ul>
+				<li>Neue Version: <b><?= $version; ?></b></li>
+			</ul>
+		</div>
+
+		<h3>Das ist neu</h3>
+
+		<ul>
+			<li>Neue Modelle:</li>
+				<ul>
+					<li><b>Dario</b> 7008-AS</li>
+					<li><b>Dario</b> 7008-AD (Dimmer)</li>
+					<li><b>Elro</b> AB 440S</li>
+					<li><b>Intertechno</b> CMR-1000</li>
+					<li><b>Intertechno</b> CMR-300</li>
+					<li><b>Intertechno</b> CMR-500</li>
+					<li><b>Intertechno</b> ITLR-3500</li>
+					<li><b>Intertechno</b> ITLR-300</li>
+					<li><b>Intertechno</b> ITL-500</li>
+					<li><b>Intertechno</b> PA3-1000</li>
+				</ul>
+			<li>Neuer Gerätetyp: <b>Dimmer</b></li>
+			<li>Neue Event-Source: <b>Wetter</b></li>
+			<li>Neues Event > Action Modell (mehr Optionen, performanter)</li>
+			<li>Neues Geräte-Attribut: <b>Eltern-Gerät</b> (für kaskadierte Schaltungen)</li>
+		</ul>
+		<hr>
+		<a href="<?= base_url('devices'); ?>" title="Startseite" class="btn btn-success">Zur Startseite</a>
+	</div>
 ?>
