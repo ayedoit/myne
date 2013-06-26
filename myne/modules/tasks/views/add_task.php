@@ -40,6 +40,13 @@
 							echo '</div>';
 						}
 					}
+					else {
+						$this->load->model('action');
+						$this->load->model('devices/device');
+
+						$device = $this->device->getDeviceByName($device_name);
+						$actions = $this->action->getActionsByDevice($device->id);
+					}
 				}
 			}
 			
@@ -178,6 +185,9 @@
 
 											$group = $this->device->getGroupByName($device_name);
 											$actions = $this->action->getActionsByGroup($group->id);
+										}
+										else {
+											$actions = $this->action->getActions();
 										}
 									}
 								}
