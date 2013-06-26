@@ -785,5 +785,167 @@ Class device extends CI_Model {
 		} # Device array contains no devices
 		return true;
 	}
+
+	public function dim($type,$name,$status){
+	    $this->load->model('room');
+	    $this->load->model('gateways/gateway');
+	    
+	    log_message('debug', 'Attempting to dim '.$type.' with name "'.$name.'" - Direction: "'.$status.'"');
+		
+	    switch ($type) {
+			case 'device' : $devices = array('0' => $this->getDeviceByName($name)); break;
+			case 'room' : $room = $this->room->getRoomByName($name); $devices = $this->device->getDevicesByRoom($room->id); break;
+			case 'group' : $group = $this->getGroupByName($name); $devices = $this->device->getDevicesByGroup($group->id); break;
+			case 'type' : $type = $this->getTypeByName($name); $devices = $this->device->getDevicesByType($type->id); break;
+			case 'gateway' : $type = $this->gateway->getGatewayByName($name); $devices = $this->device->getDevicesByGateway($type->id); break;
+			default: return false;
+		}
+	    
+	    if (!empty($devices) && sizeof($devices) != 0) {
+	    
+			// Dim each Device
+			foreach ($devices as $device) {	
+				
+				log_message('debug', '['.$device->clear_name.'] Attempting to change dim level: "'.$status.'"');
+				log_message('debug', '['.$device->clear_name.'] Checking permissions');
+				
+				// If device has option "set_status", set the status it
+				$this->load->model('action');
+				if ($this->action->deviceHasAction($device->name,"dim")) {	
+					log_message('debug', '['.$device->clear_name.'] Has option "dim"');
+						
+					// Get Vendor
+					$vendor = $this->getVendorByID($device->vendor);
+					
+					log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
+					log_message('debug', '['.$device->clear_name.'] Creating vendor-/type-specific message');
+					
+					// Create Message
+					// Therefore determine device vendor
+					switch ($vendor->name) {
+						case 'elro':
+							$this->load->model('devices/elro'); 
+							try {
+								$msg = $this->elro->msg($device,$status); 
+								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+							} catch (Exception $e) {
+								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+								throw new Exception($e->getMessage());
+							}
+							break;
+						case 'dario':
+							$this->load->model('devices/dario'); 
+							try {
+								$msg = $this->dario->msg($device,$status); 
+								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+							} catch (Exception $e) {
+								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+								throw new Exception($e->getMessage());
+							}
+							break;
+						case 'pollin':
+							$this->load->model('devices/pollin'); 
+							try {
+								$msg = $this->pollin->msg($device,$status); 
+								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+							} catch (Exception $e) {
+								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+								throw new Exception($e->getMessage());
+							}
+							break;
+						case 'intertechno':
+							$this->load->model('devices/intertechno'); 
+							try {
+								$msg = $this->intertechno->msg($device,$status); 
+								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+							} catch (Exception $e) {
+								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+								throw new Exception($e->getMessage());
+							}
+							break;
+						case 'xbmc':
+							$msg=''; 
+							log_message('debug', '['.$device->clear_name.'] Is of type XBMC. No message needed');
+							break;
+						default: 
+							return 0;
+					}
+					
+					// If the device has a gateway, send the message via the gateway
+					if ($device->gateway != 0) {
+						log_message('debug', '['.$device->clear_name.'] Gateway needed');
+						
+						// Get Gateway
+						$this->load->model('gateways/gateway');
+						$gateway = $this->gateway->getGatewayByID($device->gateway);
+						
+						log_message('debug', '['.$device->clear_name.'] Gateway: "'.$gateway->clear_name.'"');
+									
+						// Get Gateway Type
+						$gateway_type = $this->gateway->getGatewayTypeByID($gateway->type);
+						
+						log_message('debug', '['.$device->clear_name.'] Gateway is of type "'.$gateway_type->clear_name.'"');
+						
+						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+						try {
+							log_message('debug', '['.$device->clear_name.'] Attempting to send message to Gateway "'.$gateway->clear_name.'"');
+							$this->gateway_model->send($device, $msg, $gateway);
+						} catch (Exception $e) {
+							log_message('debug', '['.$device->clear_name.'] Error: Could not send message to Gateway "'.$gateway->clear_name.'"');
+							throw new Exception($e->getMessage());
+						}	
+					} # Device needs gateway for communication
+					// Otherwise, send directly to the device
+					else {
+						log_message('debug', '['.$device->clear_name.'] No Gateway needed');
+						if ($vendor->name == 'xbmc') {
+							log_message('debug', '['.$device->clear_name.'] Device is of type XBMC');
+							if ($status == 'off') {
+								// Create device URL
+								$this->load->model('xbmc'); 
+								$msg=$this->xbmc->msg($device,$status);
+								
+								$url = $device->user.":".$device->password."@".$device->address.":".$device->port."/jsonrpc";
+								
+								$this->load->model('devices/xbmc');
+								log_message('debug', '['.$device->clear_name.'] Attempting to send message to device');
+								
+								try {
+									$this->xbmc->send($msg, $url);
+								} catch (Exception $e) {
+									log_message('debug', '['.$device->clear_name.'] Could net send message to device: "'.$e->getMessage().'"');
+									throw new Exception($e->getMessage());
+								}
+							} # Status "off"
+							elseif ($status == 'on') {
+								$this->load->model('wol');
+								log_message('debug', '['.$device->clear_name.'] Attempting to wake device via Wake on LAN');
+								
+								try {
+									$response = $this->wol->WakeOnLan($device->address, $device->mac_address, $device->wol_port);
+								} catch (Exception $e) {
+									log_message('debug', '['.$device->clear_name.'] Could net send message to device: "'.$e->getMessage().'"');
+									throw new Exception($e->getMessage());
+								}
+							} # Status "on"
+						} # Device vendor is xbmc
+						else {
+							log_message('debug', '['.$device->clear_name.'] Device is of undefined type. Nothing to do here');
+							continue;
+						} # Device vendor is not xbmc
+					} # Device needs no gateway for communication
+				} # Has option "toggle"
+				else {
+					log_message('debug', '['.$device->clear_name.'] Does not have option "dim". Nothing to do here');
+				}
+			} # foreach
+		} # Device array contains devices
+		else {
+			log_message('debug', 'No devices given. Nothing to do here');
+			throw new Exception('Kein Gerät zum Dimmen angegeben.');
+			die;
+		} # Device array contains no devices
+		return true;
+	}
 }
 ?>

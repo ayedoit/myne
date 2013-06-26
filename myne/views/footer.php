@@ -44,6 +44,51 @@ $(document).ready(function() {
 			});
 		}
 	});	
+
+	$(document).on('click', '.dim_incr', function() {
+	    var response = $(this).myne_api({
+		  method: "dim",
+		  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"incr"}}
+		});
+
+		var r_value = jQuery.parseJSON(response.responseText);
+
+		if (r_value.hasOwnProperty('error')) {
+			$(this).myne_notify({
+				"text":r_value.error.message,
+				"class":"error"
+			});
+		}
+		else {
+			$(this).myne_notify({
+				"text":$(this).data('name')+" gedimmt",
+				"class":"success"
+			});
+		}
+	});
+
+	$(document).on('click', '.dim_decr', function() {
+	    var response = $(this).myne_api({
+		  method: "dim",
+		  params: {"model": "devices/device", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":{"type":$(this).data('type'),"name":$(this).data('name'),"status":"decr"}}
+		});
+
+		var r_value = jQuery.parseJSON(response.responseText);
+
+		if (r_value.hasOwnProperty('error')) {
+			$(this).myne_notify({
+				"text":r_value.error.message,
+				"class":"error"
+			});
+		}
+		else {
+			$(this).myne_notify({
+				"text":$(this).data('name')+" gedimmt",
+				"class":"success"
+			});
+		}
+	});
+
 	$('.editable').editable({
 	    mode: 'popup',
 	    success: function(response, newValue) {
