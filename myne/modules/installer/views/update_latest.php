@@ -17,7 +17,8 @@
 		13 => "INSERT INTO `models` VALUES ('','dmv-7008ad','DMV-7008AD','DMV-7008AD',6);",
 		14 => "INSERT INTO `device_types` VALUES ('' , 'remote_outlet_dim', 'Funksteckdose (Dimmer)', 'Funksteckdose mit Dimmfunktion', 'd_funksteckdose.png');",
 		15 => "INSERT INTO `actions` VALUES ('','dim','Dimmen','Dimmfunktion','devices/device');",
-		16 => "INSERT INTO `device_type_has_action` VALUES (3, 2),(3, 1);"
+		16 => "INSERT INTO `device_type_has_action` VALUES (3, 2),(3, 1);",
+		17 => "INSERT INTO `vendor_types` VALUES ('6', '3');"
 	);
 
 	// Update DB
@@ -70,4 +71,3 @@
 		<hr>
 		<a href="<?= base_url('devices'); ?>" title="Startseite" class="btn btn-success">Zur Startseite</a>
 	</div>
-?>

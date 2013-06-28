@@ -25,10 +25,24 @@
 								echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 								echo "<div class='pull-right'>";	
 									// Options
-									$this->load->model('action');
-									if ($this->action->deviceHasAction($device->name,"set_status")) {
-									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
-									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
+									// Check if there are more actions than just "set_status" since we will need a button group then
+									$actions = $this->action->getActionsByDevice($device->id);
+
+									if (sizeof($actions) != 0) {	
+										echo '<div class="btn-group">';	
+										foreach($actions as $action) {
+											// Check which action it is
+											if ($action->name == 'set_status') {
+												// We only need one button with tapclick
+												echo "<a data-type='device' data-name='".$device->name."' class='set_status btn btn-mini btn-info' title='".$device->clear_name."' ><i class='icon-off icon-white'></i></a>";
+											}
+											elseif($action->name == 'dim') {
+												// We need a button group
+												  echo "<a data-type='device' data-action='dim' data-status='incr' data-name='".$device->name."' class='trigger_action btn btn-mini btn-success' title='".$device->clear_name."' ><i class='icon-plus icon-white'></i></a>";
+												  echo "<a data-type='device' data-action='dim' data-status='decr' data-name='".$device->name."' class='trigger_action btn btn-mini btn-danger' title='".$device->clear_name."' ><i class='icon-minus icon-white'></i></a>";
+											}
+										}
+										echo '</div>';
 									}
 								echo "</div>";
 							echo "</li>";
@@ -73,10 +87,24 @@
 										echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$device->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 										echo "<div class='pull-right'>";	
 											// Options
-											$this->load->model('action');
-											if ($this->action->deviceHasAction($device->name,"set_status")) {
-											  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
-											  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
+											// Check if there are more actions than just "set_status" since we will need a button group then
+											$actions = $this->action->getActionsByDevice($device->id);
+
+											if (sizeof($actions) != 0) {	
+												echo '<div class="btn-group">';	
+												foreach($actions as $action) {
+													// Check which action it is
+													if ($action->name == 'set_status') {
+														// We only need one button with tapclick
+														echo "<a data-type='device' data-name='".$device->name."' class='set_status btn btn-mini btn-info' title='".$device->clear_name."' ><i class='icon-off icon-white'></i></a>";
+													}
+													elseif($action->name == 'dim') {
+														// We need a button group
+														  echo "<a data-type='device' data-action='dim' data-status='incr' data-name='".$device->name."' class='trigger_action btn btn-mini btn-success' title='".$device->clear_name."' ><i class='icon-plus icon-white'></i></a>";
+														  echo "<a data-type='device' data-action='dim' data-status='decr' data-name='".$device->name."' class='trigger_action btn btn-mini btn-danger' title='".$device->clear_name."' ><i class='icon-minus icon-white'></i></a>";
+													}
+												}
+												echo '</div>';
 											}
 										echo "</div>";
 									echo "</li>";
@@ -109,9 +137,24 @@
 								echo "<img width='20' height='20' src='".base_url('img/type_icons/'.$type->icon)."' class='pull-left devicelist-icon' /> <a class='pull-left' href='".base_url('devices/show/'.$device->name)."' title='".$device->clear_name."'>".$device->clear_name."</a>";
 								echo "<div class='pull-right'>";	
 									// Options
-									if ($this->device->deviceHasAction($device->name,"set_status")) {
-									  echo "<a data-type='device' data-name='".$device->name."' class='toggle_on btn btn-mini btn-success' title='".$device->clear_name." anschalten.' ><i class='icon-ok icon-white'></i></a>";
-									  echo " <a data-type='device' data-name='".$device->name."' class='toggle_off btn btn-mini btn-danger' title='".$device->clear_name." ausschalten.' ><i class='icon-off icon-white'></i></a>";
+									// Check if there are more actions than just "set_status" since we will need a button group then
+									$actions = $this->action->getActionsByDevice($device->id);
+
+									if (sizeof($actions) != 0) {	
+										echo '<div class="btn-group">';	
+										foreach($actions as $action) {
+											// Check which action it is
+											if ($action->name == 'set_status') {
+												// We only need one button with tapclick
+												echo "<a data-type='device' data-name='".$device->name."' class='set_status btn btn-mini btn-info' title='".$device->clear_name."' ><i class='icon-off icon-white'></i></a>";
+											}
+											elseif($action->name == 'dim') {
+												// We need a button group
+												  echo "<a data-type='device' data-action='dim' data-status='incr' data-name='".$device->name."' class='trigger_action btn btn-mini btn-success' title='".$device->clear_name."' ><i class='icon-plus icon-white'></i></a>";
+												  echo "<a data-type='device' data-action='dim' data-status='decr' data-name='".$device->name."' class='trigger_action btn btn-mini btn-danger' title='".$device->clear_name."' ><i class='icon-minus icon-white'></i></a>";
+											}
+										}
+										echo '</div>';
 									}
 								echo "</div>";
 							echo "</li>";

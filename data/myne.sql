@@ -449,7 +449,7 @@ CREATE TABLE `vendor_types` (
 --
 
 /*!40000 ALTER TABLE `vendor_types` DISABLE KEYS */;
-INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1),(6,1);
+INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1),(6,1),(6,3);
 /*!40000 ALTER TABLE `vendor_types` ENABLE KEYS */;
 
 --

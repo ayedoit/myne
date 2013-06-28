@@ -191,7 +191,7 @@
 				?>
 					<tr>
 						<td><b>Eltern-Gerät</b></td>
-						<td><a class="editable-select" id="<?= $device->name ?>-parent" data-type="select" data-curr="0" data-pk="parent" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Eltern-Gerät">Eltern-Gerät wählen</a></td>
+						<td><a class="editable-select" id="<?= $device->name ?>-parent" data-type="select" data-curr="0" data-pk="parent" data-url="<?php echo base_url(); ?>devices/update/device/<?= $device->name ?>" data-original-title="Eltern-Gerät">Kein Eltern-Gerät</a></td>
 					</tr>
 				<?php
 				}
@@ -222,7 +222,7 @@
 							response = jQuery.parseJSON(devices.responseText);
 							
 							var data = [];
-							var pre_values = { "value": 0, "text": "Kein Elterngerät"};
+							var pre_values = { "value": 0, "text": "Kein Eltern-Gerät"};
 							data.push(pre_values);
 							$.each(response.result, function (key,value) {
 								var values = {};
