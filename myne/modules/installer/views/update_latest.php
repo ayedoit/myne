@@ -51,6 +51,20 @@
 		<h3>Das ist neu</h3>
 
 		<ul>
+			<li>Neues Gateway: Kraken</li>
+				<ul>
+					<li>Kraken ist ein Daemon der über eine REST API angesteuert werden kann, um ihm bekannte Geräte zu schalten.
+						Aktuell noch beschränkt auf 433 MHz Devices, werden im Laufe der Zeit sowohl die Menge dieser Geräte erhöht,
+						als auch Geräte anderer Transport-Arten und Frequenzbänder hinzukommen.
+
+						Im Gegensatz zum ConnAir empfängt Kraken keine Codes, sondern bietet eine feste und von uns gepflegte Palette an 
+						bedienbaren Geräten an, die über die API sowohl abgerufen als auch angesprochen werden können.
+					</li>
+					<li>
+						Kraken ist gedacht, um auf einem Raspberry Pi zu laufen. Das heißt, ihr könnt die Software nutzen, um eure selbst 
+						verbauten 433MHz Sender anzusprechen oder zu gegebener Zeit von uns fertige Komponenten kaufen.
+					</li>
+				</ul>
 			<li>Neue Modelle:</li>
 				<ul>
 					<li><b>Dario</b> 7008-AS</li>
