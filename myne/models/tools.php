@@ -113,6 +113,22 @@ Class tools extends CI_Model {
 		}
 	}
 
+	public function updateMyneData($what,$new_value) {
+		$data = array(
+		   "value" => $new_value
+		);
+		
+		$this->db->where('name', $what);
+		try {
+			$this->db->update('myne_data', $data);
+			log_message('debug', 'Updating myne data, setting "'.$what.'" to "'.$new_value.'" in database');
+			return true;
+		}  catch (Exception $e) {
+			log_message('debug', 'Updating myne data, setting "'.$what.'" to "'.$new_value.'" in database NOT successful: "'.$e->getMessage().'"');
+			throw new Exception($e->getMessage());
+		}
+	}
+
 	public function generateAPIKey() {
 		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    $randomString = '';

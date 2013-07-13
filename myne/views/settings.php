@@ -55,6 +55,27 @@
 				  ?>
 				</td>
 			</tr>
+
+			<tr>
+				<td><b>Wetter (Stadt)</b></td>
+				<td>
+				<?php
+					$weather_location = $this->tools->getSettingByName('weather_location');
+
+					if ($weather_location == "0") {
+						$value = "Kein Ort ausgewählt";
+					}
+					else {
+						$value = $weather_location;
+					}
+				?>
+					<div class="input-append">
+					  <input type="text" value="<?= $weather_location; ?>" name="weather_location" id="weather_location" data-provide="typeahead" />
+					  <button id="weather_location_save" class="btn btn-success" type="button">Speichern</button>
+					</div>
+					
+				</td>
+			</tr>
 		</table>
 	</div>
 </div>
@@ -109,6 +130,35 @@
 					"class":"success"
 				});
 				$(this).removeClass('btn-primary').addClass('disabled btn-success').text('Cron aktiv');
+			}
+		});
+
+		$('#weather_location').typeahead({
+			minLength: 3,
+			source: function(query, process) {
+	            $.post('/weather/get_city', { q: query }, function(data) {
+	                process(JSON.parse(data));
+	            });
+	        }
+		});
+
+		$('#weather_location_save').click(function(){
+			var weather_location = $('#weather_location').val();
+
+			var response = $(this).myne_api({
+			  method: "updateSettings",
+			  params: {"model": "tools", "api_key":"<?= $this->tools->getSettingByName('api_key'); ?>", "opts":{"what":"weather_location","name":weather_location}}
+			});
+
+			var r_value = jQuery.parseJSON(response.responseText);
+
+			if (r_value.hasOwnProperty('error')) {
+			}
+			else {
+				$(this).myne_notify({
+					"text":"Einstellungen gespeichert",
+					"class":"success"
+				});
 			}
 		});
 	});

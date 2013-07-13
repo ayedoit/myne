@@ -37,7 +37,6 @@ class MY_Controller extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		// Check if "myne" has already been installed
 		// myne is considered installed when a) table "myne_data" exists
 		if (!$this->db->table_exists('myne_data')) {
@@ -58,6 +57,16 @@ class MY_Controller extends CI_Controller {
 		        if($this->tools->getSettingByName('login') == 'true') {
 					$this->load->model('user');
 					if(!$this->user->is_logged_in()) redirect('login', 'refresh');
+				}
+
+				// B. Check for updates
+				$this->config->load('myne_config');
+
+				$curr_version = $this->tools->getMyneData('version');
+				$update_version = $this->config->item('myne_update_version');
+
+				if ($curr_version != $update_version) {
+					redirect(base_url('installer/update'), 'refresh');
 				}
 			}
 		}

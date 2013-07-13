@@ -175,6 +175,30 @@
 -->
 				</div>
 			</div>
+
+			<div class="control-group">
+				<?php 
+					$attributes = array(
+						'class' => 'control-label'
+					);
+					echo form_label('Eltern-Gerät', 'devices_parent',$attributes);
+				?>
+				<div class="controls">
+				  <?php
+					$this->load->model('devices/device');
+					$devices = $this->device->getDevices();
+					
+					$options = array(
+						0 => "Kein Eltern-Gerät"
+					);
+					foreach ($devices as $device) {
+						$options[$device->id] = $device->clear_name;
+					}
+					$data = 'id="devices_parent"';
+					echo form_dropdown('devices_parent', $options,"0",$data);
+				  ?>
+				</div>
+			</div>
 			
 			<div id="model_space"></div>
 			
@@ -529,6 +553,8 @@
 			<dd>Hersteller des Gerätes.</dd>
 			<dt>Modell</dt>
 			<dd>Modell des Gerätes.</dd>
+			<dt>Eltern-Gerät</dt>
+			<dd>Übergeordnetes Gerät (z.B. vorgeschaltete Funksteckdose).</dd>
 			<dt>Raum</dt>
 			<dd>Raum in dem sich das Gerät befindet.</dd>
 			<dt>Gruppe</dt>

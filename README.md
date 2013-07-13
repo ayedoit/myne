@@ -1,5 +1,17 @@
 ![myne](https://raw.github.com/ayedoit/myne/master/img/myne_logo.png)
 
+ACHTUNG
+=======
+
+Wir suchen Android-Entwickler, die Interesse haben, für **myne** eine Android-App zu entwickeln. Für Infos, mailt einfach kurz an [hello@fabianpeter.de](mailto:hello@fabianpeter.de).
+
+Updaten
+=======
+
+Wenn **myne** schon installiert habt, reicht es, die Sourcen zu updaten (git pull). **myne** wird merken, ob es Unterschiede in der Version der Sourcen und der Datenbank gibt und euch den Update aufrufen.
+
+Idealerweise macht ihr natürlich vor jedem Update eine Sicherung eurer Datenbak & des Codes.
+
 Installieren
 ============
 
@@ -7,6 +19,7 @@ Voraussetzungen
 ---------------
 * Webserver (Apache, nginx)
 * MySQL Server + fertige Datenbank (UTF-8)
+* curl & php5-curl
 * 433 MHz Gateway ([ConnAir](http://simple-solutions.de/shop/product_info.php?products_id=87))
 * Für Tasks: eine Cron-Funktion auf dem Server
 
@@ -146,7 +159,6 @@ Ihr könnt Räume, Gruppen und Geräte auch im "Gerät anlegen" Dialog mitanlege
 
 WIP
 ---
-* Tasks für Gruppen/Räume/Gerätetypen können ebenfalls festgelegt werden, allerdings gibt es auch dafür keine Frontendfunktion
 * Der übliche Feinschliff im Frontend
 
 Bug-Reports & Feature-Requests
@@ -194,6 +206,7 @@ von Herstellern wie z.B.
 * Elro
 * Brennenstuhl
 * Pollin
+* Dario (DMV-7008)
 * vermutlich vielen mehr - **da ist es an euch, zu testen**
 
 eine offene API

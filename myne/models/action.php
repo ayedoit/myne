@@ -113,8 +113,10 @@ Class action extends CI_Model {
 				log_message('debug', 'Device with name "'.$device_name.'" has revoked action "'.$action_name.'".');
 				return false;
 			}
+			log_message('debug', 'Device with name "'.$device_name.'" has action "'.$action_name.'".');
 			return true;
 		}
+		log_message('debug', 'ERROR. Device with name "'.$device_name.'" does not have action "'.$action_name.'".');
 		return false;
 	}
 
@@ -128,6 +130,7 @@ Class action extends CI_Model {
 		{
 			$action_data = $this->getActionByID($row->action_id);
 			$actions[$action_data->name] = $action_data;
+			log_message('debug', 'Found action "'.$action_data->name.'" for device type with ID "'.$id.'" from database');
 			
 		}
 		return $actions;

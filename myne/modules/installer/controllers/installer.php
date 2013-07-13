@@ -7,7 +7,6 @@ class Installer extends CI_Controller {
         }
         else {
             redirect(base_url('devices'), 'refresh');
-            echo "WTF?";
         }
 	    
     }
@@ -24,6 +23,9 @@ class Installer extends CI_Controller {
             // Update API Key
             $api_key = $this->tools->generateAPIKey();
             $this->tools->updateSettings("api_key",$api_key);
+
+            // Update Weather Location
+            $this->tools->updateSettings("weather_location",$_POST['weather_location']);
 
             // Add User
             $this->tools->addUser($_POST['username'],$_POST['password'],$_POST['givenname'],$_POST['surename']);

@@ -76,6 +76,12 @@
               </div>
             </div>
             <div class="control-group">
+              <label class="control-label" for="weather_location">Stadt (für Wetter)</label>
+              <div class="controls">
+                <input type="text" name="weather_location" id="weather_location" data-provide="typeahead" placeholder="z.B. Saarlouis" />
+              </div>
+            </div>
+            <div class="control-group">
               <div class="controls">
                 <input type="submit" class="btn btn-large btn-success" value="Installieren" />
               </div>
@@ -92,3 +98,13 @@
    </body>
 </html>
 <script>
+&(document).ready(function() {
+  $('#weather_location').typeahead({
+    minLength: 3,
+    source: function(query, process) {
+            $.post('/weather/get_city', { q: query }, function(data) {
+                process(JSON.parse(data));
+            });
+        }
+  });
+});

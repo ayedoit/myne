@@ -35,8 +35,37 @@ class Gateways extends MY_Controller {
 		$html .= $this->load->view('gateway',array('gateway' => $gateway),true);
 		$this->page->show($html);
 	}
+
+	public function test(){
+		// Get device
+		$this->load->model('gateways/kraken');
+
+		$this->load->model('devices/device');
+		$desk = $this->device->getDeviceByName('desk');
+
+		$this->load->model('gateways/gateway');
+		$gateway = $this->gateway->getGatewayByID($desk->gateway);
+
+		echo "<pre>".print_r($desk,true)."</pre>";
+		echo "<pre>".print_r($gateway,true)."</pre>";
+
+		$msg = array(
+			"interface_name" => "433",
+			"vendor_name" => "intertechno",
+			"model_name" => "itr1500",
+			"master_dip" => $desk->masterdip,
+			"slave_dip" => $desk->slavedip,
+			"action" => "set_status",
+			"status" => "off"
+		);
+
+		echo "<pre>".print_r($msg,true)."</pre>";
+
+		$response = $this->kraken->send($desk,$msg,$gateway);
+		var_dump($response);
+	}
 	
-	public function add($status) {
+	public function add($status="") {
 		if (empty($status) || trim($status) == '') {
 			log_message('debug', '[Gateways/Add]: No status given (should be "new" for new rooms or "validate" for validation)');
 			redirect(base_url('gateways/add/new'), 'refresh');

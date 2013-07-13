@@ -62,7 +62,7 @@ CREATE TABLE `actions` (
 --
 
 /*!40000 ALTER TABLE `actions` DISABLE KEYS */;
-INSERT INTO `actions` VALUES (1,'set_status','Status setzen','Ein- / Ausschalten','devices/device');
+INSERT INTO `actions` VALUES (1,'set_status','Status setzen','Ein- / Ausschalten','devices/device'),(2,'dim','Dimmen','Dimmfunktion','devices/device');
 /*!40000 ALTER TABLE `actions` ENABLE KEYS */;
 
 --
@@ -132,7 +132,7 @@ CREATE TABLE `device_type_has_action` (
 --
 
 /*!40000 ALTER TABLE `device_type_has_action` DISABLE KEYS */;
-INSERT INTO `device_type_has_action` VALUES (1,1);
+INSERT INTO `device_type_has_action` VALUES (1,1),(3, 2),(3, 1);
 /*!40000 ALTER TABLE `device_type_has_action` ENABLE KEYS */;
 
 --
@@ -157,7 +157,7 @@ CREATE TABLE `device_types` (
 --
 
 /*!40000 ALTER TABLE `device_types` DISABLE KEYS */;
-INSERT INTO `device_types` VALUES (1,'funksteckdose','Funksteckdose','Funksteckdose','d_funksteckdose.png'),(2,'xbmc','XBMC','XBMC','d_xbmc.png');
+INSERT INTO `device_types` VALUES (1,'funksteckdose','Funksteckdose','Funksteckdose','d_funksteckdose.png'),(2,'xbmc','XBMC','XBMC','d_xbmc.png'),( 3 , 'remote_outlet_dim', 'Funksteckdose (Dimmer)', 'Funksteckdose mit Dimmfunktion', 'd_funksteckdose.png');
 /*!40000 ALTER TABLE `device_types` ENABLE KEYS */;
 
 --
@@ -189,6 +189,7 @@ CREATE TABLE `devices` (
   `user` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `icon` varchar(255) NOT NULL,
+  `parent` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -331,7 +332,7 @@ CREATE TABLE `models` (
 --
 
 /*!40000 ALTER TABLE `models` DISABLE KEYS */;
-INSERT INTO `models` VALUES (1,'itr1500','ITR-1500','ITR-1500',1),(2,'xbmc-frodo','XBMC Frodo','',2),(3,'ab440sc','AB 440SC','AB 440SC Wireless Switch Unit',3),(5,'2605','2605','Funksteckdosen-Set 2605',5);
+INSERT INTO `models` VALUES (1,'itr1500','ITR-1500','ITR-1500',1),(2,'xbmc-frodo','XBMC Frodo','',2),(3,'ab440sc','AB 440SC','AB 440SC Wireless Switch Unit',3),(5,'2605','2605','Funksteckdosen-Set 2605',5),(6,'dmv-7008as','DMV-7008AS','DMV-7008AS',6),(7,'cmr1000','CMR-1000','CMR-1000',1),(8,'cmr300','CMR-300','CMR-300',1),(9,'cmr500','CMR-500','CMR-500',1),(10,'itl500','ITL-500','ITL-500',1),(11,'itlr300','ITLR-300','ITLR-300',1),(12,'itlr3500','ITLR-3500','ITLR-3500',1),(13,'pa31000','PA3-1000','PA3-1000',1),(14,'ab440s','AB 440S','AB 440S',3),(6,'dmv-7008ad','DMV-7008Ad','DMV-7008AD',6);
 /*!40000 ALTER TABLE `models` ENABLE KEYS */;
 
 --
@@ -354,7 +355,7 @@ CREATE TABLE `myne_data` (
 --
 
 /*!40000 ALTER TABLE `myne_data` DISABLE KEYS */;
-INSERT INTO `myne_data` VALUES (1,'installed','yes'),(2,'version','1.0');
+INSERT INTO `myne_data` VALUES (1,'installed','yes'),(2,'version','1.0.1');
 /*!40000 ALTER TABLE `myne_data` ENABLE KEYS */;
 
 --
@@ -393,7 +394,7 @@ CREATE TABLE `settings` (
 --
 
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'login','false'),(2,'api','true'),(3,'api_key','');
+INSERT INTO `settings` VALUES (1,'login','false'),(2,'api','true'),(3,'api_key',''),(4,'weather_location','0');
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 
 --
@@ -448,7 +449,7 @@ CREATE TABLE `vendor_types` (
 --
 
 /*!40000 ALTER TABLE `vendor_types` DISABLE KEYS */;
-INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1);
+INSERT INTO `vendor_types` VALUES (1,1),(3,1),(2,2),(5,1),(6,1),(6,3);
 /*!40000 ALTER TABLE `vendor_types` ENABLE KEYS */;
 
 --
@@ -472,7 +473,7 @@ CREATE TABLE `vendors` (
 --
 
 /*!40000 ALTER TABLE `vendors` DISABLE KEYS */;
-INSERT INTO `vendors` VALUES (1,'intertechno','Intertechno','IT'),(2,'xbmc','XBMC','XBMC Software Foundation'),(3,'elro','Elro','Elro'),(4,'brennenstuhl','Brennenstuhl','Brennt im Stuhl'),(5,'pollin','Pollin','Pollin');
+INSERT INTO `vendors` VALUES (1,'intertechno','Intertechno','IT'),(2,'xbmc','XBMC','XBMC Software Foundation'),(3,'elro','Elro','Elro'),(4,'brennenstuhl','Brennenstuhl','Brennt im Stuhl'),(5,'pollin','Pollin','Pollin'),(6,'dario','Dario','Dario');
 /*!40000 ALTER TABLE `vendors` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

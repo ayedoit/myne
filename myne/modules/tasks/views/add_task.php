@@ -11,17 +11,42 @@
 
 			// Check if current device has any action
 			if (isset($device_name) && trim($device_name) != '') {
-				$this->load->model('action');
-				$this->load->model('devices/device');
+				if (isset($device_type) && trim($device_type) != '') {
+					if ($device_type == 'device') {
+						$this->load->model('action');
+						$this->load->model('devices/device');
 
-				$device = $this->device->getDeviceByName($device_name);
-				$actions = $this->action->getActionsByDevice($device->id);
+						$device = $this->device->getDeviceByName($device_name);
+						$actions = $this->action->getActionsByDevice($device->id);
 
-				if (sizeof($actions) == 0) {
-					$actions_defined = false;
-					echo '<div class="alert">';
-					  echo '<strong>Achtung!</strong> Für dieses Gerät sind keine Aktionen möglich.';
-					echo '</div>';
+						if (sizeof($actions) == 0) {
+							$actions_defined = false;
+							echo '<div class="alert">';
+							  echo '<strong>Achtung!</strong> Für dieses Gerät sind keine Aktionen möglich.';
+							echo '</div>';
+						}
+					}
+					elseif ($device_type == 'group') {
+						$this->load->model('action');
+						$this->load->model('devices/device');
+
+						$group = $this->device->getGroupByName($device_name);
+						$actions = $this->action->getActionsByGroup($group->id);
+
+						if (sizeof($actions) == 0) {
+							$actions_defined = false;
+							echo '<div class="alert">';
+							  echo '<strong>Achtung!</strong> Für dieser Gruppe sind keine Aktionen möglich.';
+							echo '</div>';
+						}
+					}
+					else {
+						$this->load->model('action');
+						$this->load->model('devices/device');
+
+						$device = $this->device->getDeviceByName($device_name);
+						$actions = $this->action->getActionsByDevice($device->id);
+					}
 				}
 			}
 			
@@ -147,10 +172,24 @@
 							$this->load->model('action');
 							if ($actions_defined) {
 								if (isset($device_name) && trim($device_name) != '') {
-									$this->load->model('devices/device');
 
-									$device = $this->device->getDeviceByName($device_name);
-									$actions = $this->action->getActionsByDevice($device->id);
+									if (isset($device_type) && trim($device_type) != '') {
+										if ($device_type == 'device') {
+											$this->load->model('devices/device');
+
+											$device = $this->device->getDeviceByName($device_name);
+											$actions = $this->action->getActionsByDevice($device->id);
+										}
+										elseif ($device_type == 'group') {
+											$this->load->model('devices/device');
+
+											$group = $this->device->getGroupByName($device_name);
+											$actions = $this->action->getActionsByGroup($group->id);
+										}
+										else {
+											$actions = $this->action->getActions();
+										}
+									}
 								}
 								else {
 									$actions = $this->action->getActions();
@@ -185,9 +224,9 @@
 						<div class="controls">
 							<?php
 								if ($actions_defined) {
-									$options = array("off" => "Aus", "on" => "An");
+									$options = array("on" => "An", "off" => "Aus");
 									$data = 'id="tasks_action_opt"';
-									echo form_dropdown('tasks_action_opt', $options,"1",$data); 
+									echo form_dropdown('tasks_action_opt', $options,"on",$data); 
 								}
 								else {
 									$options = array(0 => "Keine Aktion möglich");
@@ -243,40 +282,13 @@
 			<dd>Bezieht sich der Task auf ein einzelnes Gerät, einen Raum, einen Gerätetyp, alle Geräte eines Gateways oder eine Gerätegruppe?</dd>
 			<dt>Ziel</dt>
 			<dd>Das konkrete Ziel des Tasks.</dd>
-			<dt>Task-ID</dt>
-			<dd>Eindeutige Gerätebezeichnung. Nur Kleinbuchstaben, Zahlen sowie "<b>-</b>" und "<b>_</b>" als Sonderzeichen.</dd>
-			<dt>Task Name</dt>
-			<dd>Klarname des Tasks für die Darstellung im Frontend.</dd>
-			<dt>Task Beschreibung</dt>
-			<dd>Beschreibung des Tasks.</dd>
-			<dt>Aktiv</dt>
-			<dd>Ist der Task aktiv?</dd>
 			<dt>Event</dt>
 			<dd>Welches Event soll die Aktion des Tasks auslösen (z.B. Timer)?</dd>
-			<dt>Tage</dt>
-			<dd>Timer: An welchen Wochentagen soll der Timer auslösen?</dd>
-			<dt>Uhrzeit</dt>
-			<dd>Timer: Zu welcher Uhrzeit soll der Timer auslösen?</dd>
 			<dt>Aktion</dt>
 			<dd>Welche Aktion soll ausgeführt werden?</dd>
 			<dt>Status</dt>
 			<dd>Status des Gerätes den der Task setzen soll.</dd>	
-		</dl>
-			<h3>Beispiel</h3>
-			<p>Ein möglicher Task könnte zum Beispiel so aussehen:</p>
-			<ul>
-				<li><b>Ziel-Typ</b>: Gerät</li>
-				<li><b>Ziel</b>: Lampe im Bücherregal</li>
-				<li><b>Task-ID</b>: lampe_books_on</li>
-				<li><b>Task Name</b>: Lampe Bücherregal an</li>
-				<li><b>Task Beschreibung</b>: Schaltet die Lampe im Bücherregal jeden Tag um 19 Uhr an.</li>
-				<li><b>Aktiv</b>: Ja</li>
-				<li><b>Event</b>: Timer</li>
-				<li><b>Tage</b>: M,D,M,D,F,S,S</li>
-				<li><b>Uhrzeit</b>: 19:00</li>
-				<li><b>Aktion</b>: Schalten</li>
-				<li><b>Status</b>: An</li>
-			</ul>	
+		</dl>	
 	</div>
 </div>
 <script>
