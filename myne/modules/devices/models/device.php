@@ -513,7 +513,7 @@ Class device extends CI_Model {
 						
 						log_message('debug', '['.$device->clear_name.'] Gateway is of type "'.$gateway_type->clear_name.'"');
 						
-						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+						$gw_model = $this->load->model('gateways/'.strtolower($gateway_type->name),$gateway_type->name);
 
 						// Now, depending on the Gateway-Type, generate the message to send
 						// KRAKEN
@@ -607,7 +607,7 @@ Class device extends CI_Model {
 
 						try {
 							log_message('debug', '['.$device->clear_name.'] Attempting to send message to Gateway "'.$gateway->clear_name.'"');
-							$this->gateway_model->send($device, $msg, $gateway);
+							$this->{$gateway_type->name}->send($device, $msg, $gateway);
 						} catch (Exception $e) {
 							log_message('debug', '['.$device->clear_name.'] Error: Could not send message to Gateway "'.$gateway->clear_name.'"');
 							throw new Exception($e->getMessage());
@@ -656,6 +656,8 @@ Class device extends CI_Model {
 				else {
 					log_message('debug', '['.$device->clear_name.'] Does not have option "toggle". Nothing to do here');
 				}
+				// Reset loaded model
+				$gw_model = "";
 			} # foreach
 		} # Device array contains devices
 		else {
@@ -707,7 +709,7 @@ Class device extends CI_Model {
 						
 						log_message('debug', '['.$device->clear_name.'] Gateway is of type "'.$gateway_type->clear_name.'"');
 						
-						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+						$gw_model = $this->load->model('gateways/'.strtolower($gateway_type->name),$gateway_type->name);
 
 						// Now, depending on the Gateway-Type, generate the message to send
 						// KRAKEN
@@ -801,7 +803,7 @@ Class device extends CI_Model {
 
 						try {
 							log_message('debug', '['.$device->clear_name.'] Attempting to send message to Gateway "'.$gateway->clear_name.'"');
-							$this->gateway_model->send($device, $msg, $gateway);
+							$this->{$gateway_type->name}->send($device, $msg, $gateway);
 						} catch (Exception $e) {
 							log_message('debug', '['.$device->clear_name.'] Error: Could not send message to Gateway "'.$gateway->clear_name.'"');
 							throw new Exception($e->getMessage());
@@ -850,6 +852,8 @@ Class device extends CI_Model {
 				else {
 					log_message('debug', '['.$device->clear_name.'] Does not have option "toggle". Nothing to do here');
 				}
+				// Reset loaded model
+				$gw_model = "";
 			} # foreach
 		} # Device array contains devices
 		else {
