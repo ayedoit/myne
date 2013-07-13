@@ -19,6 +19,7 @@
 		15 => "INSERT INTO `actions` VALUES ('','dim','Dimmen','Dimmfunktion','devices/device');",
 		16 => "INSERT INTO `device_type_has_action` VALUES (3, 2),(3, 1);",
 		17 => "INSERT INTO `vendor_types` VALUES ('6', '3');"
+		18 => "INSERT INTO `gateway_types` VALUES (NULL ,  'kraken',  'Kraken',  'Kraken Home Automation Interface',  'g_connair.png');"
 	);
 
 	// Update DB

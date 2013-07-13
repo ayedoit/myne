@@ -499,68 +499,9 @@ Class device extends CI_Model {
 				$this->load->model('action');
 				if ($this->action->deviceHasAction($device->name,"set_status")) {	
 					log_message('debug', '['.$device->clear_name.'] Has option "set_status"');
-						
-					// Get Vendor
-					$vendor = $this->getVendorByID($device->vendor);
 					
-					log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
-					log_message('debug', '['.$device->clear_name.'] Creating vendor-/type-specific message');
-					
-					// Create Message
-					// Therefore determine device vendor
-					switch ($vendor->name) {
-						case 'elro':
-							$this->load->model('devices/elro'); 
-							try {
-								$msg = $this->elro->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'dario':
-							$this->load->model('devices/dario'); 
-							try {
-								$msg = $this->dario->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'pollin':
-							$this->load->model('devices/pollin'); 
-							try {
-								$msg = $this->pollin->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'intertechno':
-							$this->load->model('devices/intertechno'); 
-							try {
-								$msg = $this->intertechno->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'xbmc':
-							$msg=''; 
-							log_message('debug', '['.$device->clear_name.'] Is of type XBMC. No message needed');
-							break;
-						default: 
-							return 0;
-					}
-					
-					// If the device has a gateway, send the message via the gateway
+					// Determine if the device needs a gateway since the message form depends on the gateway to use
 					if ($device->gateway != 0) {
-						log_message('debug', '['.$device->clear_name.'] Gateway needed');
-						
 						// Get Gateway
 						$this->load->model('gateways/gateway');
 						$gateway = $this->gateway->getGatewayByID($device->gateway);
@@ -573,6 +514,97 @@ Class device extends CI_Model {
 						log_message('debug', '['.$device->clear_name.'] Gateway is of type "'.$gateway_type->clear_name.'"');
 						
 						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+
+						// Now, depending on the Gateway-Type, generate the message to send
+						// KRAKEN
+						if ($gateway_type->name == 'kraken') {
+							// Check device for interface to use
+							$device_type = $this->getTypeByID($device->type);
+
+							// Set a default value
+							$interface_name = '433';
+							if ($device_type->name == 'funksteckdose') {
+								// 433 MHz
+								$interface_name = '433';
+							}
+
+							// Get Vendor
+							$vendor = $this->getVendorByID($device->vendor);
+							log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
+
+							// Get Model
+							$model = $this->load->model('devices/model');
+							$device_model = $this->model->getModelByID($device->model);
+
+							$msg = array(
+								"interface_name" => $interface_name,
+								"vendor_name" => $vendor->name,
+								"model_name" => $device_model->name,
+								"master_dip" => $device->masterdip,
+								"slave_dip" => $device->slavedip,
+								"action" => "set_status",
+								"status" => $status,
+							);
+						}
+						// CONNAIR
+						elseif($gateway_type->name == 'connair') {
+							// Get Vendor
+							$vendor = $this->getVendorByID($device->vendor);
+							log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
+							log_message('debug', '['.$device->clear_name.'] Creating vendor-/type-specific message');
+
+							// Create Message
+							// Therefore determine device vendor
+							switch ($vendor->name) {
+								case 'elro':
+									$this->load->model('devices/elro'); 
+									try {
+										$msg = $this->elro->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'dario':
+									$this->load->model('devices/dario'); 
+									try {
+										$msg = $this->dario->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'pollin':
+									$this->load->model('devices/pollin'); 
+									try {
+										$msg = $this->pollin->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'intertechno':
+									$this->load->model('devices/intertechno'); 
+									try {
+										$msg = $this->intertechno->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'xbmc':
+									$msg=''; 
+									log_message('debug', '['.$device->clear_name.'] Is of type XBMC. No message needed');
+									break;
+								default: 
+									return 0;
+							}
+						}
+
 						try {
 							log_message('debug', '['.$device->clear_name.'] Attempting to send message to Gateway "'.$gateway->clear_name.'"');
 							$this->gateway_model->send($device, $msg, $gateway);
@@ -580,7 +612,7 @@ Class device extends CI_Model {
 							log_message('debug', '['.$device->clear_name.'] Error: Could not send message to Gateway "'.$gateway->clear_name.'"');
 							throw new Exception($e->getMessage());
 						}	
-					} # Device needs gateway for communication
+					}
 					// Otherwise, send directly to the device
 					else {
 						log_message('debug', '['.$device->clear_name.'] No Gateway needed');
@@ -661,58 +693,9 @@ Class device extends CI_Model {
 				$this->load->model('action');
 				if ($this->action->deviceHasAction($device->name,"set_status")) {	
 					log_message('debug', '['.$device->clear_name.'] Has option "set_status"');
-						
-					// Get Vendor
-					$vendor = $this->getVendorByID($device->vendor);
 					
-					log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
-					log_message('debug', '['.$device->clear_name.'] Creating vendor-/type-specific message');
-					
-					// Create Message
-					// Therefore determine device vendor
-					switch ($vendor->name) {
-						case 'elro':
-							$this->load->model('devices/elro'); 
-							try {
-								$msg = $this->elro->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'pollin':
-							$this->load->model('devices/pollin'); 
-							try {
-								$msg = $this->pollin->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'intertechno':
-							$this->load->model('devices/intertechno'); 
-							try {
-								$msg = $this->intertechno->msg($device,$status); 
-								log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
-							} catch (Exception $e) {
-								log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
-								throw new Exception($e->getMessage());
-							}
-							break;
-						case 'xbmc':
-							$msg=''; 
-							log_message('debug', '['.$device->clear_name.'] Is of type XBMC. No message needed');
-							break;
-						default: 
-							return 0;
-					}
-					
-					// If the device has a gateway, send the message via the gateway
+					// Determine if the device needs a gateway since the message form depends on the gateway to use
 					if ($device->gateway != 0) {
-						log_message('debug', '['.$device->clear_name.'] Gateway needed');
-						
 						// Get Gateway
 						$this->load->model('gateways/gateway');
 						$gateway = $this->gateway->getGatewayByID($device->gateway);
@@ -725,6 +708,97 @@ Class device extends CI_Model {
 						log_message('debug', '['.$device->clear_name.'] Gateway is of type "'.$gateway_type->clear_name.'"');
 						
 						$this->load->model('gateways/'.strtolower($gateway_type->name),'gateway_model');
+
+						// Now, depending on the Gateway-Type, generate the message to send
+						// KRAKEN
+						if ($gateway_type->name == 'kraken') {
+							// Check device for interface to use
+							$device_type = $this->getTypeByID($device->type);
+
+							// Set a default value
+							$interface_name = '433';
+							if ($device_type->name == 'funksteckdose') {
+								// 433 MHz
+								$interface_name = '433';
+							}
+
+							// Get Vendor
+							$vendor = $this->getVendorByID($device->vendor);
+							log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
+
+							// Get Model
+							$model = $this->load->model('devices/model');
+							$device_model = $this->model->getModelByID($device->model);
+
+							$msg = array(
+								"interface_name" => $interface_name,
+								"vendor_name" => $vendor->name,
+								"model_name" => $device_model->name,
+								"master_dip" => $device->masterdip,
+								"slave_dip" => $device->slavedip,
+								"action" => "set_status",
+								"status" => $status,
+							);
+						}
+						// CONNAIR
+						elseif($gateway_type->name == 'connair') {
+							// Get Vendor
+							$vendor = $this->getVendorByID($device->vendor);
+							log_message('debug', '['.$device->clear_name.'] Is from vendor "'.$vendor->clear_name.'"');
+							log_message('debug', '['.$device->clear_name.'] Creating vendor-/type-specific message');
+
+							// Create Message
+							// Therefore determine device vendor
+							switch ($vendor->name) {
+								case 'elro':
+									$this->load->model('devices/elro'); 
+									try {
+										$msg = $this->elro->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'dario':
+									$this->load->model('devices/dario'); 
+									try {
+										$msg = $this->dario->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'pollin':
+									$this->load->model('devices/pollin'); 
+									try {
+										$msg = $this->pollin->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'intertechno':
+									$this->load->model('devices/intertechno'); 
+									try {
+										$msg = $this->intertechno->msg($device,$status); 
+										log_message('debug', '['.$device->clear_name.'] Message: "'.$msg.'"');
+									} catch (Exception $e) {
+										log_message('debug', '['.$device->clear_name.'] Could not generate message: "'.$e->getMessage().'"');
+										throw new Exception($e->getMessage());
+									}
+									break;
+								case 'xbmc':
+									$msg=''; 
+									log_message('debug', '['.$device->clear_name.'] Is of type XBMC. No message needed');
+									break;
+								default: 
+									return 0;
+							}
+						}
+
 						try {
 							log_message('debug', '['.$device->clear_name.'] Attempting to send message to Gateway "'.$gateway->clear_name.'"');
 							$this->gateway_model->send($device, $msg, $gateway);
@@ -732,7 +806,7 @@ Class device extends CI_Model {
 							log_message('debug', '['.$device->clear_name.'] Error: Could not send message to Gateway "'.$gateway->clear_name.'"');
 							throw new Exception($e->getMessage());
 						}	
-					} # Device needs gateway for communication
+					}
 					// Otherwise, send directly to the device
 					else {
 						log_message('debug', '['.$device->clear_name.'] No Gateway needed');
